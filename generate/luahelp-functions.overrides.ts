@@ -89,8 +89,9 @@ const modifiers: IOverrideModify[] = [
       lfnc.setReturnType(
         new LDocFunctionParam(
           "Returns",
-          "{ interval: integer, random: integer }?",
-          "the launch interval attributes, if `interval` supplied is `nil`"
+          "{ interval: integer, random: integer }",
+          "the launch interval attributes, if `interval` supplied is `nil`",
+          "nil"
         )
       );
     },

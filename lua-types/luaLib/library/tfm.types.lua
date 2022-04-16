@@ -127,7 +127,7 @@ tfm.enum = {}
 --- @field frequency number @distance joints' frequency
 --- @field damping number @distance joints' damping ratio
 --- @field axis tfm.XYString @prismatic joints' axis
---- @field angle tfm.XYString @prismatic joints' angle
+--- @field angle integer @prismatic joints' angle
 --- @field limit1 number @prismatic and revolute joints' translation/rotation first limit
 --- @field limit2 number @prismatic and revolute joints' translation/rotation second limit
 --- @field forceMotor number @prismatic and revolute joints' motor power

@@ -5,6 +5,12 @@ import {
   LuaHelpFunctionReturn,
   LuaHelpFunction,
 } from "./parser";
+import {
+  TSDocFunc,
+  TSDocFuncParam,
+  TSDocFuncType,
+  TSNamespace,
+} from "./tsdoc-helpers";
 
 // LDoc here = sumneko.lua LuaDoc ...
 const LUAHELP_TO_LDOC_TYPE: Record<string, string> = {
@@ -15,6 +21,13 @@ const LUAHELP_TO_LDOC_TYPE: Record<string, string> = {
   Table: "table",
   Function: "function",
   Object: "any",
+};
+
+// TODO: Compile into objects......
+const LDOC_TO_TS_TYPE: Record<string, string> = {
+  integer: "tfm.integer",
+  table: "object",
+  function: "Function",
 };
 
 export class LDocFunctionParam {
@@ -40,7 +53,7 @@ export class LDocFunctionParam {
       type,
       ast.description,
       ast.default,
-      ast.additionalDescriptions
+      Array.from(ast.additionalDescriptions)
     );
   }
 
@@ -92,7 +105,7 @@ export class LDocFunction {
     for (const astf of ast) {
       const lhf = new LDocFunction(
         astf.name,
-        astf.description,
+        Array.from(astf.description),
         astf.return ? LDocFunctionParam.fromAstReturn(astf.return) : null
       );
       for (const p of astf.parameters) {
@@ -159,12 +172,77 @@ export const luaFunctionsConverter = {
       }
       if (func.returnType) {
         newLines.push(
-          `--- @return ${func.returnType.type} @${func.returnType.description}`
+          `--- @return ${func.returnType.type}${
+            func.returnType.isOptional ? "?" : ""
+          } @${func.returnType.description}`
         );
       }
       newLines.push(`function ${func.name}(${parNames.join(", ")}) end`);
       newLines.push("");
     }
+
+    return newLines;
+  },
+} as Converter;
+
+export const tstlFunctionsConverter = {
+  type: "functions",
+  convert: (luaHelpAst) => {
+    const newLines: string[] = ["/** @noSelfInFile */"];
+    const globalNs = TSNamespace.createGlobal();
+
+    for (const func of LDocFunction.fromAstArray(luaHelpAst.functions)) {
+      // Apply overrides
+      const o = overrides[func.name];
+      if (o) {
+        if (o.type == "add") {
+          throw `Your override "${o.name}" is an existing LuaHelp function. Please remove it!`;
+        }
+        o.modify(func);
+      }
+
+      const tsPar: TSDocFuncParam[] = [];
+      for (const par of func.params.values()) {
+        const type = LDOC_TO_TS_TYPE[par.type] ?? par.type;
+        tsPar.push({
+          description: [
+            `${par.description}${
+              par.defaultValue ? ` (default \`${par.defaultValue}\`)` : ""
+            }`,
+            ...par.additionalDescription,
+          ],
+          name: par.displayName,
+          type,
+          isOptional: par.isOptional,
+        });
+      }
+
+      const tsRet: TSDocFuncType = func.returnType
+        ? {
+            description: [func.returnType.description],
+            type: LDOC_TO_TS_TYPE[func.returnType.type] ?? func.returnType.type,
+            isOptional: func.returnType.isOptional,
+          }
+        : null;
+
+      const indexes = func.name.split(".");
+      const tsFncDeclaration = new TSDocFunc(
+        indexes.pop(),
+        func.description,
+        tsPar,
+        tsRet
+      );
+
+      let namespace: TSNamespace = globalNs;
+      for (const index of indexes) {
+        namespace = namespace.navigate(index, true);
+      }
+
+      namespace.pushContent(...tsFncDeclaration.exportLines());
+    }
+
+    newLines.push(...globalNs.exportTstl());
+    newLines.push("");
 
     return newLines;
   },

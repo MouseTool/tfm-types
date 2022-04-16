@@ -1,5 +1,6 @@
 import Converter from "./converter.interfaces";
-import { LuaHelpTreeNode, LuaHelpTreeTableNode } from "./parser";
+import { LuaHelpTreeTableNode } from "./parser";
+import { isReservedTsKeyword } from "./tsdoc-helpers";
 
 class LDocTableNode {
   public children: LDocTableNode[];
@@ -55,31 +56,39 @@ class LDocTableNode {
     return newLines;
   }
 
-  private static isReservedTs(word: string) {
-    return word === "enum";
-  }
+
 
   exportTstl(depth = 0) {
+    const isEnum = this.ast?.children[0]?.type === "value";
+
     // Avoid reserved words
-    const isReservedName = LDocTableNode.isReservedTs(this.name);
+    const isReservedName = !isEnum && isReservedTsKeyword(this.name);
     const namespaceName = isReservedName ? "$" + this.name : this.name;
 
     const singleIndentStr = " ".repeat(2);
     let indentStr = singleIndentStr.repeat(depth);
-    const newLines: string[] = [
-      indentStr +
-        `${depth === 0 ? "declare " : ""}namespace ${namespaceName} {`,
-    ];
+
+    const newLines: string[] = [];
+
+    if (isEnum) {
+      newLines.push(indentStr + `const enum ${namespaceName} {`);
+    } else {
+      newLines.push(
+        indentStr +
+          `${depth === 0 ? "declare " : ""}namespace ${namespaceName} {`
+      );
+    }
+
     indentStr = singleIndentStr.repeat(++depth);
 
     for (const c of this.children) {
       newLines.push(...c.exportTstl(depth));
     }
 
-    if (this.ast) {
+    if (isEnum) {
       for (const entry of this.ast.children) {
         if (entry.type !== "value") continue;
-        newLines.push(indentStr + `const ${entry.name} = ${entry.value};`);
+        newLines.push(indentStr + `${entry.name} = ${entry.value},`);
       }
     }
 

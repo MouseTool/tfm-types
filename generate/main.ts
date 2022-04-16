@@ -1,7 +1,7 @@
 import { promises as fsp } from "fs";
 import Converter, { LuaHelpDocumentModes } from "./converter.interfaces";
 import { luaEnumsConverter, tstlEnumsConverter } from "./luahelp-enum";
-import { luaFunctionsConverter } from "./luahelp-functions";
+import { luaFunctionsConverter, tstlFunctionsConverter } from "./luahelp-functions";
 import { parse } from "./parser";
 
 async function writeLuaMeta(mode: LuaHelpDocumentModes, lines: string[]) {
@@ -40,7 +40,7 @@ async function writeTstlMeta(mode: LuaHelpDocumentModes, lines: string[]) {
   // prettier-ignore
   const tstlConverters = [
     tstlEnumsConverter,
-    luaFunctionsConverter
+    tstlFunctionsConverter
   ] as Converter[];
 
   for (const { type, convert } of tstlConverters) {
