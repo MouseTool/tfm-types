@@ -124,7 +124,7 @@ export class LDocFunction {
   }
 }
 
-const functionsConverter = {
+export const luaFunctionsConverter = {
   type: "functions",
   convert: (luaHelpAst) => {
     const newLines: string[] = [];
@@ -169,4 +169,3 @@ const functionsConverter = {
     return newLines;
   },
 } as Converter;
-export default functionsConverter;

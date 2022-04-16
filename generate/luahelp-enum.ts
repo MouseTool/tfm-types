@@ -5,7 +5,7 @@ class LDocTableNode {
   public children: LDocTableNode[];
   public parent?: LDocTableNode;
 
-  constructor(public name: string, public ast: LuaHelpTreeTableNode) {
+  constructor(public name: string, public ast?: LuaHelpTreeTableNode) {
     this.children = [];
   }
 
@@ -30,7 +30,7 @@ class LDocTableNode {
     return this.children.find((c) => c.name === name);
   }
 
-  export(prefix?: string) {
+  exportLua(prefix?: string) {
     if (prefix) {
       prefix += "." + this.name;
     } else {
@@ -40,26 +40,84 @@ class LDocTableNode {
     const newLines: string[] = [`${prefix} = {}`];
 
     for (const c of this.children) {
-      newLines.push(...c.export(prefix));
+      newLines.push(...c.exportLua(prefix));
     }
 
-    for (const entry of this.ast.children) {
-      if (entry.type !== "value") continue;
-      newLines.push(`${prefix}.${entry.name} = ${entry.value}`);
+    if (this.ast) {
+      for (const entry of this.ast.children) {
+        if (entry.type !== "value") continue;
+        newLines.push(`${prefix}.${entry.name} = ${entry.value}`);
+      }
     }
+
     newLines.push("");
+
+    return newLines;
+  }
+
+  private static isReservedTs(word: string) {
+    return word === "enum";
+  }
+
+  exportTstl(depth = 0) {
+    // Avoid reserved words
+    const isReservedName = LDocTableNode.isReservedTs(this.name);
+    const namespaceName = isReservedName ? "$" + this.name : this.name;
+
+    const singleIndentStr = " ".repeat(2);
+    let indentStr = singleIndentStr.repeat(depth);
+    const newLines: string[] = [
+      indentStr +
+        `${depth === 0 ? "declare " : ""}namespace ${namespaceName} {`,
+    ];
+    indentStr = singleIndentStr.repeat(++depth);
+
+    for (const c of this.children) {
+      newLines.push(...c.exportTstl(depth));
+    }
+
+    if (this.ast) {
+      for (const entry of this.ast.children) {
+        if (entry.type !== "value") continue;
+        newLines.push(indentStr + `const ${entry.name} = ${entry.value};`);
+      }
+    }
+
+    indentStr = singleIndentStr.repeat(--depth);
+
+    newLines.push(indentStr + "}");
+    newLines.push("");
+
+    if (isReservedName) {
+      newLines.push(indentStr + `export { ${namespaceName} as ${this.name} }`);
+    }
 
     return newLines;
   }
 }
 
-const enumsConverter = {
+export const luaEnumsConverter = {
   type: "enums",
   convert: (luaHelpAst) => {
     const globalNode = LDocTableNode.fromAst(luaHelpAst.tree);
     const enumNode = globalNode.navigate("tfm").navigate("enum");
 
-    return enumNode.export("tfm");
+    const toExportNode = new LDocTableNode("tfm");
+    toExportNode.addChild(enumNode);
+
+    return toExportNode.exportLua();
   },
 } as Converter;
-export default enumsConverter;
+
+export const tstlEnumsConverter = {
+  type: "enums",
+  convert: (luaHelpAst) => {
+    const globalNode = LDocTableNode.fromAst(luaHelpAst.tree);
+    const enumNode = globalNode.navigate("tfm").navigate("enum");
+
+    const toExportNode = new LDocTableNode("tfm");
+    toExportNode.addChild(enumNode);
+
+    return toExportNode.exportTstl();
+  },
+} as Converter;
