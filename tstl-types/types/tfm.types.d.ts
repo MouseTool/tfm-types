@@ -1,11 +1,9 @@
-// @class tfm.XYString:string @String coordinates in the `x,y` format
-
 declare namespace tfm {
-  type integer = number;
+  type integer = number | symbol;
   /**
    * Defines a string in the `x,y` format
    */
-  type XYString = string;
+  type XYString = string | symbol;
 
   interface Misc {
     apiVersion: string;
