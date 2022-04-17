@@ -1,8 +1,0 @@
-{
-    "Lua.runtime.version": "Lua 5.2",
-    "Lua.runtime.builtin": {
-        "io": "disable",
-        "debug": "disable",
-        "os": "disable"
-    }
-}

@@ -1,0 +1,11 @@
+{
+  "name": "tfm-lua-types",
+  "version": "2.1.0-dev.0",
+  "description": "Lua Language Server environment definition for Transformice.",
+  "main": "dummy.js",
+  "types": "types/index.d.ts",
+  "author": "Cassolette",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}

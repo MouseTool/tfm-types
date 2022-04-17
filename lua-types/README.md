@@ -1,26 +1,11 @@
-# tfm-vscode
+# tfm-lua-types
 
 [Lua Language Server](https://github.com/sumneko/lua-language-server) environment definition for Transformice.
-
-## Usage
-
-### Configure to use MouseTool NPM repository
-
-```sh
-npm login --scope=@mousetool --registry=https://npm.pkg.github.com
-
-> Username: Your username here
-> Password: Your GitHub PAT token here
-> Email: PUBLIC-EMAIL-ADDRESS
-```
-
-It is mandatory to set this up for the first time when dealing with MouseTool NPM packages, otherwise GitHub will deny you from installing them. More on authenticating to GitHub NPM repository can be found [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
 
 ### Install for your workspace
 
 ```sh
-npm install --save-dev @mousetool/tfm-vscode
+npm install --save-dev tfm-lua-types
 ```
 
 Set your VSCode workspace settings to register our third party library.
@@ -28,7 +13,7 @@ Set your VSCode workspace settings to register our third party library.
 ```json
 {
     "Lua.workspace.userThirdParty": [
-        "./node_modules/@mousetool/tfm-vscode"
+        "./node_modules/@mousetool/tfm-lua-types"
     ]
 }
 ```
@@ -59,7 +44,7 @@ git submodule add https://github.com/MouseTool/tfm-vscode.git
 ```json
 {
     "Lua.workspace.userThirdParty": [
-        "./tfm-vscode"
+        "./tfm-lua-types"
     ]
 }
 ```
