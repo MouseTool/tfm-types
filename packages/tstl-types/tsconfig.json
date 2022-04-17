@@ -10,8 +10,7 @@
     "noImplicitThis": true,
     "strictBindCallApply": false,
     "declaration": true,
-    "outDir": "dist",
-    "types": ["./types", "typescript-to-lua/language-extensions"]
+    "outDir": "dist"
   },
   "tstl": {
     "buildMode": "library",

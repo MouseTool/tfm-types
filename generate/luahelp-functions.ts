@@ -1,10 +1,9 @@
-import Converter from "./converter.interfaces";
-import { overrides } from "./luahelp-functions.overrides";
 import {
+  LuaHelpFunction,
   LuaHelpFunctionParameter,
   LuaHelpFunctionReturn,
-  LuaHelpFunction,
-} from "./parser";
+} from "@cassolette/luahelpparser";
+import Converter from "./converter.interfaces";
 import { DocFunc, DocFuncParam, DocFuncType, TSNamespace } from "./doc-helpers";
 import {
   anyExportable,
@@ -18,6 +17,7 @@ import {
   stringExportable,
   tableExportable,
 } from "./exportTypes";
+import { overrides } from "./luahelp-functions.overrides";
 
 const LUAHELP_TO_EXPORTABLE: Record<string, ExportableType> = {
   String: stringExportable,

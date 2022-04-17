@@ -4,8 +4,8 @@
   "description": "Parser for LuaHelp, an API documentation for the Lua tree from Transformice.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MouseTool/tfm-vscode.git",
-    "directory": "generate/parser"
+    "url": "https://github.com/MouseTool/tfm-types.git",
+    "directory": "packages/luahelpparser"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

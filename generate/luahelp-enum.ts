@@ -1,5 +1,5 @@
+import { LuaHelpTreeTableNode } from "@cassolette/luahelpparser";
 import Converter from "./converter.interfaces";
-import { LuaHelpTreeTableNode } from "./parser";
 import { isReservedTsKeyword } from "./doc-helpers";
 
 class LDocTableNode {
@@ -68,7 +68,8 @@ class LDocTableNode {
       let indentStr = singleIndentStr.repeat(depth);
 
       if (isEnum) {
-        const capsName = namespaceName.charAt(0).toUpperCase() + namespaceName.slice(1)
+        const capsName =
+          namespaceName.charAt(0).toUpperCase() + namespaceName.slice(1);
         newLines.push(indentStr + `const enum ${capsName}Type {`);
       } else {
         newLines.push(

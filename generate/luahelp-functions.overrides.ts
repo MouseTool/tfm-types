@@ -1,18 +1,13 @@
 import {
   anyExportable,
   FunctionExportable,
-  IndependentLiteralExportable,
   integerExportable,
   InterfaceExportable,
   LiteralExportable,
   nullExportable,
   stringExportable,
 } from "./exportTypes";
-import {
-  LDocFunctionParam,
-  LDocFunction,
-  LDocFunctionType,
-} from "./luahelp-functions";
+import { LDocFunction, LDocFunctionType } from "./luahelp-functions";
 
 interface IOverrideModify {
   name: string;

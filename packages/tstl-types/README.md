@@ -1,6 +1,6 @@
 # tfm-tstl-types
 
-Provides the [TypeScriptToLua](https://github.com/TypeScriptToLua/) environment definition for Transformice.
+Provides the [TypeScriptToLua](https://github.com/TypeScriptToLua/TypeScriptToLua) environment definition for Transformice.
 
 ## Install
 
