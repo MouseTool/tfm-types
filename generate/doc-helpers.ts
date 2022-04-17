@@ -24,19 +24,13 @@ export class DocFunc {
   }
 
   /**
-   * Exports the function declaration for TypeScript.
-   *
-   * Requires `name` supplied.
+   * Exports the comment portion of the JSDoc.
    */
-  exportTsDocLines() {
-    if (!this.name) {
-      throw new Error('"name" must be supplied to call exportTsDocLines()');
-    }
-
+  exportJsDocCommentLines() {
     const lines: string[] = [];
 
-    // Build jsdoc lines
     {
+      // Build jsdoc lines
       const jsDocLines: string[] = [];
 
       for (const d of this.description) {
@@ -64,6 +58,20 @@ export class DocFunc {
       }
     }
 
+    return lines;
+  }
+  /**
+   * Exports the function declaration for TypeScript.
+   *
+   * Requires `name` supplied.
+   */
+  exportTsDocLines() {
+    if (!this.name) {
+      throw new Error('"name" must be supplied to call exportTsDocLines()');
+    }
+
+    const lines: string[] = this.exportJsDocCommentLines();
+
     // Build TS function declaration
     lines.push(
       `function ${this.name}(${this.parameters
@@ -87,10 +95,15 @@ export class DocFunc {
    */
   exportTsFuncType() {
     // Build TSTL function declaration
-    // It is likely we mean to exclude the self parameter, are there any cases we don't though?
-    return `(this: void, ${this.parameters
-      .map((p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asTs()}`)
-      .join(", ")}) => ${
+    // It is likely we mean to exclude the self parameter... are there any cases we don't though? :thinking:
+    const paramsDef = [
+      "this: void",
+      ...this.parameters.map(
+        (p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asTs()}`
+      ),
+    ].join(", ");
+
+    return `(${paramsDef}) => ${
       this.returnType
         ? `${this.returnType.type.asTs()}${
             this.returnType.isOptional ? " | undefined" : ""

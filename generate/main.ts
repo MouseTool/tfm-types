@@ -2,6 +2,7 @@ import { parse } from "@cassolette/luahelpparser";
 import { promises as fsp } from "fs";
 import Converter, { LuaHelpDocumentModes } from "./converter.interfaces";
 import { luaEnumsConverter, tstlEnumsConverter } from "./luahelp-enum";
+import { tstlEventsConverter } from "./luahelp-events";
 import {
   luaFunctionsConverter,
   tstlFunctionsConverter,
@@ -41,6 +42,7 @@ async function writeTstlMeta(mode: LuaHelpDocumentModes, lines: string[]) {
 
   // prettier-ignore
   const tstlConverters = [
+    tstlEventsConverter,
     tstlEnumsConverter,
     tstlFunctionsConverter
   ] as Converter[];
