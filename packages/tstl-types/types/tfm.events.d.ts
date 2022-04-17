@@ -54,7 +54,7 @@ declare var eventKeyboard: (this: void, playerName: string, keyCode: tfm.integer
 declare var eventMouse: (this: void, playerName: string, xMousePosition: tfm.integer, yMousePosition: tfm.integer) => void;
 
 /**
- * It loop the loopies loops.
+ * This event occurs every 500 milliseconds.
  * @param elapsedTime the time in milliseconds elapsed since the beginning of the round
  * @param remainingTime the time in milliseconds remaining before the next round
  */
@@ -192,7 +192,7 @@ declare var eventColorPicked: (this: void, colorPickerId: tfm.integer, playerNam
  * @param groundId ground identifier
  * @param contactInfos Collision informations
  */
-declare var eventContactListener: (this: void, playerName: string, groundId: tfm.integer, contactInfos: object) => void;
+declare var eventContactListener: (this: void, playerName: string, groundId: tfm.enum.GroundType, contactInfos: tfm.ContactDef) => void;
 
 /**
  * This event is triggered when a player click on a NPC.

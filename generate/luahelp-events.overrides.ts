@@ -16,11 +16,11 @@ interface IOverrideModify {
 }
 
 function fixParam(
-  levt: DocEvent,
+  evtFn: DocEvent,
   replace: [name: string, desc?: string, overrideName?: string][]
 ) {
   for (const [name, desc, overrideName] of replace) {
-    const par = levt.params.get(name);
+    const par = evtFn.params.get(name);
     if (desc) par.setDescription(desc);
     if (overrideName) par.setOverrideName(overrideName);
   }
@@ -29,16 +29,24 @@ function fixParam(
 // Edit modifiers here
 const modifiers: IOverrideModify[] = [
   {
-    name: "eventLoop",
+    name: "eventContactListener",
     modify: (evtFn) => {
-      // Add clarity to description
-      evtFn.setDescription("It loop the loopies loops.");
+      // Point to enum for TS
+      const pGroundId = evtFn.params.get("groundId");
+      pGroundId.setType({
+        asLua: pGroundId.type.asLua,
+        asTs: () => "tfm.enum.GroundType",
+      });
+
+      // Point to proper interface
+      evtFn.params
+        .get("contactInfos")
+        .setType(new LiteralExportable("tfm.ContactDef"));
     },
   },
 ];
 
-type OverrideType =
-  | ({ type: "modify" } & IOverrideModify)
+type OverrideType = { type: "modify" } & IOverrideModify;
 
 export const overrides: Record<string, OverrideType> = {};
 
