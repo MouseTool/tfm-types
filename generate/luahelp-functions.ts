@@ -12,6 +12,8 @@ import {
   ExportableType,
   FunctionExportable,
   integerExportable,
+  LiteralExportable,
+  nullExportable,
   numberExportable,
   stringExportable,
   tableExportable,
@@ -31,7 +33,7 @@ export class LDocFunctionType {
   constructor(
     public type: ExportableType,
     public description: string = "",
-    public defaultValue?: string,
+    public defaultValue?: ExportableType,
     public additionalDescription: string[] = []
   ) {}
 
@@ -69,7 +71,7 @@ export class LDocFunctionParam extends LDocFunctionType {
     public name: string,
     type: ExportableType,
     description?: string,
-    defaultValue?: string,
+    defaultValue?: ExportableType,
     additionalDescription?: string[]
   ) {
     super(type, description, defaultValue, additionalDescription);
@@ -83,7 +85,11 @@ export class LDocFunctionParam extends LDocFunctionType {
       ast.name,
       type,
       ast.description,
-      ast.default,
+      ast.default
+        ? ast.default === "nil"
+          ? nullExportable
+          : new LiteralExportable(ast.default)
+        : null,
       Array.from(ast.additionalDescriptions)
     );
   }
@@ -165,7 +171,9 @@ export const luaFunctionsConverter = {
         luaPar.push({
           description: [
             `${par.description}${
-              par.defaultValue ? ` (default \`${par.defaultValue}\`)` : ""
+              par.defaultValue
+                ? ` (default \`${par.defaultValue.asLua()}\`)`
+                : ""
             }`,
             ...par.additionalDescription,
           ],
@@ -218,7 +226,9 @@ export const tstlFunctionsConverter = {
         tsPar.push({
           description: [
             `${par.description}${
-              par.defaultValue ? ` (default \`${par.defaultValue}\`)` : ""
+              par.defaultValue
+                ? ` (default \`${par.defaultValue.asTs()}\`)`
+                : ""
             }`,
             ...par.additionalDescription,
           ],

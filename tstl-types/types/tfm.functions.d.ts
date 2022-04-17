@@ -38,7 +38,7 @@ declare namespace system {
 
   /**
    * Prevents a module command (commands starting with « ! ») to be displayed in the room. If the supplied command is nil, the parameter will apply to all the commands.
-   * @param command the command (without the initial « ! ») to hide (default `nil`)
+   * @param command the command (without the initial « ! ») to hide (default `null`)
    * @param hide whether the command should be hidden (default `true`)
    */
   function disableChatCommandDisplay(command?: string, hide?: boolean): void
@@ -79,8 +79,8 @@ declare namespace system {
    * Set or get the timer interval between two events.
    *
    * Module team only. If `interval` is given, the function is restricted to event elevation only.
-   * @param interval Timer interval in min (default 40 min), can't be less than 40 min. (default `nil`)
-   * @param random Random added  interval in min (default 20 min). (default `nil`)
+   * @param interval Timer interval in min (default 40 min), can't be less than 40 min. (default `null`)
+   * @param random Random added  interval in min (default 20 min). (default `null`)
    * @returns the launch interval attributes, if `interval` supplied is `nil`
    */
   function luaEventLaunchInterval(interval?: tfm.integer, random?: tfm.integer): { interval: tfm.integer, random: tfm.integer } | undefined
@@ -92,10 +92,10 @@ declare namespace system {
    * @param callback The function to call. The first argument of this function is the timer's identifier, followed by those specified from `arg1` to `arg4`.
    * @param time the number of milliseconds that the function call should be delayed by
    * @param loop whether the function call should loop or happen only once (default `false`)
-   * @param arg1 1st argument of the callback function (default `nil`)
-   * @param arg2 2nd argument of the callback function (default `nil`)
-   * @param arg3 3rd argument of the callback function (default `nil`)
-   * @param arg4 4th argument of the callback function (default `nil`)
+   * @param arg1 1st argument of the callback function (default `null`)
+   * @param arg2 2nd argument of the callback function (default `null`)
+   * @param arg3 3rd argument of the callback function (default `null`)
+   * @param arg4 4th argument of the callback function (default `null`)
    * @returns the new timer id
    */
   function newTimer(callback: (this: void, timerId: tfm.integer, arg1?: any, arg2?: any, arg3?: any, arg4?: any) => void, time: tfm.integer, loop?: boolean, arg1?: any, arg2?: any, arg3?: any, arg4?: any): tfm.integer
@@ -154,7 +154,7 @@ declare namespace tfm {
      * @param id the identifier of the bonus (default `0`)
      * @param angle the angle of the bonus (default `0`)
      * @param visible whether the bonus should be visible (default `true`)
-     * @param targetPlayer the player who should see the bonus (if nil, applies to all players) (default `nil`)
+     * @param targetPlayer the player who should see the bonus (if nil, applies to all players) (default `null`)
      */
     function addBonus(type?: tfm.integer, xPosition?: tfm.integer, yPosition?: tfm.integer, id?: tfm.integer, angle?: tfm.integer, visible?: boolean, targetPlayer?: string): void
 
@@ -183,7 +183,7 @@ declare namespace tfm {
      *     - +physicObjectId
      * @param xPosition the horizontal offset of the anchor of the image, relative to the game element (0 being the middle of the game element) (default `0`)
      * @param yPosition the vertical offset of the anchor of the image, relative to the game element (0 being the middle of the game element) (default `0`)
-     * @param targetPlayer the player who will see the image (if nil, applies to all players) (default `nil`)
+     * @param targetPlayer the player who will see the image (if nil, applies to all players) (default `null`)
      * @param scaleX the horizontal (width) scale of the image (default `1`)
      * @param scaleY the vertical (height) scale of the image (default `1`)
      * @param rotation the opacity of the image, from 0 (transparent) to 1 (opaque) (default `0`)
@@ -224,7 +224,7 @@ declare namespace tfm {
      *     - lookLeft (bool): Set True to make the NPC look to the left.
      *     - lookAtPlayer (bool): Set True to make the NPC look to the player.
      *     - interactive (Boolean): If true, player will be able to click on it.
-     * @param targetPlayer the player who will see the NPC (if nil, applies to all players) (default `nil`)
+     * @param targetPlayer the player who will see the NPC (if nil, applies to all players) (default `null`)
      */
     function addNPC(name: string, npcDef: tfm.NPCDef, targetPlayer?: string): void
 
@@ -248,7 +248,7 @@ declare namespace tfm {
      * @param xSpeed the horizontal speed of the object (default `0`)
      * @param ySpeed the vertical speed of the object (default `0`)
      * @param ghost whether the spawned object should be transparent (default `false`)
-     * @param options the shaman object configuration (default `nil`)
+     * @param options the shaman object configuration (default `null`)
      * @returns the shaman object identifier
      */
     function addShamanObject(objectType: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, angle?: tfm.integer, xSpeed?: tfm.integer, ySpeed?: tfm.integer, ghost?: boolean, options?: tfm.ShamanObjOpt): tfm.integer
@@ -276,7 +276,7 @@ declare namespace tfm {
      *
      * Module team only.
      * @param message the chat message to display
-     * @param playerName the player who will get the message (if nil, applies to all players) (default `nil`)
+     * @param playerName the player who will get the message (if nil, applies to all players) (default `null`)
      */
     function chatMessage(message: string, playerName?: string): void
 
@@ -361,7 +361,7 @@ declare namespace tfm {
      * @param ySpeed the vertical speed of the particle (default `0`)
      * @param xAcceleration the horizontal acceleration of the particle (default `0`)
      * @param yAcceleration the vertical acceleration of the particle (default `0`)
-     * @param targetPlayer the player who should see the particle (if nil, applies to all players) (default `nil`)
+     * @param targetPlayer the player who should see the particle (if nil, applies to all players) (default `null`)
      */
     function displayParticle(particleType: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, xSpeed?: number, ySpeed?: number, xAcceleration?: number, yAcceleration?: number, targetPlayer?: string): void
 
@@ -481,7 +481,7 @@ declare namespace tfm {
 
     /**
      * Starts a new game
-     * @param mapCode the map code (default `nil`)
+     * @param mapCode the map code (default `null`)
      *     - nil (a random map)
      *     - 6 (vanilla map)
      *     - @42583 (editor map)
@@ -495,7 +495,7 @@ declare namespace tfm {
      * Makes a player do an emote.
      * @param playerName the player who should do the emote
      * @param emoteId the emote to do
-     * @param emoteArg the emote attribute (for the flag emote for example) (default `nil`)
+     * @param emoteArg the emote attribute (for the flag emote for example) (default `null`)
      */
     function playEmote(playerName: string, emoteId: tfm.integer, emoteArg?: string): void
 
@@ -508,7 +508,7 @@ declare namespace tfm {
     /**
      * Removes a defilante bonus (token).
      * @param id the identifier of the bonus (default `0`)
-     * @param targetPlayer the player whom should have the bonus removed (if nil, applies to all players) (default `nil`)
+     * @param targetPlayer the player whom should have the bonus removed (if nil, applies to all players) (default `null`)
      */
     function removeBonus(id?: tfm.integer, targetPlayer?: string): void
 
@@ -552,7 +552,7 @@ declare namespace tfm {
      * Enable 'Aie' mode when mice can die when they hit something too hard. Last until the next map.
      * @param enable Enabled or disable 'Aie' mode. (default `true`)
      * @param sensibility Sensibility of the 'Aie' mode. (default `1`)
-     * @param targetPlayer Target player (nil for all player in room). (default `nil`)
+     * @param targetPlayer Target player (nil for all player in room). (default `null`)
      */
     function setAieMode(enable?: boolean, sensibility?: number, targetPlayer?: string): void
 
@@ -587,9 +587,9 @@ declare namespace tfm {
     /**
      * Set the night mode for a player.
      * @param nightMode Enable or disable the night mode. (default `true`)
-     * @param playerName Targeted player name. If nil affect all player in room.
+     * @param playerName Targeted player name. If nil affect all player in room. (default `null`)
      */
-    function setPlayerNightMode(nightMode?: boolean, playerName: string): void
+    function setPlayerNightMode(nightMode?: boolean, playerName?: string): void
 
     /**
      * Sets the player's score.
@@ -629,7 +629,7 @@ declare namespace tfm {
     /**
      * Changes the shaman mode of a player.
      * @param playerName the player's nickname who will have another shaman mode
-     * @param mode the new shaman mode of the target (use nil to use the player's real mode) (default `nil`)
+     * @param mode the new shaman mode of the target (use nil to use the player's real mode) (default `null`)
      */
     function setShamanMode(playerName: string, mode?: tfm.integer): void
 
@@ -676,7 +676,7 @@ declare namespace ui {
    * Displays a text area.
    * @param id the identifier of the text area
    * @param text the text to display
-   * @param targetPlayer the player who will see the text area (if nil, applies to all players) (default `nil`)
+   * @param targetPlayer the player who will see the text area (if nil, applies to all players) (default `null`)
    * @param x the horizontal coordinate of the top-left corner (default `50`)
    * @param y the vertical coordinate of the top-left corner (default `50`)
    * @param width the width in pixels of the text area (if 0, it will be ajusted to the text width) (default `0`)
@@ -691,7 +691,7 @@ declare namespace ui {
   /**
    * Removes a text area.
    * @param id the identifier of the text area
-   * @param targetPlayer the player whom the text area will disappear (if nil, applies to all players) (default `nil`)
+   * @param targetPlayer the player whom the text area will disappear (if nil, applies to all players) (default `null`)
    */
   function removeTextArea(id: tfm.integer, targetPlayer?: string): void
 
@@ -716,9 +716,9 @@ declare namespace ui {
   /**
    * Displays a color picker.
    * @param id the identifier of the color picker
-   * @param targetPlayer the player who will see the color picker (if nil, applies to all players) (default `nil`)
+   * @param targetPlayer the player who will see the color picker (if nil, applies to all players) (default `null`)
    * @param defaultColor the default color on the color picker (default `0`)
-   * @param title the title of the color picker (default `nil`)
+   * @param title the title of the color picker (default `null`)
    */
   function showColorPicker(id: tfm.integer, targetPlayer?: string, defaultColor?: tfm.integer, title?: string): void
 
@@ -726,7 +726,7 @@ declare namespace ui {
    * Updates the content of a text area.
    * @param id the identifier of the text area
    * @param text the new text to display
-   * @param targetPlayer the player who will get displayed the new text (if nil, applies to all players) (default `nil`)
+   * @param targetPlayer the player who will get displayed the new text (if nil, applies to all players) (default `null`)
    */
   function updateTextArea(id: tfm.integer, text: string, targetPlayer?: string): void
 }

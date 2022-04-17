@@ -1,9 +1,11 @@
 import {
   anyExportable,
   FunctionExportable,
+  IndependentLiteralExportable,
   integerExportable,
   InterfaceExportable,
   LiteralExportable,
+  nullExportable,
   stringExportable,
 } from "./exportTypes";
 import {
@@ -89,7 +91,7 @@ const modifiers: IOverrideModify[] = [
 
       // Arguments are optional
       for (const pName of ["interval", "random"]) {
-        lfnc.params.get(pName).defaultValue = "nil";
+        lfnc.params.get(pName).defaultValue = nullExportable;
       }
 
       // TODO: Could use an overload specifying different return types, but not a priority
@@ -106,7 +108,7 @@ const modifiers: IOverrideModify[] = [
             { key: "random", valueType: integerExportable },
           ]),
           "the launch interval attributes, if `interval` supplied is `nil`",
-          "nil"
+          nullExportable
         )
       );
     },
@@ -261,7 +263,7 @@ const modifiers: IOverrideModify[] = [
       const pOptions = lfnc.params.get("options");
       pOptions.type = new LiteralExportable("tfm.ShamanObjOpt");
       pOptions.description = "the shaman object configuration";
-      pOptions.defaultValue = "nil";
+      pOptions.defaultValue = nullExportable;
     },
   },
 
@@ -354,6 +356,14 @@ const modifiers: IOverrideModify[] = [
           "the player whom should have the bonus removed (if nil, applies to all players)",
         ],
       ]);
+    },
+  },
+
+  {
+    name: "tfm.exec.setPlayerNightMode",
+    modify: (lfnc) => {
+      // `playerName` has a default value of `nil`
+      lfnc.params.get("playerName").defaultValue = nullExportable;
     },
   },
 

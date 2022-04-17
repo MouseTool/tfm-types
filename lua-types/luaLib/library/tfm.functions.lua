@@ -443,7 +443,7 @@ function tfm.exec.setPlayerGravityScale(playerName, gravityScale, windScale) end
 
 --- Set the night mode for a player.
 --- @param nightMode? boolean Enable or disable the night mode. (default `true`)
---- @param playerName string Targeted player name. If nil affect all player in room.
+--- @param playerName? string Targeted player name. If nil affect all player in room. (default `nil`)
 function tfm.exec.setPlayerNightMode(nightMode, playerName) end
 
 --- Sets the player's score.

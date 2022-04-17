@@ -24,7 +24,7 @@ export class LiteralExportable implements ExportableType {
 /**
  * Represents a type that exports Lua and TS independently of each other
  */
-export class IndependentExportable implements ExportableType {
+export class IndependentLiteralExportable implements ExportableType {
   constructor(private op: { lua: string; ts: string }) {}
   asLua() {
     return this.op.lua;
@@ -79,11 +79,15 @@ export const stringExportable = new LiteralExportable("string");
 export const numberExportable = new LiteralExportable("number");
 export const booleanExportable = new LiteralExportable("boolean");
 export const anyExportable = new LiteralExportable("any");
-export const integerExportable = new IndependentExportable({
+export const nullExportable = new IndependentLiteralExportable({
+  lua: "nil",
+  ts: "null",
+});
+export const integerExportable = new IndependentLiteralExportable({
   lua: "integer",
   ts: "tfm.integer",
 });
-export const tableExportable = new IndependentExportable({
+export const tableExportable = new IndependentLiteralExportable({
   lua: "table",
   ts: "object",
 });
