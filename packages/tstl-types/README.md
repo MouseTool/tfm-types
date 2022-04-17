@@ -33,6 +33,11 @@ eventLoop = (elapsedTime, remainingTime) => {
   // Intellisense will pick up the types.
   // You can hover over the `eventLoop` for additional context.
 }
+
+// Or via `globalThis` which translates to `_G`.
+globalThis.eventNewPlayer = function(playerName) {
+  // `playerName` is of type `string`
+}
 ```
 
 ### Enums
