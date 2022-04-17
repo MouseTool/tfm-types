@@ -1,6 +1,6 @@
 import Converter from "./converter.interfaces";
 import { LuaHelpTreeTableNode } from "./parser";
-import { isReservedTsKeyword } from "./tsdoc-helpers";
+import { isReservedTsKeyword } from "./doc-helpers";
 
 class LDocTableNode {
   public children: LDocTableNode[];
@@ -56,49 +56,60 @@ class LDocTableNode {
     return newLines;
   }
 
-
-
   exportTstl(depth = 0) {
-    const isEnum = this.ast?.children[0]?.type === "value";
-
-    // Avoid reserved words
-    const isReservedName = !isEnum && isReservedTsKeyword(this.name);
-    const namespaceName = isReservedName ? "$" + this.name : this.name;
-
-    const singleIndentStr = " ".repeat(2);
-    let indentStr = singleIndentStr.repeat(depth);
-
     const newLines: string[] = [];
 
-    if (isEnum) {
-      newLines.push(indentStr + `const enum ${namespaceName} {`);
-    } else {
-      newLines.push(
-        indentStr +
-          `${depth === 0 ? "declare " : ""}namespace ${namespaceName} {`
-      );
-    }
+    const pushNamespaceOrEnum = (isEnum: boolean) => {
+      // Avoid reserved words
+      const isReservedName = !isEnum && isReservedTsKeyword(this.name);
+      const namespaceName = isReservedName ? "$" + this.name : this.name;
 
-    indentStr = singleIndentStr.repeat(++depth);
+      const singleIndentStr = " ".repeat(2);
+      let indentStr = singleIndentStr.repeat(depth);
 
-    for (const c of this.children) {
-      newLines.push(...c.exportTstl(depth));
-    }
-
-    if (isEnum) {
-      for (const entry of this.ast.children) {
-        if (entry.type !== "value") continue;
-        newLines.push(indentStr + `${entry.name} = ${entry.value},`);
+      if (isEnum) {
+        const capsName = namespaceName.charAt(0).toUpperCase() + namespaceName.slice(1)
+        newLines.push(indentStr + `const enum ${capsName}Type {`);
+      } else {
+        newLines.push(
+          indentStr +
+            `${depth === 0 ? "declare " : ""}namespace ${namespaceName} {`
+        );
       }
-    }
 
-    indentStr = singleIndentStr.repeat(--depth);
+      indentStr = singleIndentStr.repeat(++depth);
 
-    newLines.push(indentStr + "}");
-    newLines.push("");
+      for (const c of this.children) {
+        newLines.push(...c.exportTstl(depth));
+      }
 
-    if (isReservedName) {
-      newLines.push(indentStr + `export { ${namespaceName} as ${this.name} }`);
+      if (this.ast) {
+        for (const entry of this.ast.children) {
+          if (entry.type !== "value") continue;
+          const def = isEnum
+            ? `${entry.name} = ${entry.value},`
+            : `const ${entry.name} = ${entry.value};`;
+          newLines.push(indentStr + def);
+        }
+      }
+
+      indentStr = singleIndentStr.repeat(--depth);
+
+      newLines.push(indentStr + "}");
+      newLines.push("");
+
+      if (isReservedName) {
+        newLines.push(
+          indentStr + `export { ${namespaceName} as ${this.name} }`
+        );
+      }
+    };
+
+    pushNamespaceOrEnum(false); // Namespace
+    if (this.ast?.children[0]?.type === "value") {
+      // Export a const enum type to provide an option to compile enums into literals, or use them
+      // as types.
+      pushNamespaceOrEnum(true); // Enum
     }
 
     return newLines;

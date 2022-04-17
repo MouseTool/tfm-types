@@ -6,7 +6,7 @@
 function debug.disableEventLog(activate) end
 
 --- Gets the current lua thread name.
---- @return string @the current thread name
+--- @return string # the current thread name
 function debug.getCurrentThreadName() end
 
 --- Listens to the player's keyboard events.
@@ -42,14 +42,14 @@ function system.giveEventGift(playerName, giftCode) end
 ---
 --- Module team only.
 --- @param fileNumber? integer the identifier of the file to load (default `0`)
---- @return boolean @whether the loading got started
+--- @return boolean # whether the loading got started
 function system.loadFile(fileNumber) end
 
 --- Requests the loading of the player's data for this module. The event eventPlayerDataLoaded is triggered when the player data gets loaded.
 ---
 --- Module team only.
 --- @param playerName string the player about whom you want to get the data
---- @return boolean @whether the loading got started
+--- @return boolean # whether the loading got started
 function system.loadPlayerData(playerName) end
 
 --- Set or get the timer interval between two events.
@@ -57,20 +57,20 @@ function system.loadPlayerData(playerName) end
 --- Module team only. If `interval` is given, the function is restricted to event elevation only.
 --- @param interval? integer Timer interval in min (default 40 min), can't be less than 40 min. (default `nil`)
 --- @param random? integer Random added  interval in min (default 20 min). (default `nil`)
---- @return { interval: integer, random: integer }? @the launch interval attributes, if `interval` supplied is `nil`
+--- @return { interval: integer, random: integer }? # the launch interval attributes, if `interval` supplied is `nil`
 function system.luaEventLaunchInterval(interval, random) end
 
 --- Creates a new timer to call a function after a delay, once or continuously.
 ---
 --- Module team only.
---- @param callback fun(timerId:integer, arg1?:any, arg2?:any, arg3?:any, arg4?:any) The function to call. The first argument of this function is the timer's identifier
+--- @param callback fun(timerId: integer, arg1?: any, arg2?: any, arg3?: any, arg4?: any) The function to call. The first argument of this function is the timer's identifier, followed by those specified from `arg1` to `arg4`.
 --- @param time integer the number of milliseconds that the function call should be delayed by
 --- @param loop? boolean whether the function call should loop or happen only once (default `false`)
 --- @param arg1? any 1st argument of the callback function (default `nil`)
 --- @param arg2? any 2nd argument of the callback function (default `nil`)
 --- @param arg3? any 3rd argument of the callback function (default `nil`)
 --- @param arg4? any 4th argument of the callback function (default `nil`)
---- @return integer @the new timer id
+--- @return integer # the new timer id
 function system.newTimer(callback, time, loop, arg1, arg2, arg3, arg4) end
 
 --- Open the shop of the specified event.
@@ -91,7 +91,7 @@ function system.removeTimer(timerId) end
 --- Module team only.
 --- @param data string the data to store in the file
 --- @param fileNumber? integer the identifier (from 0 to 99) of the file to write the data in (default `0`)
---- @return boolean @whether the saving got started
+--- @return boolean # whether the saving got started
 function system.saveFile(data, fileNumber) end
 
 --- Saves module data about a player. Please note that this data is per player and per Lua dev, so take care not to overwrite data from another one of your modules.
@@ -144,7 +144,7 @@ function tfm.exec.addConjuration(xPosition, yPosition, duration) end
 --- @param alpha? number the opacity of the image, from 0 (transparent) to 1 (opaque) (default `1`)
 --- @param anchorX? number the horizontal offset (in 0 to 1 scale) of the image's anchor, relative to the image (0 being the left of the image) (default `0`)
 --- @param anchorY? number the vertical offset (in 0 to 1 scale) of the image's anchor, relative to the image (0 being the top of the image) (default `0`)
---- @return integer @the image identifier
+--- @return integer # the image identifier
 function tfm.exec.addImage(imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, rotation, alpha, anchorX, anchorY) end
 
 --- Adds a joint between two physic objects. . Note: In map XML codes, you can also add a « lua="id" » property in a joint definition to be able to interact with it with LUA code.
@@ -195,7 +195,7 @@ function tfm.exec.addPhysicObject(id, xPosition, yPosition, bodyDef) end
 --- @param ySpeed? integer the vertical speed of the object (default `0`)
 --- @param ghost? boolean whether the spawned object should be transparent (default `false`)
 --- @param options? tfm.ShamanObjOpt the shaman object configuration (default `nil`)
---- @return integer @the shaman object identifier
+--- @return integer # the shaman object identifier
 function tfm.exec.addShamanObject(objectType, xPosition, yPosition, angle, xSpeed, ySpeed, ghost, options) end
 
 --- Spawns and attaches a ghost balloon to a player, or detaches all balloons.
@@ -204,7 +204,7 @@ function tfm.exec.addShamanObject(objectType, xPosition, yPosition, angle, xSpee
 --- @param colorType? integer the color type of the balloon (between 1 and 4) (default `1`)
 --- @param ghost? boolean whether the spawned balloon should be transparent (default `false`)
 --- @param speed? number the vertical speed of the balloon (default `1`)
---- @return integer @the shaman object identifier of the balloon
+--- @return integer # the shaman object identifier of the balloon
 function tfm.exec.attachBalloon(playerName, attach, colorType, ghost, speed) end
 
 --- Changes the size of a player.
@@ -295,7 +295,7 @@ function tfm.exec.freezePlayer(playerName, freeze, displayIce) end
 --- Gets the player who is the room's current synchronizer.
 ---
 --- Module team only.
---- @return string @the player's nickname
+--- @return string # the player's nickname
 function tfm.exec.getPlayerSync() end
 
 --- Gives the cheese to a player.

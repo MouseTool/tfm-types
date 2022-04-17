@@ -1,4 +1,16 @@
-import { LDocFunctionParam, LDocFunction } from "./luahelp-functions";
+import {
+  anyExportable,
+  FunctionExportable,
+  integerExportable,
+  InterfaceExportable,
+  LiteralExportable,
+  stringExportable,
+} from "./exportTypes";
+import {
+  LDocFunctionParam,
+  LDocFunction,
+  LDocFunctionType,
+} from "./luahelp-functions";
 
 interface IOverrideModify {
   name: string;
@@ -29,7 +41,7 @@ const modifiers: IOverrideModify[] = [
       lfnc.setDescription("Gets the current lua thread name.");
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionParam("Returns", "string", "the current thread name")
+        new LDocFunctionType(stringExportable, "the current thread name")
       );
     },
   },
@@ -87,9 +99,12 @@ const modifiers: IOverrideModify[] = [
 
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionParam(
-          "Returns",
-          "{ interval: integer, random: integer }",
+        new LDocFunctionType(
+          // { interval: integer, random: integer }
+          new InterfaceExportable([
+            { key: "interval", valueType: integerExportable },
+            { key: "random", valueType: integerExportable },
+          ]),
           "the launch interval attributes, if `interval` supplied is `nil`",
           "nil"
         )
@@ -105,10 +120,17 @@ const modifiers: IOverrideModify[] = [
 
       // Add function signature for callback
       const pCallback = lfnc.params.get("callback");
-      pCallback.type =
-        "fun(timerId:integer, arg1?:any, arg2?:any, arg3?:any, arg4?:any)";
+      //"fun(timerId:integer, arg1?:any, arg2?:any, arg3?:any, arg4?:any)";
+      pCallback.type = new FunctionExportable([
+        { name: "timerId", type: integerExportable },
+        { name: "arg1", type: anyExportable, isOptional: true },
+        { name: "arg2", type: anyExportable, isOptional: true },
+        { name: "arg3", type: anyExportable, isOptional: true },
+        { name: "arg4", type: anyExportable, isOptional: true },
+      ]);
+
       pCallback.description =
-        "The function to call. The first argument of this function is the timer's identifier";
+        "The function to call. The first argument of this function is the timer's identifier, followed by those specified from `arg1` to `arg4`.";
     },
   },
 
@@ -205,7 +227,7 @@ const modifiers: IOverrideModify[] = [
     modify: (lfnc) => {
       // Point jointDef to custom type
       const pJoint = lfnc.params.get("jointDef");
-      pJoint.setType("tfm.JointDef");
+      pJoint.setType(new LiteralExportable("tfm.JointDef"));
       pJoint.setDescription("the joint configuration");
     },
   },
@@ -217,7 +239,7 @@ const modifiers: IOverrideModify[] = [
 
       // Point npcDef to custom type
       const pNpc = lfnc.params.get("npcDef");
-      pNpc.setType("tfm.NPCDef");
+      pNpc.setType(new LiteralExportable("tfm.NPCDef"));
       pNpc.description = "the NPC configuration";
     },
   },
@@ -227,7 +249,7 @@ const modifiers: IOverrideModify[] = [
     modify: (lfnc) => {
       // Point bodyDef to custom type
       const pBody = lfnc.params.get("bodyDef");
-      pBody.setType("tfm.BodyDef");
+      pBody.setType(new LiteralExportable("tfm.BodyDef"));
       pBody.setDescription("the ground configuration");
     },
   },
@@ -237,7 +259,7 @@ const modifiers: IOverrideModify[] = [
     modify: (lfnc) => {
       // Point options to custom type and make optional
       const pOptions = lfnc.params.get("options");
-      pOptions.type = "tfm.ShamanObjOpt";
+      pOptions.type = new LiteralExportable("tfm.ShamanObjOpt");
       pOptions.description = "the shaman object configuration";
       pOptions.defaultValue = "nil";
     },
@@ -269,9 +291,8 @@ const modifiers: IOverrideModify[] = [
 
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionParam(
-          "Returns",
-          "integer",
+        new LDocFunctionType(
+          integerExportable,
           "the shaman object identifier of the balloon"
         )
       );
@@ -314,7 +335,7 @@ const modifiers: IOverrideModify[] = [
 
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionParam("Returns", "string", "the player's nickname")
+        new LDocFunctionType(stringExportable, "the player's nickname")
       );
     },
   },

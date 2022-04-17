@@ -83,13 +83,13 @@ declare namespace system {
    * @param random Random added  interval in min (default 20 min). (default `nil`)
    * @returns the launch interval attributes, if `interval` supplied is `nil`
    */
-  function luaEventLaunchInterval(interval?: tfm.integer, random?: tfm.integer): { interval: tfm.integer, random: tfm.integer }
+  function luaEventLaunchInterval(interval?: tfm.integer, random?: tfm.integer): { interval: tfm.integer, random: tfm.integer } | undefined
 
   /**
    * Creates a new timer to call a function after a delay, once or continuously.
    *
    * Module team only.
-   * @param callback The function to call. The first argument of this function is the timer's identifier
+   * @param callback The function to call. The first argument of this function is the timer's identifier, followed by those specified from `arg1` to `arg4`.
    * @param time the number of milliseconds that the function call should be delayed by
    * @param loop whether the function call should loop or happen only once (default `false`)
    * @param arg1 1st argument of the callback function (default `nil`)
@@ -98,7 +98,7 @@ declare namespace system {
    * @param arg4 4th argument of the callback function (default `nil`)
    * @returns the new timer id
    */
-  function newTimer(callback: (timerId:tfm.integer, arg1?:any, arg2?:any, arg3?:any, arg4?:any)=>void, time: tfm.integer, loop?: boolean, arg1?: any, arg2?: any, arg3?: any, arg4?: any): tfm.integer
+  function newTimer(callback: (this: void, timerId: tfm.integer, arg1?: any, arg2?: any, arg3?: any, arg4?: any) => void, time: tfm.integer, loop?: boolean, arg1?: any, arg2?: any, arg3?: any, arg4?: any): tfm.integer
 
   /**
    * Open the shop of the specified event.
@@ -589,7 +589,7 @@ declare namespace tfm {
      * @param nightMode Enable or disable the night mode. (default `true`)
      * @param playerName Targeted player name. If nil affect all player in room.
      */
-    function setPlayerNightMode(nightMode: boolean|undefined, playerName: string): void
+    function setPlayerNightMode(nightMode?: boolean, playerName: string): void
 
     /**
      * Sets the player's score.

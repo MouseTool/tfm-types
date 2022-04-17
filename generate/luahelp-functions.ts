@@ -5,32 +5,61 @@ import {
   LuaHelpFunctionReturn,
   LuaHelpFunction,
 } from "./parser";
+import { DocFunc, DocFuncParam, DocFuncType, TSNamespace } from "./doc-helpers";
 import {
-  TSDocFunc,
-  TSDocFuncParam,
-  TSDocFuncType,
-  TSNamespace,
-} from "./tsdoc-helpers";
+  anyExportable,
+  booleanExportable,
+  ExportableType,
+  FunctionExportable,
+  integerExportable,
+  numberExportable,
+  stringExportable,
+  tableExportable,
+} from "./exportTypes";
 
-// LDoc here = sumneko.lua LuaDoc ...
-const LUAHELP_TO_LDOC_TYPE: Record<string, string> = {
-  String: "string",
-  Int: "integer",
-  Number: "number",
-  Boolean: "boolean",
-  Table: "table",
-  Function: "function",
-  Object: "any",
+const LUAHELP_TO_EXPORTABLE: Record<string, ExportableType> = {
+  String: stringExportable,
+  Int: integerExportable,
+  Number: numberExportable,
+  Boolean: booleanExportable,
+  Table: tableExportable,
+  Function: new FunctionExportable(),
+  Object: anyExportable,
 };
 
-// TODO: Compile into objects......
-const LDOC_TO_TS_TYPE: Record<string, string> = {
-  integer: "tfm.integer",
-  table: "object",
-  function: "Function",
-};
+export class LDocFunctionType {
+  constructor(
+    public type: ExportableType,
+    public description: string = "",
+    public defaultValue?: string,
+    public additionalDescription: string[] = []
+  ) {}
 
-export class LDocFunctionParam {
+  static fromAstReturn(ast: LuaHelpFunctionReturn) {
+    const type = LUAHELP_TO_EXPORTABLE[ast.type];
+    if (!type) throw new Error("no known type " + ast.type);
+
+    return new LDocFunctionType(type, ast.description);
+  }
+
+  get isOptional() {
+    return this.defaultValue != null;
+  }
+
+  setDescription(description: string) {
+    this.description = description;
+  }
+
+  addDescription(desc: string) {
+    this.additionalDescription.push(desc);
+  }
+
+  setType(type: ExportableType) {
+    this.type = type;
+  }
+}
+
+export class LDocFunctionParam extends LDocFunctionType {
   /**
    * The overriden name to export instead of `name`
    */
@@ -38,14 +67,16 @@ export class LDocFunctionParam {
 
   constructor(
     public name: string,
-    public type: string,
-    public description: string = "",
-    public defaultValue?: string,
-    public additionalDescription: string[] = []
-  ) {}
+    type: ExportableType,
+    description?: string,
+    defaultValue?: string,
+    additionalDescription?: string[]
+  ) {
+    super(type, description, defaultValue, additionalDescription);
+  }
 
   static fromAst(ast: LuaHelpFunctionParameter) {
-    const type = LUAHELP_TO_LDOC_TYPE[ast.type];
+    const type = LUAHELP_TO_EXPORTABLE[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
     return new LDocFunctionParam(
@@ -57,35 +88,12 @@ export class LDocFunctionParam {
     );
   }
 
-  static fromAstReturn(ast: LuaHelpFunctionReturn) {
-    const type = LUAHELP_TO_LDOC_TYPE[ast.type];
-    if (!type) throw new Error("no known type " + ast.type);
-
-    return new LDocFunctionParam("Returns", type, ast.description);
-  }
-
-  get isOptional() {
-    return this.defaultValue != null;
-  }
-
   get displayName() {
     return this.overrideName || this.name;
   }
 
-  setDescription(description: string) {
-    this.description = description;
-  }
-
-  addDescription(desc: string) {
-    this.additionalDescription.push(desc);
-  }
-
   setOverrideName(name: string) {
     this.overrideName = name;
-  }
-
-  setType(type: string) {
-    this.type = type;
   }
 }
 
@@ -95,7 +103,7 @@ export class LDocFunction {
   constructor(
     public name: string,
     public description: string[] = [],
-    public returnType?: LDocFunctionParam
+    public returnType?: LDocFunctionType
   ) {
     this.params = new Map<string, LDocFunctionParam>();
   }
@@ -106,7 +114,7 @@ export class LDocFunction {
       const lhf = new LDocFunction(
         astf.name,
         Array.from(astf.description),
-        astf.return ? LDocFunctionParam.fromAstReturn(astf.return) : null
+        astf.return ? LDocFunctionType.fromAstReturn(astf.return) : null
       );
       for (const p of astf.parameters) {
         lhf.addParam(LDocFunctionParam.fromAst(p));
@@ -132,7 +140,7 @@ export class LDocFunction {
     return this;
   }
 
-  setReturnType(type: LDocFunctionParam) {
+  setReturnType(type: LDocFunctionType) {
     this.returnType = type;
   }
 }
@@ -152,33 +160,37 @@ export const luaFunctionsConverter = {
         o.modify(func);
       }
 
-      const parNames = [];
-      for (const desc of func.description) {
-        newLines.push(`---${desc ? ` ${desc}` : ""}`);
+      const luaPar: DocFuncParam[] = [];
+      for (const par of func.params.values()) {
+        luaPar.push({
+          description: [
+            `${par.description}${
+              par.defaultValue ? ` (default \`${par.defaultValue}\`)` : ""
+            }`,
+            ...par.additionalDescription,
+          ],
+          name: par.displayName,
+          type: par.type,
+          isOptional: par.isOptional,
+        });
       }
 
-      for (const par of func.params.values()) {
-        newLines.push(
-          `--- @param ${par.displayName}${par.isOptional ? "?" : ""} ${
-            par.type
-          } ${par.description}${
-            par.defaultValue ? ` (default \`${par.defaultValue}\`)` : ""
-          }`
-        );
-        for (const desc of par.additionalDescription) {
-          newLines.push(`--- ${desc}`);
-        }
-        parNames.push(par.displayName);
-      }
-      if (func.returnType) {
-        newLines.push(
-          `--- @return ${func.returnType.type}${
-            func.returnType.isOptional ? "?" : ""
-          } @${func.returnType.description}`
-        );
-      }
-      newLines.push(`function ${func.name}(${parNames.join(", ")}) end`);
-      newLines.push("");
+      const luaRet: DocFuncType = func.returnType
+        ? {
+            description: [func.returnType.description],
+            type: func.returnType.type,
+            isOptional: func.returnType.isOptional,
+          }
+        : null;
+
+      const luaFncDeclaration = new DocFunc(
+        func.name,
+        func.description,
+        luaPar,
+        luaRet
+      );
+
+      newLines.push(...luaFncDeclaration.exportLuaDocLines(), "");
     }
 
     return newLines;
@@ -201,9 +213,8 @@ export const tstlFunctionsConverter = {
         o.modify(func);
       }
 
-      const tsPar: TSDocFuncParam[] = [];
+      const tsPar: DocFuncParam[] = [];
       for (const par of func.params.values()) {
-        const type = LDOC_TO_TS_TYPE[par.type] ?? par.type;
         tsPar.push({
           description: [
             `${par.description}${
@@ -212,21 +223,21 @@ export const tstlFunctionsConverter = {
             ...par.additionalDescription,
           ],
           name: par.displayName,
-          type,
+          type: par.type,
           isOptional: par.isOptional,
         });
       }
 
-      const tsRet: TSDocFuncType = func.returnType
+      const tsRet: DocFuncType = func.returnType
         ? {
             description: [func.returnType.description],
-            type: LDOC_TO_TS_TYPE[func.returnType.type] ?? func.returnType.type,
+            type: func.returnType.type,
             isOptional: func.returnType.isOptional,
           }
         : null;
 
       const indexes = func.name.split(".");
-      const tsFncDeclaration = new TSDocFunc(
+      const tsFncDeclaration = new DocFunc(
         indexes.pop(),
         func.description,
         tsPar,
@@ -238,7 +249,7 @@ export const tstlFunctionsConverter = {
         namespace = namespace.navigate(index, true);
       }
 
-      namespace.pushContent(...tsFncDeclaration.exportLines());
+      namespace.pushContent(...tsFncDeclaration.exportTsDocLines());
     }
 
     newLines.push(...globalNs.exportTstl());
