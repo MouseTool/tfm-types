@@ -7,6 +7,9 @@
     "url": "https://github.com/MouseTool/tfm-types.git",
     "directory": "packages/tstl-types"
   },
+  "files": [
+    "types/**/*"
+  ],
   "main": "dummy.js",
   "types": "types/index.d.ts",
   "author": "Cassolette",

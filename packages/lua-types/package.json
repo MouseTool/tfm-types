@@ -7,6 +7,9 @@
     "url": "https://github.com/MouseTool/tfm-types.git",
     "directory": "packages/lua-types"
   },
+  "files": [
+    "luaLib/**/*"
+  ],
   "main": "dummy.js",
   "types": "types/index.d.ts",
   "author": "Cassolette",
