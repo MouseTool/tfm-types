@@ -495,7 +495,7 @@ function tfm.exec.snow(duration, snowballPower) end
 --- @param id integer the identifier of the popup
 --- @param type integer the popup type (0 for simple, 1 for yes or no, 2 for player input)
 --- @param text string the text to display
---- @param targetPlayer string the player who will see the popup (if nil, applies to all players)
+--- @param targetPlayer? string the player who will see the popup (if nil, applies to all players) (default `nil`)
 --- @param x? integer the horizontal coordinate of the top-left corner (default `50`)
 --- @param y? integer the vertical coordinate of the top-left corner (default `50`)
 --- @param width? integer the width in pixels of the popup (if 0, it will be ajusted to the text width) (default `0`)

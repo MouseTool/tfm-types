@@ -419,6 +419,14 @@ const modifiers: IOverrideModify[] = [
       fixParam(lfnc, [["color", "the background color, in hex code format"]]);
     },
   },
+
+  {
+    name: "ui.addPopup",
+    modify: (lfnc) => {
+      // Make targetPlayer optional
+      lfnc.params.get("targetPlayer").defaultValue = nullExportable;
+    },
+  },
 ];
 
 // Edit adders here

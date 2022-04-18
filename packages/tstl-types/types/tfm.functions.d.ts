@@ -582,13 +582,13 @@ declare namespace ui {
    * @param id the identifier of the popup
    * @param type the popup type (0 for simple, 1 for yes or no, 2 for player input)
    * @param text the text to display
-   * @param targetPlayer the player who will see the popup (if nil, applies to all players)
+   * @param targetPlayer the player who will see the popup (if nil, applies to all players) (default `null`)
    * @param x the horizontal coordinate of the top-left corner (default `50`)
    * @param y the vertical coordinate of the top-left corner (default `50`)
    * @param width the width in pixels of the popup (if 0, it will be ajusted to the text width) (default `0`)
    * @param fixedPos whether the position is fixed or if it should follow the player's camera on long maps (default `false`)
    */
-  export function addPopup(id: tfm.integer, type: tfm.integer, text: string, targetPlayer: string, x?: tfm.integer, y?: tfm.integer, width?: tfm.integer, fixedPos?: boolean): void
+  export function addPopup(id: tfm.integer, type: tfm.integer, text: string, targetPlayer?: string, x?: tfm.integer, y?: tfm.integer, width?: tfm.integer, fixedPos?: boolean): void
   /**
    * Displays a text area.
    * @param id the identifier of the text area
