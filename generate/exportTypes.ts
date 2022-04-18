@@ -75,6 +75,16 @@ export class RecordExportable implements ExportableType {
   }
 }
 
+export class UnionExportable implements ExportableType {
+  constructor(private types: ExportableType[]) {}
+  asLua() {
+    return this.types.map((t) => t.asLua()).join("|");
+  }
+  asTs() {
+    return this.types.map((t) => t.asTs()).join(" | ");
+  }
+}
+
 export const stringExportable = new LiteralExportable("string");
 export const numberExportable = new LiteralExportable("number");
 export const booleanExportable = new LiteralExportable("boolean");

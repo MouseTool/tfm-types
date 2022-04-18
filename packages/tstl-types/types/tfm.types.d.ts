@@ -1,4 +1,25 @@
 declare namespace tfm {
+  // Because enums are considered as part of the runtime environment, EnumTypes are decoupled from
+  // runtime namespaces to avoid pollution.
+  // EnumTypes should only contain const enums, which are transpiled away.
+  /**
+   * Contains const enum helpers for typing purposes.
+   *
+   * Note: This is **not** really a runtime object and should never be used like one!
+   * Do not use enums in this namespace if you have `preserveConstEnums` on, unless for typing
+   * purposes.
+   */
+  namespace Enums {
+    const enum JointType {
+      distance = 0,
+      prismatic = 1,
+      pulley = 2,
+      revolute = 3,
+    }
+  }
+}
+
+declare namespace tfm {
   type integer = number | symbol;
   /**
    * Defines a string in the `x,y` format
@@ -102,7 +123,7 @@ declare namespace tfm {
     name: string;
     objectList: Record<integer, tfm.ShamanObject>;
     passwordProtected: boolean;
-    playerList: Record<string, tfm.Player>;
+    playerList: { [playerName: string]: tfm.Player };
     /**
      * The number of unique IP addresses in the room.
      *
@@ -112,15 +133,8 @@ declare namespace tfm {
     xmlMapInfo?: tfm.XmlMapInfo;
   }
 
-  enum JointType {
-    distance = 0,
-    prismatic = 1,
-    pulley = 2,
-    revolute = 3,
-  }
-
   interface JointDef {
-    type: JointType;
+    type: Enums.JointType;
     /**
      * location of the ground1 anchor (default: the ground1's center)
      */

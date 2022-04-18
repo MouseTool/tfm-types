@@ -259,7 +259,8 @@ export const tstlFunctionsConverter = {
         namespace = namespace.navigate(index, true);
       }
 
-      namespace.pushContent(...tsFncDeclaration.exportTsDocLines());
+      namespace.pushContent(tsFncDeclaration.exportJsDocCommentLines());
+      namespace.pushStatement([tsFncDeclaration.exportTsFuncDeclare()]);
     }
 
     newLines.push(...globalNs.exportTstl());

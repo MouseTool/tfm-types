@@ -1,6 +1,7 @@
 import {
   anyExportable,
   FunctionExportable,
+  IndependentLiteralExportable,
   integerExportable,
   InterfaceExportable,
   LiteralExportable,
@@ -168,6 +169,15 @@ const modifiers: IOverrideModify[] = [
     modify: (lfnc) => {
       // Add some clarity
       lfnc.setDescription("Adds a defilante bonus (token) to the map.");
+
+      // Point to enum for TS
+      const pType = lfnc.params.get("type");
+      pType.setType(
+        new IndependentLiteralExportable({
+          lua: pType.type.asLua(),
+          ts: "tfm.Enums.BonusType",
+        })
+      );
 
       // Standardise param descriptions
       fixParam(lfnc, [

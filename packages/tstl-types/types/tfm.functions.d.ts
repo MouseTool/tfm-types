@@ -2,22 +2,18 @@
 
 /** @noSelfInFile */
 declare namespace debug {
-
   /**
    * Deactivates the events log.
    * @param activate whether it should be active (default `true`)
    */
-  function disableEventLog(activate?: boolean): void
-
+  export function disableEventLog(activate?: boolean): void
   /**
    * Gets the current lua thread name.
    * @returns the current thread name
    */
-  function getCurrentThreadName(): string
+  export function getCurrentThreadName(): string
 }
-
 declare namespace system {
-
   /**
    * Listens to the player's keyboard events.
    * @param playerName the player you want to listen keyboard events from
@@ -27,27 +23,23 @@ declare namespace system {
    * @param down whether it should listen for the press event, or the release one
    * @param activate whether it should be active (default `true`)
    */
-  function bindKeyboard(playerName: string, keyCode: tfm.integer, down: boolean, activate?: boolean): void
-
+  export function bindKeyboard(playerName: string, keyCode: tfm.integer, down: boolean, activate?: boolean): void
   /**
    * Listens to a player's mouse events.
    * @param playerName the player you want to listen mouse events from
    * @param active whether it should be active (default `true`)
    */
-  function bindMouse(playerName: string, active?: boolean): void
-
+  export function bindMouse(playerName: string, active?: boolean): void
   /**
    * Prevents a module command (commands starting with « ! ») to be displayed in the room. If the supplied command is nil, the parameter will apply to all the commands.
    * @param command the command (without the initial « ! ») to hide (default `null`)
    * @param hide whether the command should be hidden (default `true`)
    */
-  function disableChatCommandDisplay(command?: string, hide?: boolean): void
-
+  export function disableChatCommandDisplay(command?: string, hide?: boolean): void
   /**
    * Deactivates the lua script running.
    */
-  function exit(): void
-
+  export function exit(): void
   /**
    * Gives an event reward to the targeted player.
    *
@@ -55,8 +47,7 @@ declare namespace system {
    * @param playerName the player to give the gift to
    * @param giftCode the gift identifier (given by an admin)
    */
-  function giveEventGift(playerName: string, giftCode: string): void
-
+  export function giveEventGift(playerName: string, giftCode: string): void
   /**
    * Requests the loading of a data file. The event eventFileLoaded is triggered when the file gets loaded.
    *
@@ -64,8 +55,7 @@ declare namespace system {
    * @param fileNumber the identifier of the file to load (default `0`)
    * @returns whether the loading got started
    */
-  function loadFile(fileNumber?: tfm.integer): boolean
-
+  export function loadFile(fileNumber?: tfm.integer): boolean
   /**
    * Requests the loading of the player's data for this module. The event eventPlayerDataLoaded is triggered when the player data gets loaded.
    *
@@ -73,8 +63,7 @@ declare namespace system {
    * @param playerName the player about whom you want to get the data
    * @returns whether the loading got started
    */
-  function loadPlayerData(playerName: string): boolean
-
+  export function loadPlayerData(playerName: string): boolean
   /**
    * Set or get the timer interval between two events.
    *
@@ -83,8 +72,7 @@ declare namespace system {
    * @param random Random added  interval in min (default 20 min). (default `null`)
    * @returns the launch interval attributes, if `interval` supplied is `nil`
    */
-  function luaEventLaunchInterval(interval?: tfm.integer, random?: tfm.integer): { interval: tfm.integer, random: tfm.integer } | undefined
-
+  export function luaEventLaunchInterval(interval?: tfm.integer, random?: tfm.integer): { interval: tfm.integer, random: tfm.integer } | undefined
   /**
    * Creates a new timer to call a function after a delay, once or continuously.
    *
@@ -98,8 +86,7 @@ declare namespace system {
    * @param arg4 4th argument of the callback function (default `null`)
    * @returns the new timer id
    */
-  function newTimer(callback: (this: void, timerId: tfm.integer, arg1?: any, arg2?: any, arg3?: any, arg4?: any) => void, time: tfm.integer, loop?: boolean, arg1?: any, arg2?: any, arg3?: any, arg4?: any): tfm.integer
-
+  export function newTimer(callback: (this: void, timerId: tfm.integer, arg1?: any, arg2?: any, arg3?: any, arg4?: any) => void, time: tfm.integer, loop?: boolean, arg1?: any, arg2?: any, arg3?: any, arg4?: any): tfm.integer
   /**
    * Open the shop of the specified event.
    *
@@ -107,16 +94,14 @@ declare namespace system {
    * @param eventName Event name.
    * @param playerName Target player name.
    */
-  function openEventShop(eventName: string, playerName: string): void
-
+  export function openEventShop(eventName: string, playerName: string): void
   /**
    * Destroys a timer.
    *
    * Module team only.
    * @param timerId the identifier of the timer to stop
    */
-  function removeTimer(timerId: tfm.integer): void
-
+  export function removeTimer(timerId: tfm.integer): void
   /**
    * Requests the saving of a data file (throttled to one per minute). The event eventFileSaved is triggered when the file get saved.
    *
@@ -125,8 +110,7 @@ declare namespace system {
    * @param fileNumber the identifier (from 0 to 99) of the file to write the data in (default `0`)
    * @returns whether the saving got started
    */
-  function saveFile(data: string, fileNumber?: tfm.integer): boolean
-
+  export function saveFile(data: string, fileNumber?: tfm.integer): boolean
   /**
    * Saves module data about a player. Please note that this data is per player and per Lua dev, so take care not to overwrite data from another one of your modules.
    *
@@ -134,18 +118,15 @@ declare namespace system {
    * @param playerName the player about whom you want to save data
    * @param data the player data to save
    */
-  function savePlayerData(playerName: string, data: string): void
-
+  export function savePlayerData(playerName: string, data: string): void
   /**
    * Set the login event banner.
    * @param bannerId Banner id.
    */
-  function setLuaEventBanner(bannerId: tfm.integer): void
+  export function setLuaEventBanner(bannerId: tfm.integer): void
 }
-
 declare namespace tfm {
-  namespace exec {
-
+  export namespace exec {
     /**
      * Adds a defilante bonus (token) to the map.
      * @param type Bonus type (see tfm.enum.bonus) (default `1`)
@@ -156,16 +137,14 @@ declare namespace tfm {
      * @param visible whether the bonus should be visible (default `true`)
      * @param targetPlayer the player who should see the bonus (if nil, applies to all players) (default `null`)
      */
-    function addBonus(type?: tfm.integer, xPosition?: tfm.integer, yPosition?: tfm.integer, id?: tfm.integer, angle?: tfm.integer, visible?: boolean, targetPlayer?: string): void
-
+    export function addBonus(type?: tfm.Enums.BonusType, xPosition?: tfm.integer, yPosition?: tfm.integer, id?: tfm.integer, angle?: tfm.integer, visible?: boolean, targetPlayer?: string): void
     /**
      * Adds conjuration to the map. Note: Grid coordinate are regular coordinate divided by 10 (as conjuration is a 10x10 pixel square).
      * @param xPosition the horizontal grid coordinate of the conjuration
      * @param yPosition the vertical grid coordinate of the conjuration
      * @param duration the duration of the conjuration in milliseconds (default `10000`)
      */
-    function addConjuration(xPosition: tfm.integer, yPosition: tfm.integer, duration?: tfm.integer): void
-
+    export function addConjuration(xPosition: tfm.integer, yPosition: tfm.integer, duration?: tfm.integer): void
     /**
      * Displays an image on the map.
      * @param imageId the image identifier
@@ -192,8 +171,7 @@ declare namespace tfm {
      * @param anchorY the vertical offset (in 0 to 1 scale) of the image's anchor, relative to the image (0 being the top of the image) (default `0`)
      * @returns the image identifier
      */
-    function addImage(imageId: string, target: string, xPosition?: tfm.integer, yPosition?: tfm.integer, targetPlayer?: string, scaleX?: number, scaleY?: number, rotation?: number, alpha?: number, anchorX?: number, anchorY?: number): tfm.integer
-
+    export function addImage(imageId: string, target: string, xPosition?: tfm.integer, yPosition?: tfm.integer, targetPlayer?: string, scaleX?: number, scaleY?: number, rotation?: number, alpha?: number, anchorX?: number, anchorY?: number): tfm.integer
     /**
      * Adds a joint between two physic objects. . Note: In map XML codes, you can also add a « lua="id" » property in a joint definition to be able to interact with it with LUA code.
      * @param id the identifier of the joint
@@ -210,8 +188,7 @@ declare namespace tfm {
      *     - ratio (Float): revolute joints' ratio
      *     - line (Int), color (Int), alpha (Float), foreground (Boolean): if none of these properties is defined, the joint won't be drawn
      */
-    function addJoint(id: tfm.integer, ground1: tfm.integer, ground2: tfm.integer, jointDef: tfm.JointDef): void
-
+    export function addJoint(id: tfm.integer, ground1: tfm.integer, ground2: tfm.integer, jointDef: tfm.JointDef): void
     /**
      * Spawns an NPC.
      * @param name NPC name.
@@ -226,8 +203,7 @@ declare namespace tfm {
      *     - interactive (Boolean): If true, player will be able to click on it.
      * @param targetPlayer the player who will see the NPC (if nil, applies to all players) (default `null`)
      */
-    function addNPC(name: string, npcDef: tfm.NPCDef, targetPlayer?: string): void
-
+    export function addNPC(name: string, npcDef: tfm.NPCDef, targetPlayer?: string): void
     /**
      * Spawns a ground.
      * @param id the identifier of the physic object
@@ -237,8 +213,7 @@ declare namespace tfm {
      *     - type (Int), width (Int), height (Int), foreground (Boolean), friction (Float), restitution (Float), angle (Int), color (Int), miceCollision (Boolean), groundCollision (Boolean)
      *     - dynamic (Boolean), fixedRotation (Boolean), mass (Int), linearDamping (Float), angularDamping (Float) for dynamic grounds, contactListener (Boolean)
      */
-    function addPhysicObject(id: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, bodyDef: tfm.BodyDef): void
-
+    export function addPhysicObject(id: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, bodyDef: tfm.BodyDef): void
     /**
      * Spawns a shaman object.
      * @param objectType the type of the shaman object to spawn
@@ -251,8 +226,7 @@ declare namespace tfm {
      * @param options the shaman object configuration (default `null`)
      * @returns the shaman object identifier
      */
-    function addShamanObject(objectType: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, angle?: tfm.integer, xSpeed?: tfm.integer, ySpeed?: tfm.integer, ghost?: boolean, options?: tfm.ShamanObjOpt): tfm.integer
-
+    export function addShamanObject(objectType: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, angle?: tfm.integer, xSpeed?: tfm.integer, ySpeed?: tfm.integer, ghost?: boolean, options?: tfm.ShamanObjOpt): tfm.integer
     /**
      * Spawns and attaches a ghost balloon to a player, or detaches all balloons.
      * @param playerName the player's nickname
@@ -262,15 +236,13 @@ declare namespace tfm {
      * @param speed the vertical speed of the balloon (default `1`)
      * @returns the shaman object identifier of the balloon
      */
-    function attachBalloon(playerName: string, attach?: boolean, colorType?: tfm.integer, ghost?: boolean, speed?: number): tfm.integer
-
+    export function attachBalloon(playerName: string, attach?: boolean, colorType?: tfm.integer, ghost?: boolean, speed?: number): tfm.integer
     /**
      * Changes the size of a player.
      * @param playerName the player's nickname
      * @param size the new size of the player (between 0.1 and 5) (default `1`)
      */
-    function changePlayerSize(playerName: string, size?: number): void
-
+    export function changePlayerSize(playerName: string, size?: number): void
     /**
      * Displays a chat message.
      *
@@ -278,80 +250,67 @@ declare namespace tfm {
      * @param message the chat message to display
      * @param playerName the player who will get the message (if nil, applies to all players) (default `null`)
      */
-    function chatMessage(message: string, playerName?: string): void
-
+    export function chatMessage(message: string, playerName?: string): void
     /**
      * Deactivates the automatic afk death.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableAfkDeath(activate?: boolean): void
-
+    export function disableAfkDeath(activate?: boolean): void
     /**
      * Deactivates all shaman skills.
      * @param active whether the deactivation should be active (default `true`)
      */
-    function disableAllShamanSkills(active?: boolean): void
-
+    export function disableAllShamanSkills(active?: boolean): void
     /**
      * Deactivates the automatic renewal of rounds.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableAutoNewGame(activate?: boolean): void
-
+    export function disableAutoNewGame(activate?: boolean): void
     /**
      * Deactivates the automatic scoring management.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableAutoScore(activate?: boolean): void
-
+    export function disableAutoScore(activate?: boolean): void
     /**
      * Deactivates the automatic selection of shaman.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableAutoShaman(activate?: boolean): void
-
+    export function disableAutoShaman(activate?: boolean): void
     /**
      * Deactivates the automatic remaining time change to 20s (when the shaman dies for example).
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableAutoTimeLeft(activate?: boolean): void
-
+    export function disableAutoTimeLeft(activate?: boolean): void
     /**
      * Disables the effects of the /debug command.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableDebugCommand(activate?: boolean): void
-
+    export function disableDebugCommand(activate?: boolean): void
     /**
      * Disables the minimalist mode.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableMinimalistMode(activate?: boolean): void
-
+    export function disableMinimalistMode(activate?: boolean): void
     /**
      * Disables the /mort command.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableMortCommand(activate?: boolean): void
-
+    export function disableMortCommand(activate?: boolean): void
     /**
      * Deactivates physical consumables (like in racing and bootcamp rooms).
      * @param active whether the deactivation should be active (default `true`)
      */
-    function disablePhysicalConsumables(active?: boolean): void
-
+    export function disablePhysicalConsumables(active?: boolean): void
     /**
      * Enables or disables the shaman objects prespawn preview.
      * @param display whether the prespawn preview should not be displayed (default `true`)
      */
-    function disablePrespawnPreview(display?: boolean): void
-
+    export function disablePrespawnPreview(display?: boolean): void
     /**
      * Disables the effects of the /watch command.
      * @param activate whether the deactivation should be active (default `true`)
      */
-    function disableWatchCommand(activate?: boolean): void
-
+    export function disableWatchCommand(activate?: boolean): void
     /**
      * Displays a particle.
      * @param particleType the kind of particle you want to display
@@ -363,8 +322,7 @@ declare namespace tfm {
      * @param yAcceleration the vertical acceleration of the particle (default `0`)
      * @param targetPlayer the player who should see the particle (if nil, applies to all players) (default `null`)
      */
-    function displayParticle(particleType: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, xSpeed?: number, ySpeed?: number, xAcceleration?: number, yAcceleration?: number, targetPlayer?: string): void
-
+    export function displayParticle(particleType: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, xSpeed?: number, ySpeed?: number, xAcceleration?: number, yAcceleration?: number, targetPlayer?: string): void
     /**
      * Throws an explosion.
      * @param xPosition the horizontal coordinate of the center of the explosion
@@ -373,72 +331,62 @@ declare namespace tfm {
      * @param radius the explosion radius (players further away won't be affected)
      * @param miceOnly whether the explosion should affect only mice, or objects too (default `false`)
      */
-    function explosion(xPosition: tfm.integer, yPosition: tfm.integer, power: tfm.integer, radius: tfm.integer, miceOnly?: boolean): void
-
+    export function explosion(xPosition: tfm.integer, yPosition: tfm.integer, power: tfm.integer, radius: tfm.integer, miceOnly?: boolean): void
     /**
      * Freezes the selected player.
      * @param playerName the player to freeze
      * @param freeze whether the player should be frozen (default `true`)
      * @param displayIce whether the ice sprite should be shown on the player (default `true`)
      */
-    function freezePlayer(playerName: string, freeze?: boolean, displayIce?: boolean): void
-
+    export function freezePlayer(playerName: string, freeze?: boolean, displayIce?: boolean): void
     /**
      * Gets the player who is the room's current synchronizer.
      *
      * Module team only.
      * @returns the player's nickname
      */
-    function getPlayerSync(): string
-
+    export function getPlayerSync(): string
     /**
      * Gives the cheese to a player.
      * @param playerName the player who should get the cheese
      */
-    function giveCheese(playerName: string): void
-
+    export function giveCheese(playerName: string): void
     /**
      * Gives consumables to the targeted player.
      * @param playerName the player to give the gift to
      * @param consumableId the consumable identifier
      * @param amount the amount of consumables to give (default `"1"`)
      */
-    function giveConsumables(playerName: string, consumableId: string, amount?: string): void
-
+    export function giveConsumables(playerName: string, consumableId: string, amount?: string): void
     /**
      * Gives the meep competence to a player, or removes it.
      * @param playerName the player's nickname
      * @param canMeep whether the player should be able to meep (default `true`)
      */
-    function giveMeep(playerName: string, canMeep?: boolean): void
-
+    export function giveMeep(playerName: string, canMeep?: boolean): void
     /**
      * Gives the transformations to a player, or removes them.
      * @param playerName the player's nickname
      * @param canTransform whether the player should be able to use transformations (default `true`)
      */
-    function giveTransformations(playerName: string, canTransform?: boolean): void
-
+    export function giveTransformations(playerName: string, canTransform?: boolean): void
     /**
      * Kills the selected player.
      * @param playerName the player to kill
      */
-    function killPlayer(playerName: string): void
-
+    export function killPlayer(playerName: string): void
     /**
      * Allows to link players like in soulmate maps.
      * @param playerName1 the first player's nickname
      * @param playerName2 the second player's nickname
      * @param linked whether the two players should be linked (default `true`)
      */
-    function linkMice(playerName1: string, playerName2: string, linked?: boolean): void
-
+    export function linkMice(playerName1: string, playerName2: string, linked?: boolean): void
     /**
      * Lowers the synchronization delay of a player to 400ms max
      * @param playerName the player who should have a lower sync delay
      */
-    function lowerSyncDelay(playerName: string): void
-
+    export function lowerSyncDelay(playerName: string): void
     /**
      * Defines the speed and position of a shaman object.
      * @param objectId the shaman object identifier
@@ -451,8 +399,7 @@ declare namespace tfm {
      * @param angle the angle of the the object (default `0`)
      * @param angleOffset whether the specified angle is an offset to apply to the current one, or the absolute one (default `false`)
      */
-    function moveObject(objectId: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean, angle?: tfm.integer, angleOffset?: boolean): void
-
+    export function moveObject(objectId: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean, angle?: tfm.integer, angleOffset?: boolean): void
     /**
      * Defines the speed and position of a physic object.
      * @param objectId The physic object identifier
@@ -465,8 +412,7 @@ declare namespace tfm {
      * @param angle the angle of the the object (default `0`)
      * @param angleOffset whether the specified angle is an offset to apply to the current one, or the absolute one (default `false`)
      */
-    function movePhysicObject(objectId: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean, angle?: tfm.integer, angleOffset?: boolean): void
-
+    export function movePhysicObject(objectId: tfm.integer, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean, angle?: tfm.integer, angleOffset?: boolean): void
     /**
      * Defines the speed and position of a player.
      * @param playerName the player to move
@@ -477,8 +423,7 @@ declare namespace tfm {
      * @param ySpeed the vertical coordinate of the speed to give to the player (default `0`)
      * @param speedOffset whether the specified speed an offset to apply to the current one, or the absolute one (default `false`)
      */
-    function movePlayer(playerName: string, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean): void
-
+    export function movePlayer(playerName: string, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean): void
     /**
      * Starts a new game
      * @param mapCode the map code (default `null`)
@@ -489,176 +434,149 @@ declare namespace tfm {
      *     - anything beginning with '<' (xml map)
      * @param flipped whether the map should be flipped (default `nil (randomly mirrored in racing and bootcamp rooms, unless)`)
      */
-    function newGame(mapCode?: string, flipped?: boolean): void
-
+    export function newGame(mapCode?: string, flipped?: boolean): void
     /**
      * Makes a player do an emote.
      * @param playerName the player who should do the emote
      * @param emoteId the emote to do
      * @param emoteArg the emote attribute (for the flag emote for example) (default `null`)
      */
-    function playEmote(playerName: string, emoteId: tfm.integer, emoteArg?: string): void
-
+    export function playEmote(playerName: string, emoteId: tfm.integer, emoteArg?: string): void
     /**
      * Makes a player enter the hole. It only works if the player already has a cheese!
      * @param playerName the player who should win
      */
-    function playerVictory(playerName: string): void
-
+    export function playerVictory(playerName: string): void
     /**
      * Removes a defilante bonus (token).
      * @param id the identifier of the bonus (default `0`)
      * @param targetPlayer the player whom should have the bonus removed (if nil, applies to all players) (default `null`)
      */
-    function removeBonus(id?: tfm.integer, targetPlayer?: string): void
-
+    export function removeBonus(id?: tfm.integer, targetPlayer?: string): void
     /**
      * Takes away the cheese from a player.
      * @param playerName the player who should get their cheese removed
      */
-    function removeCheese(playerName: string): void
-
+    export function removeCheese(playerName: string): void
     /**
      * Removes an image.
      * @param imageId the image identifier
      */
-    function removeImage(imageId: tfm.integer): void
-
+    export function removeImage(imageId: tfm.integer): void
     /**
      * Removes a joint from the game.
      * @param id the identifier of the joint to remove
      */
-    function removeJoint(id: tfm.integer): void
-
+    export function removeJoint(id: tfm.integer): void
     /**
      * Removes a shaman object.
      * @param objectId the shaman object identifier
      */
-    function removeObject(objectId: tfm.integer): void
-
+    export function removeObject(objectId: tfm.integer): void
     /**
      * Removes a ground from the game.
      * @param id the identifier of the ground to remove
      */
-    function removePhysicObject(id: tfm.integer): void
-
+    export function removePhysicObject(id: tfm.integer): void
     /**
      * Respawns a player.
      * @param playerName the player to respawn
      */
-    function respawnPlayer(playerName: string): void
-
+    export function respawnPlayer(playerName: string): void
     /**
      * Enable 'Aie' mode when mice can die when they hit something too hard. Last until the next map.
      * @param enable Enabled or disable 'Aie' mode. (default `true`)
      * @param sensibility Sensibility of the 'Aie' mode. (default `1`)
      * @param targetPlayer Target player (nil for all player in room). (default `null`)
      */
-    function setAieMode(enable?: boolean, sensibility?: number, targetPlayer?: string): void
-
+    export function setAieMode(enable?: boolean, sensibility?: number, targetPlayer?: string): void
     /**
      * Sets whether the following maps should be flipped (always, never, or TFM's default behaviour).
      * @param flipped whether the maps should be flipped (default `nil (the default TFM behaviour)`)
      */
-    function setAutoMapFlipMode(flipped?: boolean): void
-
+    export function setAutoMapFlipMode(flipped?: boolean): void
     /**
      * Sets the game remaining time.
      * @param time the remaining time in seconds
      * @param init whether the remaining time should change even if the specified remaining time is higher than the current one (default `true`)
      */
-    function setGameTime(time: tfm.integer, init?: boolean): void
-
+    export function setGameTime(time: tfm.integer, init?: boolean): void
     /**
      * Changes a player's nickname's color.
      * @param playerName the player whose nickname  should be colored
      * @param color the color of the nickname
      */
-    function setNameColor(playerName: string, color: tfm.integer): void
-
+    export function setNameColor(playerName: string, color: tfm.integer): void
     /**
      * Set the world gravity and wind scale for a player.
      * @param playerName Targeted player name.
      * @param gravityScale Gravity scale value. (default `1`)
      * @param windScale Wind scale value. (default `1`)
      */
-    function setPlayerGravityScale(playerName: string, gravityScale?: number, windScale?: number): void
-
+    export function setPlayerGravityScale(playerName: string, gravityScale?: number, windScale?: number): void
     /**
      * Set the night mode for a player.
      * @param nightMode Enable or disable the night mode. (default `true`)
      * @param playerName Targeted player name. If nil affect all player in room. (default `null`)
      */
-    function setPlayerNightMode(nightMode?: boolean, playerName?: string): void
-
+    export function setPlayerNightMode(nightMode?: boolean, playerName?: string): void
     /**
      * Sets the player's score.
      * @param playerName the player who should get his or her score changed
      * @param score the score
      * @param add whether the current score should be added to the specified one (default `false`)
      */
-    function setPlayerScore(playerName: string, score: tfm.integer, add?: boolean): void
-
+    export function setPlayerScore(playerName: string, score: tfm.integer, add?: boolean): void
     /**
      * Changes the room's current synchronizer (or resets it).
      *
      * Module team only.
      * @param playerName the player who should become the room sync (use nil to let the server decide)
      */
-    function setPlayerSync(playerName: string): void
-
+    export function setPlayerSync(playerName: string): void
     /**
      * Sets the max number of players in a room.
      * @param maxPlayers the maximum number of players the room can hold
      */
-    function setRoomMaxPlayers(maxPlayers: tfm.integer): void
-
+    export function setRoomMaxPlayers(maxPlayers: tfm.integer): void
     /**
      * Password-protects a room.
      * @param password the string to set as the password (an empty string removes the protection)
      */
-    function setRoomPassword(password: string): void
-
+    export function setRoomPassword(password: string): void
     /**
      * Makes a player a shaman.
      * @param playerName the player who should become a shaman
      * @param makeAShaman whether the player should be a shaman (default `true`)
      */
-    function setShaman(playerName: string, makeAShaman?: boolean): void
-
+    export function setShaman(playerName: string, makeAShaman?: boolean): void
     /**
      * Changes the shaman mode of a player.
      * @param playerName the player's nickname who will have another shaman mode
      * @param mode the new shaman mode of the target (use nil to use the player's real mode) (default `null`)
      */
-    function setShamanMode(playerName: string, mode?: tfm.integer): void
-
+    export function setShamanMode(playerName: string, mode?: tfm.integer): void
     /**
      * Makes a player a vampire.
      * @param playerName the player to make a vampire
      * @param makeAVampire whether the player should be a vampire (default `true`)
      */
-    function setVampirePlayer(playerName: string, makeAVampire?: boolean): void
-
+    export function setVampirePlayer(playerName: string, makeAVampire?: boolean): void
     /**
      * Changes the world acceleration along the horizontal (wind) and vertical (gravity) axes.
      * @param xAcceleration the horizontal acceleration of the world (default `0`)
      * @param yAcceleration the vertical acceleration of the world (default `10`)
      */
-    function setWorldGravity(xAcceleration?: tfm.integer, yAcceleration?: tfm.integer): void
-
+    export function setWorldGravity(xAcceleration?: tfm.integer, yAcceleration?: tfm.integer): void
     /**
      * Makes the snow fall.
      * @param duration the snowfall duration in seconds (default `60`)
      * @param snowballPower  (default `10`)
      */
-    function snow(duration?: tfm.integer, snowballPower?: tfm.integer): void
+    export function snow(duration?: tfm.integer, snowballPower?: tfm.integer): void
   }
-
 }
-
 declare namespace ui {
-
   /**
    * Displays a popup.
    * @param id the identifier of the popup
@@ -670,8 +588,7 @@ declare namespace ui {
    * @param width the width in pixels of the popup (if 0, it will be ajusted to the text width) (default `0`)
    * @param fixedPos whether the position is fixed or if it should follow the player's camera on long maps (default `false`)
    */
-  function addPopup(id: tfm.integer, type: tfm.integer, text: string, targetPlayer: string, x?: tfm.integer, y?: tfm.integer, width?: tfm.integer, fixedPos?: boolean): void
-
+  export function addPopup(id: tfm.integer, type: tfm.integer, text: string, targetPlayer: string, x?: tfm.integer, y?: tfm.integer, width?: tfm.integer, fixedPos?: boolean): void
   /**
    * Displays a text area.
    * @param id the identifier of the text area
@@ -686,33 +603,28 @@ declare namespace ui {
    * @param backgroundAlpha the background's opacity, from 0 (transparent) to 1 (opaque) (default `1`)
    * @param fixedPos whether the position is fixed or if it should follow the player's camera on long maps (default `false`)
    */
-  function addTextArea(id: tfm.integer, text: string, targetPlayer?: string, x?: tfm.integer, y?: tfm.integer, width?: tfm.integer, height?: tfm.integer, backgroundColor?: tfm.integer, borderColor?: tfm.integer, backgroundAlpha?: number, fixedPos?: boolean): void
-
+  export function addTextArea(id: tfm.integer, text: string, targetPlayer?: string, x?: tfm.integer, y?: tfm.integer, width?: tfm.integer, height?: tfm.integer, backgroundColor?: tfm.integer, borderColor?: tfm.integer, backgroundAlpha?: number, fixedPos?: boolean): void
   /**
    * Removes a text area.
    * @param id the identifier of the text area
    * @param targetPlayer the player whom the text area will disappear (if nil, applies to all players) (default `null`)
    */
-  function removeTextArea(id: tfm.integer, targetPlayer?: string): void
-
+  export function removeTextArea(id: tfm.integer, targetPlayer?: string): void
   /**
    * Set the background color. Last one game.
    * @param color Background color. (default `"#6A7495"`)
    */
-  function setBackgroundColor(color?: string): void
-
+  export function setBackgroundColor(color?: string): void
   /**
    * Sets the map name.
    * @param text the text to display as the map name
    */
-  function setMapName(text: string): void
-
+  export function setMapName(text: string): void
   /**
    * Sets the shaman name.
    * @param text the text to display as the shaman name
    */
-  function setShamanName(text: string): void
-
+  export function setShamanName(text: string): void
   /**
    * Displays a color picker.
    * @param id the identifier of the color picker
@@ -720,14 +632,12 @@ declare namespace ui {
    * @param defaultColor the default color on the color picker (default `0`)
    * @param title the title of the color picker (default `null`)
    */
-  function showColorPicker(id: tfm.integer, targetPlayer?: string, defaultColor?: tfm.integer, title?: string): void
-
+  export function showColorPicker(id: tfm.integer, targetPlayer?: string, defaultColor?: tfm.integer, title?: string): void
   /**
    * Updates the content of a text area.
    * @param id the identifier of the text area
    * @param text the new text to display
    * @param targetPlayer the player who will get displayed the new text (if nil, applies to all players) (default `null`)
    */
-  function updateTextArea(id: tfm.integer, text: string, targetPlayer?: string): void
+  export function updateTextArea(id: tfm.integer, text: string, targetPlayer?: string): void
 }
-

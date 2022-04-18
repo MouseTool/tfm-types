@@ -7,6 +7,7 @@ import {
   LiteralExportable,
   nullExportable,
   stringExportable,
+  UnionExportable,
 } from "./exportTypes";
 import { DocEvent } from "./luahelp-events";
 
@@ -29,14 +30,50 @@ function fixParam(
 // Edit modifiers here
 const modifiers: IOverrideModify[] = [
   {
+    name: "eventEmotePlayed",
+    modify: (evtFn) => {
+      // Point to enum for TS
+      const pEmoteType = evtFn.params.get("emoteType");
+      pEmoteType.setType(
+        new IndependentLiteralExportable({
+          lua: pEmoteType.type.asLua(),
+          ts: "tfm.Enums.EmoteType",
+        })
+      );
+
+      // Optional emoteParam
+      const pEmoteParam = evtFn.params.get("emoteParam");
+      pEmoteParam.setType(
+        new UnionExportable([pEmoteParam.type, nullExportable])
+      );
+    },
+  },
+
+  {
+    name: "eventPlayerBonusGrabbed",
+    modify: (evtFn) => {
+      // Point to enum for TS
+      const pBonusId = evtFn.params.get("bonusId");
+      pBonusId.setType(
+        new IndependentLiteralExportable({
+          lua: pBonusId.type.asLua(),
+          ts: "tfm.Enums.BonusType",
+        })
+      );
+    },
+  },
+
+  {
     name: "eventContactListener",
     modify: (evtFn) => {
       // Point to enum for TS
       const pGroundId = evtFn.params.get("groundId");
-      pGroundId.setType({
-        asLua: pGroundId.type.asLua,
-        asTs: () => "tfm.enum.GroundType",
-      });
+      pGroundId.setType(
+        new IndependentLiteralExportable({
+          lua: pGroundId.type.asLua(),
+          ts: "tfm.Enums.GroundType",
+        })
+      );
 
       // Point to proper interface
       evtFn.params

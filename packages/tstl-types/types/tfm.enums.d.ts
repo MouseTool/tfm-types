@@ -2,26 +2,16 @@
 
 declare namespace tfm {
   namespace $enum {
-    namespace bonus {
-      const point = 0;
+    export namespace bonus {
+      export const point = 0;
       const speed = 1;
       const death = 2;
       const spring = 3;
       const booster = 5;
       const electricArc = 6;
     }
-
-    const enum BonusType {
-      point = 0,
-      speed = 1,
-      death = 2,
-      spring = 3,
-      booster = 5,
-      electricArc = 6,
-    }
-
-    namespace emote {
-      const dance = 0;
+    export namespace emote {
+      export const dance = 0;
       const laugh = 1;
       const cry = 2;
       const kiss = 3;
@@ -42,32 +32,8 @@ declare namespace tfm {
       const carnaval = 24;
       const rockpaperscissors = 25;
     }
-
-    const enum EmoteType {
-      dance = 0,
-      laugh = 1,
-      cry = 2,
-      kiss = 3,
-      angry = 4,
-      clap = 5,
-      sleep = 6,
-      facepaw = 7,
-      sit = 8,
-      confetti = 9,
-      flag = 10,
-      marshmallow = 11,
-      selfie = 12,
-      highfive = 13,
-      partyhorn = 16,
-      hug = 17,
-      jigglypuff = 20,
-      kissing = 21,
-      carnaval = 24,
-      rockpaperscissors = 25,
-    }
-
-    namespace ground {
-      const wood = 0;
+    export namespace ground {
+      export const wood = 0;
       const ice = 1;
       const trampoline = 2;
       const lava = 3;
@@ -87,31 +53,8 @@ declare namespace tfm {
       const pinkGrass = 18;
       const acid = 19;
     }
-
-    const enum GroundType {
-      wood = 0,
-      ice = 1,
-      trampoline = 2,
-      lava = 3,
-      chocolate = 4,
-      earth = 5,
-      grass = 6,
-      sand = 7,
-      cloud = 8,
-      water = 9,
-      stone = 10,
-      snow = 11,
-      rectangle = 12,
-      circle = 13,
-      invisible = 14,
-      web = 15,
-      yellowGrass = 17,
-      pinkGrass = 18,
-      acid = 19,
-    }
-
-    namespace particle {
-      const whiteGlitter = 0;
+    export namespace particle {
+      export const whiteGlitter = 0;
       const blueGlitter = 1;
       const orangeGlitter = 2;
       const cloud = 3;
@@ -151,51 +94,8 @@ declare namespace tfm {
       const yellowCandyConfetti = 39;
       const pinkCandyConfetti = 40;
     }
-
-    const enum ParticleType {
-      whiteGlitter = 0,
-      blueGlitter = 1,
-      orangeGlitter = 2,
-      cloud = 3,
-      dullWhiteGlitter = 4,
-      heart = 5,
-      bubble = 6,
-      tealGlitter = 9,
-      spirit = 10,
-      yellowGlitter = 11,
-      ghostSpirit = 12,
-      redGlitter = 13,
-      waterBubble = 14,
-      plus1 = 15,
-      plus10 = 16,
-      plus12 = 17,
-      plus14 = 18,
-      plus16 = 19,
-      meep = 20,
-      redConfetti = 21,
-      greenConfetti = 22,
-      blueConfetti = 23,
-      yellowConfetti = 24,
-      diagonalRain = 25,
-      curlyWind = 26,
-      wind = 27,
-      rain = 28,
-      star = 29,
-      littleRedHeart = 30,
-      littlePinkHeart = 31,
-      daisy = 32,
-      bell = 33,
-      egg = 34,
-      projection = 35,
-      mouseTeleportation = 36,
-      shamanTeleportation = 37,
-      lollipopConfetti = 38,
-      yellowCandyConfetti = 39,
-      pinkCandyConfetti = 40,
-    }
-
-    namespace shamanObject {
-      const arrow = 0;
+    export namespace shamanObject {
+      export const arrow = 0;
       const littleBox = 1;
       const box = 2;
       const littleBoard = 3;
@@ -234,49 +134,140 @@ declare namespace tfm {
       const tombstone = 90;
       const paperBall = 95;
     }
-
-    const enum ShamanObjectType {
-      arrow = 0,
-      littleBox = 1,
-      box = 2,
-      littleBoard = 3,
-      board = 4,
-      ball = 6,
-      trampoline = 7,
-      anvil = 10,
-      cannon = 17,
-      bomb = 23,
-      orangePortal = 26,
-      blueBalloon = 28,
-      redBalloon = 29,
-      greenBalloon = 30,
-      yellowBalloon = 31,
-      rune = 32,
-      chicken = 33,
-      snowBall = 34,
-      cupidonArrow = 35,
-      apple = 39,
-      sheep = 40,
-      littleBoardIce = 45,
-      littleBoardChocolate = 46,
-      iceCube = 54,
-      cloud = 57,
-      bubble = 59,
-      tinyBoard = 60,
-      companionCube = 61,
-      stableRune = 62,
-      balloonFish = 65,
-      longBoard = 67,
-      triangle = 68,
-      sBoard = 69,
-      paperPlane = 80,
-      rock = 85,
-      pumpkinBall = 89,
-      tombstone = 90,
-      paperBall = 95,
-    }
-
   }
-
   export { $enum as enum }
+  export namespace Enums {
+    export const enum BonusType {
+        point = 0,
+        speed = 1,
+        death = 2,
+        spring = 3,
+        booster = 5,
+        electricArc = 6,
+    }
+    export const enum EmoteType {
+        dance = 0,
+        laugh = 1,
+        cry = 2,
+        kiss = 3,
+        angry = 4,
+        clap = 5,
+        sleep = 6,
+        facepaw = 7,
+        sit = 8,
+        confetti = 9,
+        flag = 10,
+        marshmallow = 11,
+        selfie = 12,
+        highfive = 13,
+        partyhorn = 16,
+        hug = 17,
+        jigglypuff = 20,
+        kissing = 21,
+        carnaval = 24,
+        rockpaperscissors = 25,
+    }
+    export const enum GroundType {
+        wood = 0,
+        ice = 1,
+        trampoline = 2,
+        lava = 3,
+        chocolate = 4,
+        earth = 5,
+        grass = 6,
+        sand = 7,
+        cloud = 8,
+        water = 9,
+        stone = 10,
+        snow = 11,
+        rectangle = 12,
+        circle = 13,
+        invisible = 14,
+        web = 15,
+        yellowGrass = 17,
+        pinkGrass = 18,
+        acid = 19,
+    }
+    export const enum ParticleType {
+        whiteGlitter = 0,
+        blueGlitter = 1,
+        orangeGlitter = 2,
+        cloud = 3,
+        dullWhiteGlitter = 4,
+        heart = 5,
+        bubble = 6,
+        tealGlitter = 9,
+        spirit = 10,
+        yellowGlitter = 11,
+        ghostSpirit = 12,
+        redGlitter = 13,
+        waterBubble = 14,
+        plus1 = 15,
+        plus10 = 16,
+        plus12 = 17,
+        plus14 = 18,
+        plus16 = 19,
+        meep = 20,
+        redConfetti = 21,
+        greenConfetti = 22,
+        blueConfetti = 23,
+        yellowConfetti = 24,
+        diagonalRain = 25,
+        curlyWind = 26,
+        wind = 27,
+        rain = 28,
+        star = 29,
+        littleRedHeart = 30,
+        littlePinkHeart = 31,
+        daisy = 32,
+        bell = 33,
+        egg = 34,
+        projection = 35,
+        mouseTeleportation = 36,
+        shamanTeleportation = 37,
+        lollipopConfetti = 38,
+        yellowCandyConfetti = 39,
+        pinkCandyConfetti = 40,
+    }
+    export const enum ShamanObjectType {
+        arrow = 0,
+        littleBox = 1,
+        box = 2,
+        littleBoard = 3,
+        board = 4,
+        ball = 6,
+        trampoline = 7,
+        anvil = 10,
+        cannon = 17,
+        bomb = 23,
+        orangePortal = 26,
+        blueBalloon = 28,
+        redBalloon = 29,
+        greenBalloon = 30,
+        yellowBalloon = 31,
+        rune = 32,
+        chicken = 33,
+        snowBall = 34,
+        cupidonArrow = 35,
+        apple = 39,
+        sheep = 40,
+        littleBoardIce = 45,
+        littleBoardChocolate = 46,
+        iceCube = 54,
+        cloud = 57,
+        bubble = 59,
+        tinyBoard = 60,
+        companionCube = 61,
+        stableRune = 62,
+        balloonFish = 65,
+        longBoard = 67,
+        triangle = 68,
+        sBoard = 69,
+        paperPlane = 80,
+        rock = 85,
+        pumpkinBall = 89,
+        tombstone = 90,
+        paperBall = 95,
+    }
+  }
 }

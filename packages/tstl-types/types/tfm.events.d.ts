@@ -20,7 +20,7 @@ declare var eventChatMessage: (this: void, playerName: string, message: string) 
  * @param emoteType the type of emote played
  * @param emoteParam the parameter used with the emote (only applies to the flag one)
  */
-declare var eventEmotePlayed: (this: void, playerName: string, emoteType: tfm.integer, emoteParam: string) => void;
+declare var eventEmotePlayed: (this: void, playerName: string, emoteType: tfm.Enums.EmoteType, emoteParam: string | null) => void;
 
 /**
  * This event is triggered when a file gets fully loaded.
@@ -95,7 +95,7 @@ declare var eventPlayerGetCheese: (this: void, playerName: string) => void;
  * @param playerName The player who grabbed the bonus.
  * @param bonusId Bonus identifier.
  */
-declare var eventPlayerBonusGrabbed: (this: void, playerName: string, bonusId: tfm.integer) => void;
+declare var eventPlayerBonusGrabbed: (this: void, playerName: string, bonusId: tfm.Enums.BonusType) => void;
 
 /**
  * This event is triggered when a player leaves the room.
@@ -192,7 +192,7 @@ declare var eventColorPicked: (this: void, colorPickerId: tfm.integer, playerNam
  * @param groundId ground identifier
  * @param contactInfos Collision informations
  */
-declare var eventContactListener: (this: void, playerName: string, groundId: tfm.enum.GroundType, contactInfos: tfm.ContactDef) => void;
+declare var eventContactListener: (this: void, playerName: string, groundId: tfm.Enums.GroundType, contactInfos: tfm.ContactDef) => void;
 
 /**
  * This event is triggered when a player click on a NPC.

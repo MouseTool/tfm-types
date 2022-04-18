@@ -1,6 +1,6 @@
 import { LuaHelpTreeTableNode } from "@cassolette/luahelpparser";
 import Converter from "./converter.interfaces";
-import { isReservedTsKeyword } from "./doc-helpers";
+import { isReservedTsKeyword, TSNamespace } from "./doc-helpers";
 
 class LDocTableNode {
   public children: LDocTableNode[];
@@ -56,64 +56,46 @@ class LDocTableNode {
     return newLines;
   }
 
-  exportTstl(depth = 0) {
-    const newLines: string[] = [];
+  /**
+   * Recursively writes content to enum namespaces.
+   * @param enumNs `tfm.enum.X.X`
+   * @param enumTypeNs `tfm.Enums.X`
+   */
+  writeTstlNamespace(enumNs: TSNamespace, enumTypeNs: TSNamespace) {
+    const isEnum = this.ast?.children[0]?.type === "value";
 
-    const pushNamespaceOrEnum = (isEnum: boolean) => {
-      // Avoid reserved words
-      const isReservedName = !isEnum && isReservedTsKeyword(this.name);
-      const namespaceName = isReservedName ? "$" + this.name : this.name;
-
-      const singleIndentStr = " ".repeat(2);
-      let indentStr = singleIndentStr.repeat(depth);
-
-      if (isEnum) {
-        const capsName =
-          namespaceName.charAt(0).toUpperCase() + namespaceName.slice(1);
-        newLines.push(indentStr + `const enum ${capsName}Type {`);
-      } else {
-        newLines.push(
-          indentStr +
-            `${depth === 0 ? "declare " : ""}namespace ${namespaceName} {`
-        );
-      }
-
-      indentStr = singleIndentStr.repeat(++depth);
-
-      for (const c of this.children) {
-        newLines.push(...c.exportTstl(depth));
-      }
-
-      if (this.ast) {
-        for (const entry of this.ast.children) {
-          if (entry.type !== "value") continue;
-          const def = isEnum
-            ? `${entry.name} = ${entry.value},`
-            : `const ${entry.name} = ${entry.value};`;
-          newLines.push(indentStr + def);
-        }
-      }
-
-      indentStr = singleIndentStr.repeat(--depth);
-
-      newLines.push(indentStr + "}");
-      newLines.push("");
-
-      if (isReservedName) {
-        newLines.push(
-          indentStr + `export { ${namespaceName} as ${this.name} }`
-        );
-      }
-    };
-
-    pushNamespaceOrEnum(false); // Namespace
-    if (this.ast?.children[0]?.type === "value") {
-      // Export a const enum type to provide an option to compile enums into literals, or use them
-      // as types.
-      pushNamespaceOrEnum(true); // Enum
+    for (const c of this.children) {
+      c.writeTstlNamespace(enumNs.navigate(c.name), enumTypeNs);
     }
 
-    return newLines;
+    if (!isEnum) {
+      // Nothing else to do.
+      return;
+    }
+
+    const enumNsContent: string[] = [];
+    const enumTypeNsContent: string[] = [];
+
+    for (const entry of this.ast.children) {
+      if (entry.type !== "value") continue;
+      // const def = isEnum
+      //   ? `${entry.name} = ${entry.value},`
+      //   : `const ${entry.name} = ${entry.value};`;
+      // newLines.push(indentStr + def);
+      enumNsContent.push(`const ${entry.name} = ${entry.value};`);
+      enumTypeNsContent.push(`    ${entry.name} = ${entry.value},`);
+    }
+
+    enumNs.pushStatement([...enumNsContent]);
+    // Create new enum in the Enums namespace.
+    // Export a const enum type to provide an option to compile enums into literals, or use them
+    // as types.
+    const capsName = this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    enumTypeNs.pushStatement([
+      `const enum ${capsName}Type {`,
+      ...enumTypeNsContent,
+      "}",
+    ]);
   }
 }
 
@@ -136,9 +118,17 @@ export const tstlEnumsConverter = {
     const globalNode = LDocTableNode.fromAst(luaHelpAst.tree);
     const enumNode = globalNode.navigate("tfm").navigate("enum");
 
-    const toExportNode = new LDocTableNode("tfm");
-    toExportNode.addChild(enumNode);
+    const globalNs = TSNamespace.createGlobal();
+    const enumNs = globalNs.navigate("tfm").navigate(enumNode.name);
+    const enumTypeNs = globalNs.navigate("tfm").navigate("Enums");
 
-    return toExportNode.exportTstl();
+    // Populate namespaces
+    enumNode.writeTstlNamespace(enumNs, enumTypeNs);
+
+    const newLines: string[] = [];
+    newLines.push(...globalNs.exportTstl());
+    newLines.push("");
+
+    return newLines;
   },
 } as Converter;

@@ -61,31 +61,25 @@ export class DocFunc {
     return lines;
   }
   /**
-   * Exports the function declaration for TypeScript.
+   * Exports the function declaration (without the JSDoc comments).
    *
    * Requires `name` supplied.
    */
-  exportTsDocLines() {
+  exportTsFuncDeclare() {
     if (!this.name) {
       throw new Error('"name" must be supplied to call exportTsDocLines()');
     }
 
-    const lines: string[] = this.exportJsDocCommentLines();
-
     // Build TS function declaration
-    lines.push(
-      `function ${this.name}(${this.parameters
-        .map((p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asTs()}`)
-        .join(", ")}): ${
-        this.returnType
-          ? `${this.returnType.type.asTs()}${
-              this.returnType.isOptional ? " | undefined" : ""
-            }`
-          : "void"
-      }`
-    );
-
-    return lines;
+    return `function ${this.name}(${this.parameters
+      .map((p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asTs()}`)
+      .join(", ")}): ${
+      this.returnType
+        ? `${this.returnType.type.asTs()}${
+            this.returnType.isOptional ? " | undefined" : ""
+          }`
+        : "void"
+    }`;
   }
 
   /**
@@ -195,18 +189,20 @@ export function isReservedTsKeyword(word: string) {
 
 export class TSNamespace {
   children: Map<string, TSNamespace>;
-  content: string[];
+  contents: { type: "statement" | "content"; value: string[] }[];
+  singleIndentString: string;
 
-  private constructor(public name?: string, public parent?: TSNamespace) {
+  constructor(public name?: string, public parent?: TSNamespace) {
     this.children = new Map<string, TSNamespace>();
-    this.content = [];
+    this.contents = [];
+    this.singleIndentString = "  ";
   }
 
   static createGlobal() {
     return new TSNamespace("globalThis");
   }
 
-  get isGlobal() {
+  get isRoot() {
     return this.parent == null;
   }
 
@@ -222,51 +218,68 @@ export class TSNamespace {
     return child;
   }
 
-  pushContent(...content: string[]) {
-    this.content.push("", ...content);
+  pushContent(content: string[]) {
+    this.contents.push({ type: "content", value: content });
   }
 
-  exportTstl(depth = 0) {
-    if (this.isGlobal) {
-      const newLines: string[] = [];
-      for (const c of this.children.values()) {
-        newLines.push(...c.exportTstl(depth));
-      }
-      return newLines;
+  pushStatement(statement: string[]) {
+    if (statement.length === 0) {
+      throw new Error("Tried to push empty statement?");
     }
+    this.contents.push({ type: "statement", value: statement });
+  }
 
-    // Avoid reserved words
-    const isReservedName = isReservedTsKeyword(this.name);
-    const namespaceName = isReservedName ? "$" + this.name : this.name;
+  /**
+   * If the namespace's name is a reserved keyword, this function returns its internal
+   */
+  internalName() {}
 
-    const singleIndentStr = " ".repeat(2);
-    let indentStr = singleIndentStr.repeat(depth);
+  /**
+   * Exports the namespace content.
+   */
+  exportTstl(depth = 0) {
+    const indentStr = this.singleIndentString.repeat(depth);
 
     const newLines: string[] = [];
-
-    newLines.push(
-      indentStr +
-        `${this.parent.isGlobal ? "declare " : ""}namespace ${namespaceName} {`
-    );
-
-    indentStr = singleIndentStr.repeat(++depth);
+    // const endingLines = [];
 
     for (const c of this.children.values()) {
-      newLines.push(...c.exportTstl(depth));
+      // Avoid reserved words
+      const isReservedName = isReservedTsKeyword(c.name);
+      const namespaceName = isReservedName ? "$" + c.name : c.name;
+
+      newLines.push(
+        indentStr +
+          `${
+            this.isRoot ? "declare " : isReservedName ? "" : "export "
+          }namespace ${namespaceName} {`
+      );
+      newLines.push(...c.exportTstl(depth + 1));
+      newLines.push(indentStr + "}");
+
+      if (isReservedName) {
+        newLines.push(indentStr + `export { ${namespaceName} as ${c.name} }`);
+      }
     }
 
-    for (const line of this.content) {
-      newLines.push(line.length > 0 ? indentStr + line : "");
+    for (const contentMeta of this.contents) {
+      if (contentMeta.type === "statement") {
+        newLines.push(
+          indentStr + `${this.isRoot ? "declare" : "export"} ${contentMeta.value[0]}`
+        );
+        for (let i = 1; i < contentMeta.value.length; i++) {
+          newLines.push(indentStr + contentMeta.value[i]);
+        }
+      } else {
+        for (const content of contentMeta.value) {
+          newLines.push(indentStr + content);
+        }
+      }
     }
 
-    indentStr = singleIndentStr.repeat(--depth);
-
-    newLines.push(indentStr + "}");
-    newLines.push("");
-
-    if (isReservedName) {
-      newLines.push(indentStr + `export { ${namespaceName} as ${this.name} }`);
-    }
+    // for (const line of endingLines) {
+    //   newLines.push(line);
+    // }
 
     return newLines;
   }
