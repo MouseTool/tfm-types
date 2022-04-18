@@ -241,7 +241,6 @@ export class TSNamespace {
     const indentStr = this.singleIndentString.repeat(depth);
 
     const newLines: string[] = [];
-    // const endingLines = [];
 
     for (const c of this.children.values()) {
       // Avoid reserved words
@@ -276,10 +275,6 @@ export class TSNamespace {
         }
       }
     }
-
-    // for (const line of endingLines) {
-    //   newLines.push(line);
-    // }
 
     return newLines;
   }

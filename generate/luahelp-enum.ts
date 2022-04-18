@@ -73,20 +73,14 @@ class LDocTableNode {
       return;
     }
 
-    const enumNsContent: string[] = [];
     const enumTypeNsContent: string[] = [];
 
     for (const entry of this.ast.children) {
       if (entry.type !== "value") continue;
-      // const def = isEnum
-      //   ? `${entry.name} = ${entry.value},`
-      //   : `const ${entry.name} = ${entry.value};`;
-      // newLines.push(indentStr + def);
-      enumNsContent.push(`const ${entry.name} = ${entry.value};`);
+      enumNs.pushStatement([`const ${entry.name} = ${entry.value};`]);
       enumTypeNsContent.push(`    ${entry.name} = ${entry.value},`);
     }
 
-    enumNs.pushStatement([...enumNsContent]);
     // Create new enum in the Enums namespace.
     // Export a const enum type to provide an option to compile enums into literals, or use them
     // as types.
