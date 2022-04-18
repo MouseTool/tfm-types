@@ -1,9 +1,9 @@
 # Adapted from https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-github-packages
 
-name: Publish lua-types and tstl-types
+name: Publish tstl-types
 on:
   push:
-    tags: [ "*" ]
+    tags: [ "**/all", "**/tstl" ]
   workflow_dispatch:
 
 jobs:
@@ -18,9 +18,6 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: "https://registry.npmjs.org"
-      - run: yarn publish packages/lua-types
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: yarn publish packages/tstl-types
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
