@@ -183,7 +183,7 @@ export class DocFunc {
 }
 
 // TODO
-export function isReservedTsKeyword(word: string) {
+function isReservedTsKeyword(word: string) {
   return word === "enum";
 }
 

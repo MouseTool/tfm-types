@@ -1,6 +1,6 @@
 import { LuaHelpTreeTableNode } from "@cassolette/luahelpparser";
 import Converter from "./converter.interfaces";
-import { isReservedTsKeyword, TSNamespace } from "./doc-helpers";
+import { TSNamespace } from "./doc-helpers";
 
 class LDocTableNode {
   public children: LDocTableNode[];
@@ -41,7 +41,7 @@ class LDocTableNode {
     const newLines: string[] = [`${prefix} = {}`];
 
     for (const c of this.children) {
-      newLines.push(...c.exportLua(prefix));
+      newLines.push("", ...c.exportLua(prefix));
     }
 
     if (this.ast) {
@@ -50,8 +50,6 @@ class LDocTableNode {
         newLines.push(`${prefix}.${entry.name} = ${entry.value}`);
       }
     }
-
-    newLines.push("");
 
     return newLines;
   }
@@ -99,10 +97,10 @@ export const luaEnumsConverter = {
     const globalNode = LDocTableNode.fromAst(luaHelpAst.tree);
     const enumNode = globalNode.navigate("tfm").navigate("enum");
 
-    const toExportNode = new LDocTableNode("tfm");
-    toExportNode.addChild(enumNode);
-
-    return toExportNode.exportLua();
+    // Write "tfm." prefix passively, don't export `tfm = {}`\
+    const newLines = enumNode.exportLua("tfm");
+    newLines.push("");
+    return newLines;
   },
 } as Converter;
 
