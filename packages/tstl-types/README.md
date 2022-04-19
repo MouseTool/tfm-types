@@ -51,7 +51,7 @@ const id = tfm.enum.bonus.electricArc
 The type library also provides [const enums](https://www.typescriptlang.org/docs/handbook/enums.html#const-enums) for use as types or inlining at compile-time.
 
 ```ts
-const id = tfm.enum.bonus.electricArc as tfm.enum.BonusType
+const id = tfm.enum.bonus.electricArc as tfm.Enums.BonusType
 // ^ id is of type tfm.enum.BonusType
 ```
 
