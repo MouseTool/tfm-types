@@ -1,12 +1,12 @@
 import { parse } from "@cassolette/luahelpparser";
 import { promises as fsp } from "fs";
 import Converter, { LuaHelpDocumentModes } from "./converter.interfaces";
-import { luaEnumsConverter, tstlEnumsConverter } from "./luahelp-enum";
-import { tstlEventsConverter } from "./luahelp-events";
+import { luaEnumsConverter, tstlEnumsConverter } from "./converter.enum";
+import { tstlEventsConverter } from "./converter.events";
 import {
   luaFunctionsConverter,
   tstlFunctionsConverter,
-} from "./luahelp-functions";
+} from "./converter.functions";
 
 async function writeLuaMeta(mode: LuaHelpDocumentModes, lines: string[]) {
   await fsp.writeFile(

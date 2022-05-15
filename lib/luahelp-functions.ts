@@ -1,21 +1,22 @@
 import {
-  LuaHelpEvent,
-  LuaHelpEventParameter,
+  LuaHelpFunction,
+  LuaHelpFunctionParameter,
   LuaHelpFunctionReturn,
 } from "@cassolette/luahelpparser";
-import Converter from "./converter.interfaces";
-import { DocFunc, DocFuncParam } from "./doc-helpers";
+import { DocFunc, DocFuncParam, DocFuncType, TSNamespace } from "./doc-helpers";
 import {
   anyExportable,
   booleanExportable,
   ExportableType,
   FunctionExportable,
   integerExportable,
+  LiteralExportable,
+  nullExportable,
   numberExportable,
   stringExportable,
   tableExportable,
 } from "./exportTypes";
-import { overrides } from "./luahelp-events.overrides";
+import { overrides } from "./luahelp-functions.overrides";
 
 const LUAHELP_TO_EXPORTABLE: Record<string, ExportableType> = {
   String: stringExportable,
@@ -27,10 +28,11 @@ const LUAHELP_TO_EXPORTABLE: Record<string, ExportableType> = {
   Object: anyExportable,
 };
 
-export class DocEventType {
+export class LDocFunctionType {
   constructor(
     public type: ExportableType,
     public description: string = "",
+    public defaultValue?: ExportableType,
     public additionalDescription: string[] = []
   ) {}
 
@@ -38,7 +40,11 @@ export class DocEventType {
     const type = LUAHELP_TO_EXPORTABLE[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
-    return new DocEventType(type, ast.description);
+    return new LDocFunctionType(type, ast.description);
+  }
+
+  get isOptional() {
+    return this.defaultValue != null;
   }
 
   setDescription(description: string) {
@@ -54,7 +60,7 @@ export class DocEventType {
   }
 }
 
-export class DocEventParam extends DocEventType {
+export class LDocFunctionParam extends LDocFunctionType {
   /**
    * The overriden name to export instead of `name`
    */
@@ -64,19 +70,25 @@ export class DocEventParam extends DocEventType {
     public name: string,
     type: ExportableType,
     description?: string,
+    defaultValue?: ExportableType,
     additionalDescription?: string[]
   ) {
-    super(type, description, additionalDescription);
+    super(type, description, defaultValue, additionalDescription);
   }
 
-  static fromAst(ast: LuaHelpEventParameter) {
+  static fromAst(ast: LuaHelpFunctionParameter) {
     const type = LUAHELP_TO_EXPORTABLE[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
-    return new DocEventParam(
+    return new LDocFunctionParam(
       ast.name,
       type,
       ast.description,
+      ast.default
+        ? ast.default === "nil"
+          ? nullExportable
+          : new LiteralExportable(ast.default)
+        : null,
       Array.from(ast.additionalDescriptions)
     );
   }
@@ -90,26 +102,34 @@ export class DocEventParam extends DocEventType {
   }
 }
 
-export class DocEvent {
-  public params: Map<string, DocEventParam>;
+export class LDocFunction {
+  public params: Map<string, LDocFunctionParam>;
 
-  constructor(public name: string, public description: string[] = []) {
-    this.params = new Map<string, DocEventParam>();
+  constructor(
+    public name: string,
+    public description: string[] = [],
+    public returnType?: LDocFunctionType
+  ) {
+    this.params = new Map<string, LDocFunctionParam>();
   }
 
-  static fromAstArray(ast: LuaHelpEvent[]) {
-    const ret = [] as DocEvent[];
+  static fromAstArray(ast: LuaHelpFunction[]) {
+    const ret = [] as LDocFunction[];
     for (const astf of ast) {
-      const lhf = new DocEvent(astf.name, Array.from(astf.description));
+      const lhf = new LDocFunction(
+        astf.name,
+        Array.from(astf.description),
+        astf.return ? LDocFunctionType.fromAstReturn(astf.return) : null
+      );
       for (const p of astf.parameters) {
-        lhf.addParam(DocEventParam.fromAst(p));
+        lhf.addParam(LDocFunctionParam.fromAst(p));
       }
       ret.push(lhf);
     }
     return ret;
   }
 
-  addParam(param: DocEventParam) {
+  addParam(param: LDocFunctionParam) {
     this.params.set(param.name, param);
     return this;
   }
@@ -124,42 +144,10 @@ export class DocEvent {
     this.description.push(description);
     return this;
   }
+
+  setReturnType(type: LDocFunctionType) {
+    this.returnType = type;
+  }
 }
 
-export const tstlEventsConverter = {
-  type: "events",
-  convert: (luaHelpAst) => {
-    const newLines: string[] = [];
-
-    for (const evtFn of DocEvent.fromAstArray(luaHelpAst.events)) {
-      // Apply overrides
-      const o = overrides[evtFn.name];
-      if (o) {
-        o.modify(evtFn);
-      }
-
-      const tsPar: DocFuncParam[] = [];
-      for (const par of evtFn.params.values()) {
-        tsPar.push({
-          description: [par.description, ...par.additionalDescription],
-          name: par.displayName,
-          type: par.type,
-        });
-      }
-
-      const tsFncDeclaration = new DocFunc(
-        undefined, // evtFn.name
-        evtFn.description,
-        tsPar
-      );
-
-      newLines.push(...tsFncDeclaration.exportJsDocCommentLines());
-      newLines.push(
-        `declare var ${evtFn.name}: ${tsFncDeclaration.exportTsFuncType()};`
-      );
-      newLines.push("");
-    }
-
-    return newLines;
-  },
-} as Converter;
+export { overrides as functionsOverrides };

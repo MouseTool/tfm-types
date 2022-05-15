@@ -2,7 +2,7 @@
   "name": "@mousetool/tfm-types",
   "version": "2.1.0-dev",
   "description": "Environment definition generator for Transformice. Supports Lua Language Server and TypeScriptToLua.",
-  "main": "dummy.js",
+  "main": "lib/dist/index.js",
   "private": true,
   "scripts": {
     "generate": "ts-node generate/main.ts"

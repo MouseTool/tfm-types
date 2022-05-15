@@ -12,6 +12,9 @@ export type DocFuncParam = DocFuncType & {
   name: string;
 };
 
+/**
+ * Helper class to create function declarations.
+ */
 export class DocFunc {
   constructor(
     public name?: string,
@@ -187,6 +190,9 @@ function isReservedTsKeyword(word: string) {
   return word === "enum";
 }
 
+/**
+ * Helper class to create TypeScript namespaces.
+ */
 export class TSNamespace {
   children: Map<string, TSNamespace>;
   contents: { type: "statement" | "content"; value: string[] }[];
