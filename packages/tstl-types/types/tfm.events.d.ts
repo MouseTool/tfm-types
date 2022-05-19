@@ -42,8 +42,10 @@ declare var eventFileSaved: (this: void, fileNumber: string) => void;
  * @param down whether it was the press event, or the release one
  * @param xPlayerPosition the horizontal coordinate of the player when he or she typed the key
  * @param yPlayerPosition the vertical coordinate of the player when he or she typed the key
+ * @param xPlayerVelocity the horizontal velocity of the player when he or she typed the key
+ * @param yPlayerVelocity the vertical velocity of the player when he or she typed the key
  */
-declare var eventKeyboard: (this: void, playerName: string, keyCode: tfm.integer, down: boolean, xPlayerPosition: tfm.integer, yPlayerPosition: tfm.integer) => void;
+declare var eventKeyboard: (this: void, playerName: string, keyCode: tfm.integer, down: boolean, xPlayerPosition: tfm.integer, yPlayerPosition: tfm.integer, xPlayerVelocity: number, yPlayerVelocity: number) => void;
 
 /**
  * This event is triggered when a player perfoms a mouse click.

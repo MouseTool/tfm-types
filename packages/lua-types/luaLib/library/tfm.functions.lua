@@ -144,8 +144,9 @@ function tfm.exec.addConjuration(xPosition, yPosition, duration) end
 --- @param alpha? number the opacity of the image, from 0 (transparent) to 1 (opaque) (default `1`)
 --- @param anchorX? number the horizontal offset (in 0 to 1 scale) of the image's anchor, relative to the image (0 being the left of the image) (default `0`)
 --- @param anchorY? number the vertical offset (in 0 to 1 scale) of the image's anchor, relative to the image (0 being the top of the image) (default `0`)
+--- @param fadeIn? boolean Use a fade in to display the image. (default `false`)
 --- @return integer # the image identifier
-function tfm.exec.addImage(imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, rotation, alpha, anchorX, anchorY) end
+function tfm.exec.addImage(imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, rotation, alpha, anchorX, anchorY, fadeIn) end
 
 --- Adds a joint between two physic objects. . Note: In map XML codes, you can also add a « lua="id" » property in a joint definition to be able to interact with it with LUA code.
 --- @param id integer the identifier of the joint
@@ -397,7 +398,8 @@ function tfm.exec.removeCheese(playerName) end
 
 --- Removes an image.
 --- @param imageId integer the image identifier
-function tfm.exec.removeImage(imageId) end
+--- @param fadeOut? boolean Use a fade out to remove the image. (default `false`)
+function tfm.exec.removeImage(imageId, fadeOut) end
 
 --- Removes a joint from the game.
 --- @param id integer the identifier of the joint to remove

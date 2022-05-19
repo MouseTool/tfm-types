@@ -320,7 +320,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 7.96
+      transformiceVersion : 8.01
     room
       community : -
       currentMap : 0
@@ -363,7 +363,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1649946137369
+          registrationDate : 1652971904112
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -417,13 +417,15 @@ eventFileSaved(fileNumber)
 This event is triggered when a file gets saved.
   fileNumber (String) the name of the file
 
-eventKeyboard(playerName, keyCode, down, xPlayerPosition, yPlayerPosition)
+eventKeyboard(playerName, keyCode, down, xPlayerPosition, yPlayerPosition, xPlayerVelocity, yPlayerVelocity)
 This event is triggered when a player presses a key.
   playerName (String) the player who typed the key
   keyCode (Int) the code of the typed key
   down (Boolean) whether it was the press event, or the release one
   xPlayerPosition (Int) the horizontal coordinate of the player when he or she typed the key
   yPlayerPosition (Int) the vertical coordinate of the player when he or she typed the key
+  xPlayerVelocity (Number) the horizontal velocity of the player when he or she typed the key
+  yPlayerVelocity (Number) the vertical velocity of the player when he or she typed the key
 
 eventMouse(playerName, xMousePosition, yMousePosition)
 This event is triggered when a player perfoms a mouse click.
@@ -641,7 +643,7 @@ Adds conjuration to the map. Note: Grid coordinate are regular coordinate divide
   yPosition (Int) the vertical grid coordinate of the conjuration
   duration (Int) the duration of the conjuration in milliseconds (default 10000)
 
-tfm.exec.addImage(imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, rotation, alpha, anchorX, anchorY)
+tfm.exec.addImage(imageId, target, xPosition, yPosition, targetPlayer, scaleX, scaleY, rotation, alpha, anchorX, anchorY, fadeIn)
 Displays an image on the map.
   imageId (String) the image identifier
   target (String) the game element to attach the image to
@@ -665,6 +667,7 @@ Displays an image on the map.
   alpha (Number) Image alpha (default 1)
   anchorX (Number) Image anchor X (0..1) (default 0)
   anchorY (Number) Image anchor Y (0..1) (default 0)
+  fadeIn (Boolean) Use a fade in to display the image. (default false)
 Returns (Int) the image identifier
 
 tfm.exec.addJoint(id, ground1, ground2, jointDef)
@@ -909,9 +912,10 @@ tfm.exec.removeCheese(playerName)
 Takes away the cheese from a player.
   playerName (String) the player who should get their cheese removed
 
-tfm.exec.removeImage(imageId)
+tfm.exec.removeImage(imageId, fadeOut)
 Removes an image.
   imageId (Int) the image identifier
+  fadeOut (Boolean) Use a fade out to remove the image. (default false)
 
 tfm.exec.removeJoint(id)
 Removes a joint from the game.
