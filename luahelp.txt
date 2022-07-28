@@ -292,6 +292,7 @@ tfm
     movePlayer
     newGame
     playEmote
+    playSound
     playerVictory
     removeBonus
     removeCheese
@@ -320,7 +321,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.01
+      transformiceVersion : 8.12
     room
       community : -
       currentMap : 0
@@ -363,7 +364,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1652971904112
+          registrationDate : 1659017104075
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -898,6 +899,14 @@ Makes a player do an emote.
   playerName (String) the player who should do the emote
   emoteId (Int) the emote to do
   emoteArg (String) the emote attribute (for the flag emote for example) (default nil)
+
+tfm.exec.playSound(sound, volume, soundPosX, soundPosY, targetPlayer)
+Play a sound. Sounds list can be found here : http://audio.atelier801.com/sounds.html
+  sound (String) URL of the sound.
+  volume (Int) Volume of the sound (0-100). (default 70)
+  soundPosX (Int) X position of the sound. If not nil, the further away the player is, the more the sound is reduced. (default nil)
+  soundPosY (Int) Y position of the sound. (default nil)
+  targetPlayer (Int) Send only to this specific player (if nil, applies to all players). (default nil)
 
 tfm.exec.playerVictory(playerName)
 Makes a player enter the hole. It only works if the player already has a cheese!

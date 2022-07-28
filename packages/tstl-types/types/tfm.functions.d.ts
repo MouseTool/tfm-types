@@ -444,6 +444,15 @@ declare namespace tfm {
      */
     export function playEmote(playerName: string, emoteId: tfm.integer, emoteArg?: string): void
     /**
+     * Play a sound. Sounds list can be found here : http://audio.atelier801.com/sounds.html
+     * @param sound URL of the sound.
+     * @param volume Volume of the sound (0-100). (default `70`)
+     * @param soundPosX X position of the sound. If not nil, the further away the player is, the more the sound is reduced. (default `null`)
+     * @param soundPosY Y position of the sound. (default `null`)
+     * @param targetPlayer Send only to this specific player (if nil, applies to all players). (default `null`)
+     */
+    export function playSound(sound: string, volume?: tfm.integer, soundPosX?: tfm.integer, soundPosY?: tfm.integer, targetPlayer?: tfm.integer): void
+    /**
      * Makes a player enter the hole. It only works if the player already has a cheese!
      * @param playerName the player who should win
      */
