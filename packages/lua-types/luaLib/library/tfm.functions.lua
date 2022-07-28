@@ -383,6 +383,14 @@ function tfm.exec.newGame(mapCode, flipped) end
 --- @param emoteArg? string the emote attribute (for the flag emote for example) (default `nil`)
 function tfm.exec.playEmote(playerName, emoteId, emoteArg) end
 
+--- Play a sound. Sounds list can be found here : http://audio.atelier801.com/sounds.html
+--- @param sound string URL of the sound.
+--- @param volume? integer Volume of the sound (0-100). (default `70`)
+--- @param soundPosX? integer X position of the sound. If not nil, the further away the player is, the more the sound is reduced. (default `nil`)
+--- @param soundPosY? integer Y position of the sound. (default `nil`)
+--- @param targetPlayer? integer Send only to this specific player (if nil, applies to all players). (default `nil`)
+function tfm.exec.playSound(sound, volume, soundPosX, soundPosY, targetPlayer) end
+
 --- Makes a player enter the hole. It only works if the player already has a cheese!
 --- @param playerName string the player who should win
 function tfm.exec.playerVictory(playerName) end
