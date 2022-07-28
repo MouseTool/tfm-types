@@ -1,6 +1,6 @@
 {
   "name": "tfm-tstl-types",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "description": "TypeScriptToLua environment definition for Transformice.",
   "repository": {
     "type": "git",
