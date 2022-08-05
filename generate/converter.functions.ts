@@ -40,13 +40,13 @@ export const luaFunctionsConverter = {
         });
       }
 
-      const luaRet: DocFuncType = func.returnType
+      const luaRet = func.returnType
         ? {
             description: [func.returnType.description],
             type: func.returnType.type,
             isOptional: func.returnType.isOptional,
           }
-        : null;
+        : undefined;
 
       const luaFncDeclaration = new DocFunc(
         func.name,
@@ -95,13 +95,13 @@ export const tstlFunctionsConverter = {
         });
       }
 
-      const tsRet: DocFuncType = func.returnType
+      const tsRet = func.returnType
         ? {
             description: [func.returnType.description],
             type: func.returnType.type,
             isOptional: func.returnType.isOptional,
           }
-        : null;
+        : undefined;
 
       const indexes = func.name.split(".");
       const tsFncDeclaration = new DocFunc(
