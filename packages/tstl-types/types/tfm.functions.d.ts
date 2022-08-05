@@ -420,8 +420,8 @@ declare namespace tfm {
      * @param xPosition the horizontal coordinate of the point where the player will be moved
      * @param yPosition the vertical coordinate of the point where the player will be moved
      * @param positionOffset whether the specified position an offset to apply to the current one, or the absolute one (default `false`)
-     * @param xSpeed the horizontal coordinate of the speed to give to the player (default `0`)
-     * @param ySpeed the vertical coordinate of the speed to give to the player (default `0`)
+     * @param xSpeed the horizontal coordinate of the speed to give to the player (if nil, does not change the speed value) (default `null`)
+     * @param ySpeed the vertical coordinate of the speed to give to the player (if nil, does not change the speed value) (default `null`)
      * @param speedOffset whether the specified speed an offset to apply to the current one, or the absolute one (default `false`)
      */
     export function movePlayer(playerName: string, xPosition: tfm.integer, yPosition: tfm.integer, positionOffset?: boolean, xSpeed?: tfm.integer, ySpeed?: tfm.integer, speedOffset?: boolean): void

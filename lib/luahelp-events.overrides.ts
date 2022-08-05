@@ -16,6 +16,9 @@ interface IOverrideModify {
   modify: (evtFn: DocEvent) => void;
 }
 
+/**
+ * Batch utility function for param quick fixups.
+ */
 function fixParam(
   evtFn: DocEvent,
   replace: [name: string, desc?: string, overrideName?: string][]

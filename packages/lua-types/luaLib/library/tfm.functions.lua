@@ -362,8 +362,8 @@ function tfm.exec.movePhysicObject(objectId, xPosition, yPosition, positionOffse
 --- @param xPosition integer the horizontal coordinate of the point where the player will be moved
 --- @param yPosition integer the vertical coordinate of the point where the player will be moved
 --- @param positionOffset? boolean whether the specified position an offset to apply to the current one, or the absolute one (default `false`)
---- @param xSpeed? integer the horizontal coordinate of the speed to give to the player (default `0`)
---- @param ySpeed? integer the vertical coordinate of the speed to give to the player (default `0`)
+--- @param xSpeed? integer the horizontal coordinate of the speed to give to the player (if nil, does not change the speed value) (default `nil`)
+--- @param ySpeed? integer the vertical coordinate of the speed to give to the player (if nil, does not change the speed value) (default `nil`)
 --- @param speedOffset? boolean whether the specified speed an offset to apply to the current one, or the absolute one (default `false`)
 function tfm.exec.movePlayer(playerName, xPosition, yPosition, positionOffset, xSpeed, ySpeed, speedOffset) end
 

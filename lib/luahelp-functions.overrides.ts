@@ -20,6 +20,9 @@ interface IOverrideAdd {
   lfnc: LDocFunction;
 }
 
+/**
+ * Batch utility function for param quick fixups.
+ */
 function fixParam(
   levt: LDocFunction,
   replace: [name: string, desc?: string, overrideName?: string][]
@@ -344,6 +347,21 @@ const modifiers: IOverrideModify[] = [
       lfnc.setReturnType(
         new LDocFunctionType(stringExportable, "the player's nickname")
       );
+    },
+  },
+
+  {
+    name: "tfm.exec.movePlayer",
+    modify: (lfnc) => {
+      // 20220804 update:
+      // Correct default value of {x,y}Speed from `0` to `nil` and clarify the behavior of `nil`
+      for (const pName of ["xSpeed", "ySpeed"]) {
+        const speedParam = lfnc.params.get(pName);
+        speedParam.defaultValue = nullExportable;
+        speedParam.setDescription(
+          speedParam.description + " (if nil, does not change the speed value)"
+        );
+      }
     },
   },
 
