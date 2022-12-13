@@ -53,31 +53,8 @@ const modifiers: IOverrideModify[] = [
   },
 
   {
-    name: "eventPlayerBonusGrabbed",
-    modify: (evtFn) => {
-      // Point to enum for TS
-      const pBonusId = evtFn.params.get("bonusId");
-      pBonusId.setType(
-        new IndependentLiteralExportable({
-          lua: pBonusId.type.asLua(),
-          ts: "tfm.Enums.BonusType",
-        })
-      );
-    },
-  },
-
-  {
     name: "eventContactListener",
     modify: (evtFn) => {
-      // Point to enum for TS
-      const pGroundId = evtFn.params.get("groundId");
-      pGroundId.setType(
-        new IndependentLiteralExportable({
-          lua: pGroundId.type.asLua(),
-          ts: "tfm.Enums.GroundType",
-        })
-      );
-
       // Point to proper interface
       evtFn.params
         .get("contactInfos")

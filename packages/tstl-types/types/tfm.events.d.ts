@@ -97,7 +97,7 @@ declare var eventPlayerGetCheese: (this: void, playerName: string) => void;
  * @param playerName The player who grabbed the bonus.
  * @param bonusId Bonus identifier.
  */
-declare var eventPlayerBonusGrabbed: (this: void, playerName: string, bonusId: tfm.Enums.BonusType) => void;
+declare var eventPlayerBonusGrabbed: (this: void, playerName: string, bonusId: tfm.integer) => void;
 
 /**
  * This event is triggered when a player leaves the room.
@@ -194,7 +194,7 @@ declare var eventColorPicked: (this: void, colorPickerId: tfm.integer, playerNam
  * @param groundId ground identifier
  * @param contactInfos Collision informations
  */
-declare var eventContactListener: (this: void, playerName: string, groundId: tfm.Enums.GroundType, contactInfos: tfm.ContactDef) => void;
+declare var eventContactListener: (this: void, playerName: string, groundId: tfm.integer, contactInfos: tfm.ContactDef) => void;
 
 /**
  * This event is triggered when a player click on a NPC.

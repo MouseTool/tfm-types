@@ -33,11 +33,11 @@ declare namespace tfm {
 
   interface ShamanObject {
     angle: integer;
-    baseType: integer;
+    baseType: tfm.Enums.ShamanObjectType;
     colors: string[];
     ghost: boolean;
     id: integer;
-    type: integer;
+    type: tfm.Enums.ShamanObjectType;
     /**
      * The horizontal speed of the object.
      */
@@ -211,7 +211,7 @@ declare namespace tfm {
   }
 
   interface BodyDef {
-    type: integer;
+    type: tfm.Enums.GroundType;
     width: integer;
     height: integer;
     foreground: boolean;
