@@ -60,6 +60,7 @@ tfm.enum = {}
 --- @field y integer @The vertical coordinate of the object.
 
 --- @class tfm.Player
+--- @field averageLatency integer @Estimated connection latency of the player in milliseconds.
 --- @field cheeses integer @The number of cheeses that the player is carrying. This property is useful in multiple-cheese maps (dodue).
 --- @field community string @The legacy community of the player. This exists for backward compatibility, consider using `language` instead.
 --- @field gender integer

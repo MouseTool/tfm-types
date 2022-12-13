@@ -383,12 +383,22 @@ function tfm.exec.newGame(mapCode, flipped) end
 --- @param emoteArg? string the emote attribute (for the flag emote for example) (default `nil`)
 function tfm.exec.playEmote(playerName, emoteId, emoteArg) end
 
---- Play a sound. Sounds list can be found here : http://audio.atelier801.com/sounds.html
---- @param sound string URL of the sound.
+--- Plays a music. A music can be stopped.
+--- @param music string The path of the URL to the music file. Musics list can be found here : http://audio.atelier801.com/sounds.html
+--- @param channel string Channel of the music.
+---     - Only one music can be played per channel. Any music playing on this channel prior will be stopped.
+--- @param volume? integer Volume of the sound (0-100). (default `70`)
+--- @param loop? boolean If the music should be looping. (default `false`)
+--- @param fade? boolean If the music should start with a fading. (default `true`)
+--- @param targetPlayer? string Send only to this specific player (if nil, applies to all players). (default `nil`)
+function tfm.exec.playMusic(music, channel, volume, loop, fade, targetPlayer) end
+
+--- Plays a sound.
+--- @param sound string The path of the URL to the sound file. Sounds list can be found here : http://audio.atelier801.com/sounds.html
 --- @param volume? integer Volume of the sound (0-100). (default `70`)
 --- @param soundPosX? integer X position of the sound. If not nil, the further away the player is, the more the sound is reduced. (default `nil`)
 --- @param soundPosY? integer Y position of the sound. (default `nil`)
---- @param targetPlayer? integer Send only to this specific player (if nil, applies to all players). (default `nil`)
+--- @param targetPlayer? string Send only to this specific player (if nil, applies to all players). (default `nil`)
 function tfm.exec.playSound(sound, volume, soundPosX, soundPosY, targetPlayer) end
 
 --- Makes a player enter the hole. It only works if the player already has a cheese!
@@ -500,6 +510,13 @@ function tfm.exec.setWorldGravity(xAcceleration, yAcceleration) end
 --- @param duration? integer the snowfall duration in seconds (default `60`)
 --- @param snowballPower? integer  (default `10`)
 function tfm.exec.snow(duration, snowballPower) end
+
+--- Stop a playing music.
+--- @param channel string Channel of the music.
+---     - Only one music can be played per channel. Any music playing on this channel prior will be stopped.
+---     - You can use « "musique" » to target the global background music channel.
+--- @param targetPlayer? string Send only to this specific player (if nil, applies to all players). (default `nil`)
+function tfm.exec.stopMusic(channel, targetPlayer) end
 
 --- Displays a popup.
 --- @param id integer the identifier of the popup

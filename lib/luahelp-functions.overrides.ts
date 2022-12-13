@@ -8,7 +8,11 @@ import {
   nullExportable,
   stringExportable,
 } from "./exportTypes";
-import { LDocFunction, LDocFunctionType } from "./luahelp-functions";
+import {
+  LDocFunction,
+  LDocFunctionParam,
+  LDocFunctionType,
+} from "./luahelp-functions";
 
 interface IOverrideModify {
   name: string;
@@ -31,6 +35,18 @@ function fixParam(
     const par = levt.params.get(name);
     if (desc) par.setDescription(desc);
     if (overrideName) par.setOverrideName(overrideName);
+  }
+}
+
+/**
+ * Batch utility function for param fixups.
+ */
+function forParams(
+  lfunc: LDocFunction,
+  handlers: [paramName: string, callback: (par: LDocFunctionParam) => void][]
+) {
+  for (const [name, cb] of handlers) {
+    cb(lfunc.params.get(name));
   }
 }
 
@@ -366,6 +382,76 @@ const modifiers: IOverrideModify[] = [
   },
 
   {
+    name: "tfm.exec.playMusic",
+    modify: (lfnc) => {
+      // Move link to param desc
+      lfnc.setDescription("Plays a music. A music can be stopped.");
+
+      forParams(lfnc, [
+        // Add clarity to param desc
+        [
+          "music",
+          (par) => {
+            par.setDescription(
+              "The path of the URL to the music file. Musics list can be found here : http://audio.atelier801.com/sounds.html"
+            );
+          },
+        ],
+
+        // 1. Channel -> channel
+        // 2. Add additional info
+        [
+          "Channel",
+          (par) => {
+            par.setOverrideName("channel");
+            par.setDescription("Channel of the music.");
+            par.addDescription(
+              "    - Only one music can be played per channel. Any music playing on this channel prior will be stopped."
+            );
+            //par.addDescription("    - You can use « \"musique\" » to target the global background music channel.")
+          },
+        ],
+
+        // `targetPlayer` should be string not int
+        [
+          "targetPlayer",
+          (par) => {
+            par.setType(stringExportable);
+          },
+        ],
+      ]);
+    },
+  },
+
+  {
+    name: "tfm.exec.playSound",
+    modify: (lfnc) => {
+      // Move link to param desc
+      lfnc.setDescription("Plays a sound.");
+
+      forParams(lfnc, [
+        // Add clarity to param desc
+        [
+          "sound",
+          (par) => {
+            par.setDescription(
+              "The path of the URL to the sound file. Sounds list can be found here : http://audio.atelier801.com/sounds.html"
+            );
+          },
+        ],
+
+        // `targetPlayer` should be string not int
+        [
+          "targetPlayer",
+          (par) => {
+            par.setType(stringExportable);
+          },
+        ],
+      ]);
+    },
+  },
+
+  {
     name: "tfm.exec.removeBonus",
     modify: (lfnc) => {
       // Add some clarity
@@ -435,6 +521,35 @@ const modifiers: IOverrideModify[] = [
 
       // Standardise param descriptions
       fixParam(lfnc, [["color", "the background color, in hex code format"]]);
+    },
+  },
+
+  {
+    name: "tfm.exec.stopMusic",
+    modify: (lfnc) => {
+      forParams(lfnc, [
+        // 1. Channel -> channel
+        // 2. Add additional info
+        [
+          "Channel",
+          (par) => {
+            par.setOverrideName("channel");
+            par.setDescription("Channel of the music.");
+            par.addDescription(
+              "    - Only one music can be played per channel. Any music playing on this channel prior will be stopped."
+            );
+            par.addDescription("    - You can use « \"musique\" » to target the global background music channel.")
+          },
+        ],
+
+        // `targetPlayer` should be string not int
+        [
+          "targetPlayer",
+          (par) => {
+            par.setType(stringExportable);
+          },
+        ],
+      ]);
     },
   },
 

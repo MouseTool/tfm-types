@@ -444,14 +444,25 @@ declare namespace tfm {
      */
     export function playEmote(playerName: string, emoteId: tfm.integer, emoteArg?: string): void
     /**
-     * Play a sound. Sounds list can be found here : http://audio.atelier801.com/sounds.html
-     * @param sound URL of the sound.
+     * Plays a music. A music can be stopped.
+     * @param music The path of the URL to the music file. Musics list can be found here : http://audio.atelier801.com/sounds.html
+     * @param channel Channel of the music.
+     *     - Only one music can be played per channel. Any music playing on this channel prior will be stopped.
+     * @param volume Volume of the sound (0-100). (default `70`)
+     * @param loop If the music should be looping. (default `false`)
+     * @param fade If the music should start with a fading. (default `true`)
+     * @param targetPlayer Send only to this specific player (if nil, applies to all players). (default `null`)
+     */
+    export function playMusic(music: string, channel: string, volume?: tfm.integer, loop?: boolean, fade?: boolean, targetPlayer?: string): void
+    /**
+     * Plays a sound.
+     * @param sound The path of the URL to the sound file. Sounds list can be found here : http://audio.atelier801.com/sounds.html
      * @param volume Volume of the sound (0-100). (default `70`)
      * @param soundPosX X position of the sound. If not nil, the further away the player is, the more the sound is reduced. (default `null`)
      * @param soundPosY Y position of the sound. (default `null`)
      * @param targetPlayer Send only to this specific player (if nil, applies to all players). (default `null`)
      */
-    export function playSound(sound: string, volume?: tfm.integer, soundPosX?: tfm.integer, soundPosY?: tfm.integer, targetPlayer?: tfm.integer): void
+    export function playSound(sound: string, volume?: tfm.integer, soundPosX?: tfm.integer, soundPosY?: tfm.integer, targetPlayer?: string): void
     /**
      * Makes a player enter the hole. It only works if the player already has a cheese!
      * @param playerName the player who should win
@@ -585,6 +596,14 @@ declare namespace tfm {
      * @param snowballPower  (default `10`)
      */
     export function snow(duration?: tfm.integer, snowballPower?: tfm.integer): void
+    /**
+     * Stop a playing music.
+     * @param channel Channel of the music.
+     *     - Only one music can be played per channel. Any music playing on this channel prior will be stopped.
+     *     - You can use « "musique" » to target the global background music channel.
+     * @param targetPlayer Send only to this specific player (if nil, applies to all players). (default `null`)
+     */
+    export function stopMusic(channel: string, targetPlayer?: string): void
   }
 }
 declare namespace ui {

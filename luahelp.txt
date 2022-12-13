@@ -292,6 +292,7 @@ tfm
     movePlayer
     newGame
     playEmote
+    playMusic
     playSound
     playerVictory
     removeBonus
@@ -318,10 +319,11 @@ tfm
     setVampirePlayer
     setWorldGravity
     snow
+    stopMusic
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.12
+      transformiceVersion : 8.33
     room
       community : -
       currentMap : 0
@@ -347,6 +349,7 @@ tfm
       passwordProtected : false
       playerList
         Tigrounette
+          averageLatency : 400
           cheeses : 0
           community : en
           gender : 0
@@ -364,7 +367,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1659017104075
+          registrationDate : 1670832237001
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -900,6 +903,15 @@ Makes a player do an emote.
   emoteId (Int) the emote to do
   emoteArg (String) the emote attribute (for the flag emote for example) (default nil)
 
+tfm.exec.playMusic(music, Channel, volume, loop, fade, targetPlayer)
+Play a music. A music can be stopped. Musics list can be found here : http://audio.atelier801.com/sounds.html
+  music (String) URL of the music.
+  Channel (String) Channel of the music. Only one music can be played per channel. If a music is playing, it will be stopped.
+  volume (Int) Volume of the sound (0-100). (default 70)
+  loop (Boolean) If the music should be looping. (default false)
+  fade (Boolean) If the music should start with a fading. (default true)
+  targetPlayer (Int) Send only to this specific player (if nil, applies to all players). (default nil)
+
 tfm.exec.playSound(sound, volume, soundPosX, soundPosY, targetPlayer)
 Play a sound. Sounds list can be found here : http://audio.atelier801.com/sounds.html
   sound (String) URL of the sound.
@@ -1015,6 +1027,11 @@ tfm.exec.snow(duration, snowballPower)
 Makes the snow fall.
   duration (Int) the snowfall duration in seconds (default 60)
   snowballPower (Int)  (default 10)
+
+tfm.exec.stopMusic(Channel, targetPlayer)
+Stop a playing music.
+  Channel (String) Music channel to stop.
+  targetPlayer (Int) Send only to this specific player (if nil, applies to all players). (default nil)
 
 ui.addPopup(id, type, text, targetPlayer, x, y, width, fixedPos)
 Displays a popup.

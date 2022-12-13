@@ -52,6 +52,10 @@ declare namespace tfm {
 
   interface Player {
     /**
+     * Estimated connection latency of the player in milliseconds.
+     */
+    averageLatency: integer;
+    /**
      * The number of cheeses that the player is carrying. This property is useful in multiple-cheese maps (dodue).
      */
     cheeses: integer;
