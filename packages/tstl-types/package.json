@@ -1,6 +1,6 @@
 {
   "name": "tfm-tstl-types",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "TypeScriptToLua environment definition for Transformice.",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
   "author": "Cassolette",
   "license": "MIT",
   "dependencies": {
-    "lua-types": "^2.11.0"
+    "lua-types": "^2.13.1"
   },
   "peerDependencies": {
     "typescript": "^3.0.0 || ^4.0.0",
