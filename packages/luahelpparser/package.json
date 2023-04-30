@@ -1,6 +1,6 @@
 {
   "name": "@cassolette/luahelpparser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parser for LuaHelp, an API documentation for the Lua tree from Transformice.",
   "repository": {
     "type": "git",
