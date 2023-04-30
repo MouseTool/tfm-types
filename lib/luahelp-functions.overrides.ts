@@ -73,6 +73,21 @@ const modifiers: IOverrideModify[] = [
   },
 
   {
+    name: "system.giveAdventurePoint",
+    modify: (lfnc) => {
+      // Standardise param descriptions
+      fixParam(lfnc, [
+        // Fix invalid param format
+        ["Achievement code.", "the achievement identifier (given by an admin)", "achievementCode"],
+        ["Amount", "the amount of points to increase", "amount"]
+      ]);
+
+      // Clarify permission level
+      lfnc.pushDescription("Module team only.");
+    },
+  },
+
+  {
     name: "system.giveEventGift",
     modify: (lfnc) => {
       // Clarify permission level

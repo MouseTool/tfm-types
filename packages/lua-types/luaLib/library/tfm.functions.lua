@@ -31,6 +31,14 @@ function system.disableChatCommandDisplay(command, hide) end
 --- Deactivates the lua script running.
 function system.exit() end
 
+--- Gives adventure points to a player..
+---
+--- Module team only.
+--- @param playerName string Target player.
+--- @param achievementCode string the achievement identifier (given by an admin)
+--- @param amount? integer the amount of points to increase (default `1`)
+function system.giveAdventurePoint(playerName, achievementCode, amount) end
+
 --- Gives an event reward to the targeted player.
 ---
 --- Event elevation only.

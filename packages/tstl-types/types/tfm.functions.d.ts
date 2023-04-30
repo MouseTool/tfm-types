@@ -41,6 +41,15 @@ declare namespace system {
    */
   export function exit(): void
   /**
+   * Gives adventure points to a player..
+   *
+   * Module team only.
+   * @param playerName Target player.
+   * @param achievementCode the achievement identifier (given by an admin)
+   * @param amount the amount of points to increase (default `1`)
+   */
+  export function giveAdventurePoint(playerName: string, achievementCode: string, amount?: tfm.integer): void
+  /**
    * Gives an event reward to the targeted player.
    *
    * Event elevation only.
