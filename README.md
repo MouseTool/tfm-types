@@ -7,8 +7,8 @@ Environment definition generator for Transformice. Supports [Lua Language Server
 ### Generating environment definition
 
 ```sh
-yarn install
-yarn run generate
+pnpm install
+pnpm run generate
 ```
 
 ### As a dependency to generate your own documentation
@@ -16,6 +16,8 @@ yarn run generate
 _TBC_
 
 ```sh
+pnpm install -D @mousetool/tfm-types
+# or
 yarn add -D @mousetool/tfm-types
 # or
 npm install -D @mousetool/tfm-types
