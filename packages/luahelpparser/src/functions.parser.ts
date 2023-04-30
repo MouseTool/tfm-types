@@ -80,7 +80,7 @@ class LuaHelpFunctionExporter {
 }
 
 const FUNC_START_REGEX = /^([a-zA-Z0-9.]+?)\(.*\)$/m;
-const FUNC_PARAM_REGEX = /^ {2}([a-zA-Z0-9]+) \(([a-zA-Z0-9]+)\) ([^\n]+)$/;
+const FUNC_PARAM_REGEX = /^ {2}([a-zA-Z0-9 .]+) \(([a-zA-Z0-9]+)\) ([^\n]+)$/;
 const FUNC_RETURNS_REGEX = /^Returns \(([a-zA-Z0-9]+)\) ([^\n]+)$/;
 
 export default function functionsParser(lines: string[]) {
