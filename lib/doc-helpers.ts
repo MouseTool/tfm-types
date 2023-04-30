@@ -12,6 +12,8 @@ export type DocFuncParam = DocFuncType & {
   name: string;
 };
 
+const CORRECT_PARAM_NAME_REGEX = /^[a-zA-Z0-9]+$/;
+
 /**
  * Helper class to create function declarations.
  */
@@ -27,9 +29,24 @@ export class DocFunc {
   }
 
   /**
+   * Asserts the correctness of the DocFunc before exporting it. This prevents
+   * unexpected or invalid output when exporting.
+   *
+   * @throws {Error} Unexpected parameters or metadata in the DocFunc.
+   */
+  assertCorrectness() {
+    for (const p of this.parameters) {
+      if (!CORRECT_PARAM_NAME_REGEX.test(p.name)) {
+        throw new Error(`Parameter name "${p.name}" of document function "${this.name || "unknown"}" is invalid. Correct it in the overrides.`);
+      }
+    }
+  }
+
+  /**
    * Exports the comment portion of the JSDoc.
    */
   exportJsDocCommentLines() {
+    this.assertCorrectness();
     const lines: string[] = [];
 
     {
@@ -69,6 +86,7 @@ export class DocFunc {
    * Requires `name` supplied.
    */
   exportTsFuncDeclare() {
+    this.assertCorrectness();
     if (!this.name) {
       throw new Error('"name" must be supplied to call exportTsDocLines()');
     }
@@ -91,6 +109,8 @@ export class DocFunc {
    * No function names and descriptions are exported.
    */
   exportTsFuncType() {
+    this.assertCorrectness();
+
     // Build TSTL function declaration
     // It is likely we mean to exclude the self parameter... are there any cases we don't though? :thinking:
     const paramsDef = [
@@ -115,6 +135,7 @@ export class DocFunc {
    * Requires `name` supplied.
    */
   exportLuaDocLines() {
+    this.assertCorrectness();
     if (!this.name) {
       throw new Error('"name" must be supplied to call exportTsDocLines()');
     }
@@ -172,6 +193,8 @@ export class DocFunc {
    * No function names and descriptions are exported.
    */
   exportLuaFuncType() {
+    this.assertCorrectness();
+
     // Build TS function declaration
     return `fun(${this.parameters
       .map((p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asLua()}`)

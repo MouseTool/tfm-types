@@ -96,6 +96,7 @@ system
   bindMouse
   disableChatCommandDisplay
   exit
+  giveAdventurePoint
   giveEventGift
   loadFile
   loadPlayerData
@@ -323,7 +324,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.33
+      transformiceVersion : 8.559999
     room
       community : -
       currentMap : 0
@@ -363,11 +364,11 @@ tfm
           isShaman : false
           isVampire : false
           language : int
-          look : 1;0,0,0,0,0,0,0,0,0
+          look : 1;0,0,0,0,0,0,0,0,0,0,0,0
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1670832237001
+          registrationDate : 1682753141497
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -576,6 +577,12 @@ Prevents a module command (commands starting with « ! ») to be displayed in th
 system.exit()
 Deactivates the lua script running.
 
+system.giveAdventurePoint(playerName, Achievement code., Amount)
+Gives adventure points to a player..
+  playerName (String) Target player.
+  Achievement code. (String) The achievement code to increase.
+  Amount (Int) The amount value. (default 1)
+
 system.giveEventGift(playerName, giftCode)
 Gives an event reward to the targeted player.
   playerName (String) the player to give the gift to
@@ -711,7 +718,7 @@ Spawns a ground.
   yPosition (Int) the vertical coordinate of the center of the ground
   bodyDef (Table) the ground description
     - type (Int), width (Int), height (Int), foreground (Boolean), friction (Float), restitution (Float), angle (Int), color (Int), miceCollision (Boolean), groundCollision (Boolean)
-    - dynamic (Boolean), fixedRotation (Boolean), mass (Int), linearDamping (Float), angularDamping (Float) for dynamic grounds, contactListener (Boolean)
+    - dynamic (Boolean), fixedRotation (Boolean), mass (Int), linearDamping (Float), angularDamping (Float) for dynamic grounds, contactListener (Boolean) 
 
 tfm.exec.addShamanObject(objectType, xPosition, yPosition, angle, xSpeed, ySpeed, ghost, options)
 Spawns a shaman object.
