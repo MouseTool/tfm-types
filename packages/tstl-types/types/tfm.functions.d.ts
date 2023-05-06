@@ -444,7 +444,7 @@ declare namespace tfm {
      *     - anything beginning with '<' (xml map)
      * @param flipped whether the map should be flipped (default `nil (randomly mirrored in racing and bootcamp rooms, unless)`)
      */
-    export function newGame(mapCode?: string, flipped?: boolean): void
+    export function newGame(mapCode?: string | tfm.integer, flipped?: boolean): void
     /**
      * Makes a player do an emote.
      * @param playerName the player who should do the emote

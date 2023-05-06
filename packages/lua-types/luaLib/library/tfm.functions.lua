@@ -376,7 +376,7 @@ function tfm.exec.movePhysicObject(objectId, xPosition, yPosition, positionOffse
 function tfm.exec.movePlayer(playerName, xPosition, yPosition, positionOffset, xSpeed, ySpeed, speedOffset) end
 
 --- Starts a new game
---- @param mapCode? string the map code (default `nil`)
+--- @param mapCode? string|integer the map code (default `nil`)
 ---     - nil (a random map)
 ---     - 6 (vanilla map)
 ---     - @42583 (editor map)

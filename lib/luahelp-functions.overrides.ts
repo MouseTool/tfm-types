@@ -7,6 +7,7 @@ import {
   LiteralExportable,
   nullExportable,
   stringExportable,
+  UnionExportable,
 } from "./exportTypes";
 import {
   LDocFunction,
@@ -393,6 +394,17 @@ const modifiers: IOverrideModify[] = [
           speedParam.description + " (if nil, does not change the speed value)"
         );
       }
+    },
+  },
+
+  {
+    name: "tfm.exec.newGame",
+    modify: (lfnc) => {
+      // mapCode can be integer
+      const pMapCode = lfnc.params.get("mapCode");
+      pMapCode.setType(
+        new UnionExportable([pMapCode.type, integerExportable])
+      );
     },
   },
 
