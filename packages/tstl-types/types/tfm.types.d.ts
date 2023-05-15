@@ -226,11 +226,19 @@ declare namespace tfm {
     mass: integer;
     linearDamping: number;
     angularDamping: number;
+    /**
+     * Whether to trigger the `eventContactListener` when the player collides with the ground.
+     */
+    contactListener: boolean;
   }
 
   interface ShamanObjOpt {
     fixedXSpeed: number;
     fixedYSpeed: number;
+    /**
+     * Whether to trigger the `eventContactListener` when the player collides with the object.
+     */
+    contactListener: boolean;
   }
 
   interface NPCDef {

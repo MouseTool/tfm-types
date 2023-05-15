@@ -324,7 +324,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.559999
+      transformiceVersion : 8.58
     room
       community : -
       currentMap : 0
@@ -353,7 +353,7 @@ tfm
           averageLatency : 400
           cheeses : 0
           community : en
-          gender : 0
+          gender : 1
           hasCheese : false
           id : 0
           inHardMode : 0
@@ -368,7 +368,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1682753141497
+          registrationDate : 1683961398475
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -729,7 +729,7 @@ Spawns a shaman object.
   xSpeed (Int) the horizontal speed of the object (default 0)
   ySpeed (Int) the vertical speed of the object (default 0)
   ghost (Boolean) whether the spawned object should be transparent (default false)
-  options (Table) fixedXSpeed (Number), fixedYSpeed (Number)
+  options (Table) fixedXSpeed (Number), fixedYSpeed (Number), contactListener (bool)
 Returns (Int) the shaman object identifier
 
 tfm.exec.attachBalloon(playerName, yes, color, transparent, speed)

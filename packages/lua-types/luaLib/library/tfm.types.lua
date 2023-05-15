@@ -155,10 +155,12 @@ tfm.enum = {}
 --- @field mass integer
 --- @field linearDamping number
 --- @field angularDamping number
+--- @field contactListener boolean @Whether to trigger the `eventContactListener` when the player collides with the ground.
 
 --- @class tfm.ShamanObjOpt
 --- @field fixedXSpeed number
 --- @field fixedYSpeed number
+--- @field contactListener boolean @Whether to trigger the `eventContactListener` when the player collides with the object.
 
 --- @class tfm.NPCDef
 --- @field title integer
