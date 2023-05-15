@@ -1,0 +1,46 @@
+{
+    "configs": [
+        {
+            "action": "set",
+            "key": "Lua.runtime.version",
+            "value": "Lua 5.2"
+        },
+        {
+            "action": "prop",
+            "key": "Lua.runtime.builtin",
+            "prop": "io",
+            "value": "disable"
+        },
+        {
+            "action": "prop",
+            "key": "Lua.runtime.builtin",
+            "prop": "debug",
+            "value": "disable"
+        },
+        {
+            "action": "prop",
+            "key": "Lua.runtime.builtin",
+            "prop": "os",
+            "value": "disable"
+        },
+        {
+            "action": "add",
+            "key": "Lua.diagnostics.globals",
+            "value": "tfm"
+        },
+        {
+            "action": "add",
+            "key": "Lua.diagnostics.globals",
+            "value": "ui"
+        },
+        {
+            "action": "add",
+            "key": "Lua.diagnostics.globals",
+            "value": "system"
+        }
+    ],
+    "name": "Transformice",
+    "words": [
+        "tfm%.%w+"
+    ]
+}
