@@ -1,0 +1,38 @@
+name: Publish LuaLS addon
+on:
+  push:
+    tags: [ "**/all", "**/lua" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v3
+        with:
+          path: ./defaultRepo
+      - name: Checkout release branch
+        uses: actions/checkout@v3
+        with:
+          ref: luals-addon
+          path: ./releaseRepo
+      - run: rm -rf *
+        working-directory: ./releaseRepo
+      - name: Copy config.addon.json to config.json
+        run: cp ./defaultRepo/packages/lua-types/luaLib/config.addon.json ./releaseRepo/config.json
+      - name: Copy library folder
+        run: cp -r ./defaultRepo/packages/lua-types/luaLib/library ./releaseRepo/library
+      - run: ls -R 
+      - name: Format with StyLua
+        uses: JohnnyMorganz/stylua-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: ./releaseRepo/library
+      - name: Create addon output hierachy, commit changes to release branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update release branch
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          repository: ./releaseRepo
