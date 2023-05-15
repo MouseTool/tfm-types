@@ -6,11 +6,6 @@
             "value": "Lua 5.2"
         },
         {
-            "action": "set",
-            "key": "Lua.workspace.useGitIgnore",
-            "value": false
-        },
-        {
             "action": "prop",
             "key": "Lua.runtime.builtin",
             "prop": "io",
@@ -27,21 +22,6 @@
             "key": "Lua.runtime.builtin",
             "prop": "os",
             "value": "disable"
-        },
-        {
-            "action": "add",
-            "key": "Lua.runtime.path",
-            "value": "node_modules/?.lua"
-        },
-        {
-            "action": "add",
-            "key": "Lua.runtime.path",
-            "value": "node_modules/?/init.lua"
-        },
-        {
-            "action": "add",
-            "key": "Lua.runtime.path",
-            "value": "node_modules/?/?.lua"
         },
         {
             "action": "add",
