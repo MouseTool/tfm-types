@@ -1,6 +1,6 @@
 {
   "name": "tfm-lua-types",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "description": "Lua Language Server environment definition for Transformice.",
   "repository": {
     "type": "git",
