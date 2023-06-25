@@ -12,6 +12,32 @@ export type DocFuncParam = DocFuncType & {
   name: string;
 };
 
+const assertCorrectness: MethodDecorator = function (
+  target,
+  propertyKey,
+  descriptor: TypedPropertyDescriptor<any>
+) {
+  const originalMethod = descriptor.value as Function;
+  descriptor.value = function (this: DocFunc) {
+    this.assertCorrectness();
+    return originalMethod.apply(this, arguments);
+  };
+};
+
+const assertHasName: MethodDecorator = function (
+  target,
+  propertyKey: string,
+  descriptor: TypedPropertyDescriptor<any>
+) {
+  const originalMethod = descriptor.value as Function;
+  descriptor.value = function (this: DocFunc) {
+    if (!this.name) {
+      throw new Error(`"name" must be supplied to call ${propertyKey}()`);
+    }
+    return originalMethod.apply(this, arguments);
+  };
+};
+
 const CORRECT_PARAM_NAME_REGEX = /^[a-zA-Z0-9]+$/;
 
 /**
@@ -23,10 +49,7 @@ export class DocFunc {
     public description: string[] = [],
     public parameters: DocFuncParam[] = [],
     public returnType?: DocFuncType
-  ) {
-    this.name = name;
-    this.description = description;
-  }
+  ) {}
 
   /**
    * Asserts the correctness of the DocFunc before exporting it. This prevents
@@ -37,7 +60,11 @@ export class DocFunc {
   assertCorrectness() {
     for (const p of this.parameters) {
       if (!CORRECT_PARAM_NAME_REGEX.test(p.name)) {
-        throw new Error(`Parameter name "${p.name}" of document function "${this.name || "unknown"}" is invalid. Correct it in the overrides.`);
+        throw new Error(
+          `Parameter name "${p.name}" of document function "${
+            this.name || "unknown"
+          }" is invalid. Correct it in the overrides.`
+        );
       }
     }
   }
@@ -45,8 +72,8 @@ export class DocFunc {
   /**
    * Exports the comment portion of the JSDoc.
    */
+  @assertCorrectness
   exportJsDocCommentLines() {
-    this.assertCorrectness();
     const lines: string[] = [];
 
     {
@@ -85,12 +112,9 @@ export class DocFunc {
    *
    * Requires `name` supplied.
    */
+  @assertCorrectness
+  @assertHasName
   exportTsFuncDeclare() {
-    this.assertCorrectness();
-    if (!this.name) {
-      throw new Error('"name" must be supplied to call exportTsDocLines()');
-    }
-
     // Build TS function declaration
     return `function ${this.name}(${this.parameters
       .map((p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asTs()}`)
@@ -108,9 +132,8 @@ export class DocFunc {
    *
    * No function names and descriptions are exported.
    */
+  @assertCorrectness
   exportTsFuncType() {
-    this.assertCorrectness();
-
     // Build TSTL function declaration
     // It is likely we mean to exclude the self parameter... are there any cases we don't though? :thinking:
     const paramsDef = [
@@ -134,12 +157,9 @@ export class DocFunc {
    *
    * Requires `name` supplied.
    */
+  @assertCorrectness
+  @assertHasName
   exportLuaDocLines() {
-    this.assertCorrectness();
-    if (!this.name) {
-      throw new Error('"name" must be supplied to call exportTsDocLines()');
-    }
-
     const lines: string[] = [];
 
     // Build luadoc lines
@@ -192,9 +212,8 @@ export class DocFunc {
    *
    * No function names and descriptions are exported.
    */
+  @assertCorrectness
   exportLuaFuncType() {
-    this.assertCorrectness();
-
     // Build TS function declaration
     return `fun(${this.parameters
       .map((p) => `${p.name}${p.isOptional ? "?" : ""}: ${p.type.asLua()}`)
@@ -293,7 +312,8 @@ export class TSNamespace {
     for (const contentMeta of this.contents) {
       if (contentMeta.type === "statement") {
         newLines.push(
-          indentStr + `${this.isRoot ? "declare" : "export"} ${contentMeta.value[0]}`
+          indentStr +
+            `${this.isRoot ? "declare" : "export"} ${contentMeta.value[0]}`
         );
         for (let i = 1; i < contentMeta.value.length; i++) {
           newLines.push(indentStr + contentMeta.value[i]);
