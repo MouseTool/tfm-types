@@ -562,9 +562,9 @@ declare namespace tfm {
      * Changes the room's current synchronizer (or resets it).
      *
      * Module team only.
-     * @param playerName the player who should become the room sync (use nil to let the server decide)
+     * @param playerName the player who should become the room sync (use `nil` to let the server decide, or `"none"` to disable sync) (default `null`)
      */
-    export function setPlayerSync(playerName: string): void
+    export function setPlayerSync(playerName?: string | "none"): void
     /**
      * Sets the max number of players in a room.
      * @param maxPlayers the maximum number of players the room can hold

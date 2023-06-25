@@ -483,7 +483,7 @@ function tfm.exec.setPlayerScore(playerName, score, add) end
 --- Changes the room's current synchronizer (or resets it).
 ---
 --- Module team only.
---- @param playerName string the player who should become the room sync (use nil to let the server decide)
+--- @param playerName? string|"none" the player who should become the room sync (use `nil` to let the server decide, or `"none"` to disable sync) (default `nil`)
 function tfm.exec.setPlayerSync(playerName) end
 
 --- Sets the max number of players in a room.

@@ -324,7 +324,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.58
+      transformiceVersion : 8.6
     room
       community : -
       currentMap : 0
@@ -368,7 +368,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1683961398475
+          registrationDate : 1685021353267
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -1000,7 +1000,7 @@ Sets the player's score.
 
 tfm.exec.setPlayerSync(playerName)
 Set current player sync.
-  playerName (String) Target player name (Nil to let the server decide).
+  playerName (String) Target player name (Nil to let the server decide, 'none' to disable sync).
 
 tfm.exec.setRoomMaxPlayers(maxPlayers)
 Sets the max number of players in a room.

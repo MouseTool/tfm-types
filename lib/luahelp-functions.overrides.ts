@@ -514,11 +514,17 @@ const modifiers: IOverrideModify[] = [
       // Clarify permission level
       lfnc.pushDescription("Module team only.");
 
-      // Standardise param descriptions
-      fixParam(lfnc, [
+      forParams(lfnc, [
+        // 1. Standardise param descriptions
+        // 2. String literal type for "none"
         [
           "playerName",
-          "the player who should become the room sync (use nil to let the server decide)",
+          (par) => {
+            par.setDescription("the player who should become the room sync (use `nil` to let the server decide, or `\"none\"` to disable sync)");
+            // `playerName` has a default value of `nil`
+            par.defaultValue = nullExportable;
+            par.setType(new UnionExportable([par.type, new LiteralExportable("\"none\"")]));
+          },
         ],
       ]);
     },
