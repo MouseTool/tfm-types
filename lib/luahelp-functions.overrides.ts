@@ -1,54 +1,25 @@
+import { fixParam, forParams } from "./common.util";
 import {
-  anyExportable,
   FunctionExportable,
   IndependentLiteralExportable,
-  integerExportable,
   InterfaceExportable,
   LiteralExportable,
+  UnionExportable,
+  anyExportable,
+  integerExportable,
   nullExportable,
   stringExportable,
-  UnionExportable,
-} from "./exportTypes";
-import {
-  LDocFunction,
-  LDocFunctionParam,
-  LDocFunctionType,
-} from "./luahelp-functions";
+} from "./export-types";
+import { DocFunction, DocFunctionType } from "./luahelp-functions";
 
 interface IOverrideModify {
   name: string;
-  modify: (lfnc: LDocFunction) => void;
+  modify: (lfnc: DocFunction) => void;
 }
 
 interface IOverrideAdd {
   name: string;
-  lfnc: LDocFunction;
-}
-
-/**
- * Batch utility function for param quick fixups.
- */
-function fixParam(
-  levt: LDocFunction,
-  replace: [name: string, desc?: string, overrideName?: string][]
-) {
-  for (const [name, desc, overrideName] of replace) {
-    const par = levt.params.get(name);
-    if (desc) par.setDescription(desc);
-    if (overrideName) par.setOverrideName(overrideName);
-  }
-}
-
-/**
- * Batch utility function for param fixups.
- */
-function forParams(
-  lfunc: LDocFunction,
-  handlers: [paramName: string, callback: (par: LDocFunctionParam) => void][]
-) {
-  for (const [name, cb] of handlers) {
-    cb(lfunc.params.get(name));
-  }
+  lfnc: DocFunction;
 }
 
 // Edit modifiers here
@@ -59,7 +30,7 @@ const modifiers: IOverrideModify[] = [
       lfnc.setDescription("Gets the current lua thread name.");
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionType(stringExportable, "the current thread name")
+        new DocFunctionType(stringExportable, "the current thread name")
       );
     },
   },
@@ -79,8 +50,12 @@ const modifiers: IOverrideModify[] = [
       // Standardise param descriptions
       fixParam(lfnc, [
         // Fix invalid param format
-        ["Achievement code.", "the achievement identifier (given by an admin)", "achievementCode"],
-        ["Amount", "the amount of points to increase", "amount"]
+        [
+          "Achievement code.",
+          "the achievement identifier (given by an admin)",
+          "achievementCode",
+        ],
+        ["Amount", "the amount of points to increase", "amount"],
       ]);
 
       // Clarify permission level
@@ -132,7 +107,7 @@ const modifiers: IOverrideModify[] = [
 
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionType(
+        new DocFunctionType(
           // { interval: integer, random: integer }
           new InterfaceExportable([
             { key: "interval", valueType: integerExportable },
@@ -333,7 +308,7 @@ const modifiers: IOverrideModify[] = [
 
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionType(
+        new DocFunctionType(
           integerExportable,
           "the shaman object identifier of the balloon"
         )
@@ -377,7 +352,7 @@ const modifiers: IOverrideModify[] = [
 
       // Tig forgot to add a return type
       lfnc.setReturnType(
-        new LDocFunctionType(stringExportable, "the player's nickname")
+        new DocFunctionType(stringExportable, "the player's nickname")
       );
     },
   },
@@ -402,9 +377,7 @@ const modifiers: IOverrideModify[] = [
     modify: (lfnc) => {
       // mapCode can be integer
       const pMapCode = lfnc.params.get("mapCode");
-      pMapCode.setType(
-        new UnionExportable([pMapCode.type, integerExportable])
-      );
+      pMapCode.setType(new UnionExportable([pMapCode.type, integerExportable]));
     },
   },
 
@@ -520,10 +493,14 @@ const modifiers: IOverrideModify[] = [
         [
           "playerName",
           (par) => {
-            par.setDescription("the player who should become the room sync (use `nil` to let the server decide, or `\"none\"` to disable sync)");
+            par.setDescription(
+              'the player who should become the room sync (use `nil` to let the server decide, or `"none"` to disable sync)'
+            );
             // `playerName` has a default value of `nil`
             par.defaultValue = nullExportable;
-            par.setType(new UnionExportable([par.type, new LiteralExportable("\"none\"")]));
+            par.setType(
+              new UnionExportable([par.type, new LiteralExportable('"none"')])
+            );
           },
         ],
       ]);
@@ -571,7 +548,9 @@ const modifiers: IOverrideModify[] = [
             par.addDescription(
               "    - Only one music can be played per channel. Any music playing on this channel prior will be stopped."
             );
-            par.addDescription("    - You can use « \"musique\" » to target the global background music channel.")
+            par.addDescription(
+              '    - You can use « "musique" » to target the global background music channel.'
+            );
           },
         ],
 

@@ -1,4 +1,4 @@
-import { DocFunc, DocFuncParam, DocFuncType } from "./doc-helpers";
+import { DocFuncBuilder, DocFuncBuilderParam, DocFuncBuilderType } from "./doc-builders";
 
 /**
  * Represents a LuaDoc (sumneko) type or a TypeScript type.
@@ -34,8 +34,8 @@ export class IndependentLiteralExportable implements ExportableType {
   }
 }
 
-export class FunctionExportable extends DocFunc implements ExportableType {
-  constructor(parameters?: DocFuncParam[], returnType?: DocFuncType) {
+export class FunctionExportable extends DocFuncBuilder implements ExportableType {
+  constructor(parameters?: DocFuncBuilderParam[], returnType?: DocFuncBuilderType) {
     super(null, null, parameters, returnType);
   }
   asLua() {

@@ -1,12 +1,12 @@
 import Converter from "./converter.interfaces";
-import { TSNamespace } from "../lib/doc-helpers";
-import { LDocTableNode } from "../lib";
+import { TSNamespaceBuilder } from "../lib/doc-builders";
+import { DocTableNode } from "../lib";
 
 export const luaEnumsConverter = {
   type: "enums",
   convert: (luaHelpAst) => {
-    const globalNode = LDocTableNode.fromAst(luaHelpAst.tree);
-    const enumNode = globalNode.navigate("tfm").navigate("enum");
+    const globalNode = DocTableNode.fromAst(luaHelpAst.tree);
+    const enumNode = globalNode.navigate("tfm")!.navigate("enum")!;
 
     // Write "tfm." prefix passively, don't export `tfm = {}`\
     const newLines = enumNode.exportLua("tfm");
@@ -18,10 +18,10 @@ export const luaEnumsConverter = {
 export const tstlEnumsConverter = {
   type: "enums",
   convert: (luaHelpAst) => {
-    const globalNode = LDocTableNode.fromAst(luaHelpAst.tree);
-    const enumNode = globalNode.navigate("tfm").navigate("enum");
+    const globalNode = DocTableNode.fromAst(luaHelpAst.tree);
+    const enumNode = globalNode.navigate("tfm")!.navigate("enum")!;
 
-    const globalNs = TSNamespace.createGlobal();
+    const globalNs = TSNamespaceBuilder.createGlobal();
     const enumNs = globalNs.navigate("tfm").navigate(enumNode.name);
     const enumTypeNs = globalNs.navigate("tfm").navigate("Enums");
 

@@ -3,32 +3,23 @@ import {
   LuaHelpFunctionParameter,
   LuaHelpFunctionReturn,
 } from "@cassolette/luahelpparser";
-import { DocFunc, DocFuncParam, DocFuncType, TSNamespace } from "./doc-helpers";
 import {
-  anyExportable,
-  booleanExportable,
+  IDocFunc,
+  IDocFuncParam,
+  IDocFuncType,
+  luaHelpTypeToExportable,
+} from "./common.util";
+import {
   ExportableType,
-  FunctionExportable,
-  integerExportable,
   LiteralExportable,
   nullExportable,
-  numberExportable,
-  stringExportable,
-  tableExportable,
-} from "./exportTypes";
+} from "./export-types";
 import { overrides } from "./luahelp-functions.overrides";
 
-const LUAHELP_TO_EXPORTABLE: Record<string, ExportableType> = {
-  String: stringExportable,
-  Int: integerExportable,
-  Number: numberExportable,
-  Boolean: booleanExportable,
-  Table: tableExportable,
-  Function: new FunctionExportable(),
-  Object: anyExportable,
-};
-
-export class LDocFunctionType {
+/**
+ * Describes a generic type which has a documented description.
+ */
+export class DocFunctionType implements IDocFuncType {
   constructor(
     public type: ExportableType,
     public description: string = "",
@@ -37,10 +28,10 @@ export class LDocFunctionType {
   ) {}
 
   static fromAstReturn(ast: LuaHelpFunctionReturn) {
-    const type = LUAHELP_TO_EXPORTABLE[ast.type];
+    const type = luaHelpTypeToExportable[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
-    return new LDocFunctionType(type, ast.description);
+    return new DocFunctionType(type, ast.description);
   }
 
   get isOptional() {
@@ -60,7 +51,10 @@ export class LDocFunctionType {
   }
 }
 
-export class LDocFunctionParam extends LDocFunctionType {
+/**
+ * Describes a parameter which has a documented description.
+ */
+export class DocFunctionParam extends DocFunctionType implements IDocFuncParam {
   /**
    * The overriden name to export instead of `name`
    */
@@ -77,10 +71,10 @@ export class LDocFunctionParam extends LDocFunctionType {
   }
 
   static fromAst(ast: LuaHelpFunctionParameter) {
-    const type = LUAHELP_TO_EXPORTABLE[ast.type];
+    const type = luaHelpTypeToExportable[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
-    return new LDocFunctionParam(
+    return new DocFunctionParam(
       ast.name,
       type,
       ast.description,
@@ -102,34 +96,37 @@ export class LDocFunctionParam extends LDocFunctionType {
   }
 }
 
-export class LDocFunction {
-  public params: Map<string, LDocFunctionParam>;
+/**
+ * Describes a doc function that can be altered.
+ */
+export class DocFunction implements IDocFunc {
+  public params: Map<string, DocFunctionParam>;
 
   constructor(
     public name: string,
     public description: string[] = [],
-    public returnType?: LDocFunctionType
+    public returnType?: DocFunctionType
   ) {
-    this.params = new Map<string, LDocFunctionParam>();
+    this.params = new Map<string, DocFunctionParam>();
   }
 
   static fromAstArray(ast: LuaHelpFunction[]) {
-    const ret = [] as LDocFunction[];
+    const ret = [] as DocFunction[];
     for (const astf of ast) {
-      const lhf = new LDocFunction(
+      const lhf = new DocFunction(
         astf.name,
         Array.from(astf.description),
-        astf.return ? LDocFunctionType.fromAstReturn(astf.return) : null
+        astf.return ? DocFunctionType.fromAstReturn(astf.return) : null
       );
       for (const p of astf.parameters) {
-        lhf.addParam(LDocFunctionParam.fromAst(p));
+        lhf.addParam(DocFunctionParam.fromAst(p));
       }
       ret.push(lhf);
     }
     return ret;
   }
 
-  addParam(param: LDocFunctionParam) {
+  addParam(param: DocFunctionParam) {
     this.params.set(param.name, param);
     return this;
   }
@@ -145,7 +142,7 @@ export class LDocFunction {
     return this;
   }
 
-  setReturnType(type: LDocFunctionType) {
+  setReturnType(type: DocFunctionType) {
     this.returnType = type;
   }
 }

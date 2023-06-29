@@ -8,26 +8,12 @@ import {
   nullExportable,
   stringExportable,
   UnionExportable,
-} from "./exportTypes";
+} from "./export-types";
 import { DocEvent } from "./luahelp-events";
 
 interface IOverrideModify {
   name: string;
   modify: (evtFn: DocEvent) => void;
-}
-
-/**
- * Batch utility function for param quick fixups.
- */
-function fixParam(
-  evtFn: DocEvent,
-  replace: [name: string, desc?: string, overrideName?: string][]
-) {
-  for (const [name, desc, overrideName] of replace) {
-    const par = evtFn.params.get(name);
-    if (desc) par.setDescription(desc);
-    if (overrideName) par.setOverrideName(overrideName);
-  }
 }
 
 // Edit modifiers here

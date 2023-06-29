@@ -1,14 +1,14 @@
-import { ExportableType } from "./exportTypes";
+import { ExportableType } from "./export-types";
 
 // Helpers to generate Lua or TypeScript definition from objects
 
-export type DocFuncType = {
+export type DocFuncBuilderType = {
   type: ExportableType;
   description?: string[];
   isOptional?: boolean;
 };
 
-export type DocFuncParam = DocFuncType & {
+export type DocFuncBuilderParam = DocFuncBuilderType & {
   name: string;
 };
 
@@ -18,7 +18,7 @@ const assertCorrectness: MethodDecorator = function (
   descriptor: TypedPropertyDescriptor<any>
 ) {
   const originalMethod = descriptor.value as Function;
-  descriptor.value = function (this: DocFunc) {
+  descriptor.value = function (this: DocFuncBuilder) {
     this.assertCorrectness();
     return originalMethod.apply(this, arguments);
   };
@@ -30,7 +30,7 @@ const assertHasName: MethodDecorator = function (
   descriptor: TypedPropertyDescriptor<any>
 ) {
   const originalMethod = descriptor.value as Function;
-  descriptor.value = function (this: DocFunc) {
+  descriptor.value = function (this: DocFuncBuilder) {
     if (!this.name) {
       throw new Error(`"name" must be supplied to call ${propertyKey}()`);
     }
@@ -43,12 +43,12 @@ const CORRECT_PARAM_NAME_REGEX = /^[a-zA-Z0-9]+$/;
 /**
  * Helper class to create function declarations.
  */
-export class DocFunc {
+export class DocFuncBuilder {
   constructor(
     public name?: string,
     public description: string[] = [],
-    public parameters: DocFuncParam[] = [],
-    public returnType?: DocFuncType
+    public parameters: DocFuncBuilderParam[] = [],
+    public returnType?: DocFuncBuilderType
   ) {}
 
   /**
@@ -235,19 +235,19 @@ function isReservedTsKeyword(word: string) {
 /**
  * Helper class to create TypeScript namespaces.
  */
-export class TSNamespace {
-  children: Map<string, TSNamespace>;
+export class TSNamespaceBuilder {
+  children: Map<string, TSNamespaceBuilder>;
   contents: { type: "statement" | "content"; value: string[] }[];
   singleIndentString: string;
 
-  constructor(public name?: string, public parent?: TSNamespace) {
-    this.children = new Map<string, TSNamespace>();
+  constructor(public name?: string, public parent?: TSNamespaceBuilder) {
+    this.children = new Map<string, TSNamespaceBuilder>();
     this.contents = [];
     this.singleIndentString = "  ";
   }
 
   static createGlobal() {
-    return new TSNamespace("globalThis");
+    return new TSNamespaceBuilder("globalThis");
   }
 
   get isRoot() {
@@ -257,10 +257,10 @@ export class TSNamespace {
   /**
    * Navigates to a child
    */
-  navigate(name: string, createIfNone: boolean = true): TSNamespace {
+  navigate(name: string, createIfNone: boolean = true): TSNamespaceBuilder {
     let child = this.children.get(name);
     if (createIfNone && !child) {
-      child = new TSNamespace(name, this);
+      child = new TSNamespaceBuilder(name, this);
       this.children.set(name, child);
     }
     return child;

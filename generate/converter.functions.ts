@@ -1,10 +1,10 @@
 import {
-  DocFunc,
-  DocFuncParam,
-  DocFuncType,
+  DocFuncBuilder,
+  DocFuncBuilderParam,
+  DocFuncBuilderType,
   functionsOverrides,
-  LDocFunction,
-  TSNamespace,
+  DocFunction,
+  TSNamespaceBuilder,
 } from "../lib";
 import Converter from "./converter.interfaces";
 
@@ -13,7 +13,7 @@ export const luaFunctionsConverter = {
   convert: (luaHelpAst) => {
     const newLines: string[] = [];
 
-    for (const func of LDocFunction.fromAstArray(luaHelpAst.functions)) {
+    for (const func of DocFunction.fromAstArray(luaHelpAst.functions)) {
       // Apply overrides
       const o = functionsOverrides[func.name];
       if (o) {
@@ -23,7 +23,7 @@ export const luaFunctionsConverter = {
         o.modify(func);
       }
 
-      const luaPar: DocFuncParam[] = [];
+      const luaPar: DocFuncBuilderParam[] = [];
       for (const par of func.params.values()) {
         luaPar.push({
           description: [
@@ -48,7 +48,7 @@ export const luaFunctionsConverter = {
           }
         : undefined;
 
-      const luaFncDeclaration = new DocFunc(
+      const luaFncDeclaration = new DocFuncBuilder(
         func.name,
         func.description,
         luaPar,
@@ -66,9 +66,9 @@ export const tstlFunctionsConverter = {
   type: "functions",
   convert: (luaHelpAst) => {
     const newLines: string[] = ["/** @noSelfInFile */"];
-    const globalNs = TSNamespace.createGlobal();
+    const globalNs = TSNamespaceBuilder.createGlobal();
 
-    for (const func of LDocFunction.fromAstArray(luaHelpAst.functions)) {
+    for (const func of DocFunction.fromAstArray(luaHelpAst.functions)) {
       // Apply overrides
       const o = functionsOverrides[func.name];
       if (o) {
@@ -78,7 +78,7 @@ export const tstlFunctionsConverter = {
         o.modify(func);
       }
 
-      const tsPar: DocFuncParam[] = [];
+      const tsPar: DocFuncBuilderParam[] = [];
       for (const par of func.params.values()) {
         tsPar.push({
           description: [
@@ -104,14 +104,15 @@ export const tstlFunctionsConverter = {
         : undefined;
 
       const indexes = func.name.split(".");
-      const tsFncDeclaration = new DocFunc(
+      const tsFncDeclaration = new DocFuncBuilder(
         indexes.pop(),
         func.description,
         tsPar,
         tsRet
       );
 
-      let namespace: TSNamespace = globalNs;
+      // Navigate to the function's corresponding namespace
+      let namespace = globalNs;
       for (const index of indexes) {
         namespace = namespace.navigate(index, true);
       }

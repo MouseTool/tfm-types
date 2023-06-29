@@ -1,24 +1,24 @@
 import { LuaHelpTreeTableNode } from "@cassolette/luahelpparser";
-import { TSNamespace } from "./doc-helpers";
+import { TSNamespaceBuilder } from "./doc-builders";
 
-export class LDocTableNode {
-  public children: LDocTableNode[];
-  public parent?: LDocTableNode;
+export class DocTableNode {
+  public children: DocTableNode[];
+  public parent?: DocTableNode;
 
   constructor(public name: string, public ast?: LuaHelpTreeTableNode) {
     this.children = [];
   }
 
   static fromAst(ast: LuaHelpTreeTableNode) {
-    const tblNode = new LDocTableNode(ast.name, ast);
+    const tblNode = new DocTableNode(ast.name, ast);
     for (const c of ast.children) {
       if (c.type !== "table") continue;
-      tblNode.addChild(LDocTableNode.fromAst(c));
+      tblNode.addChild(DocTableNode.fromAst(c));
     }
     return tblNode;
   }
 
-  addChild(childNode: LDocTableNode) {
+  addChild(childNode: DocTableNode) {
     this.children.push(childNode);
     childNode.parent = this;
   }
@@ -58,7 +58,7 @@ export class LDocTableNode {
    * @param enumNs `tfm.enum.X.X`
    * @param enumTypeNs `tfm.Enums.X`
    */
-  writeTstlNamespace(enumNs: TSNamespace, enumTypeNs: TSNamespace) {
+  writeTstlNamespace(enumNs: TSNamespaceBuilder, enumTypeNs: TSNamespaceBuilder) {
     const isEnum = this.ast?.children[0]?.type === "value";
 
     for (const c of this.children) {

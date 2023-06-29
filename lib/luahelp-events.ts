@@ -3,29 +3,14 @@ import {
   LuaHelpEventParameter,
   LuaHelpFunctionReturn,
 } from "@cassolette/luahelpparser";
-import {
-  anyExportable,
-  booleanExportable,
-  ExportableType,
-  FunctionExportable,
-  integerExportable,
-  numberExportable,
-  stringExportable,
-  tableExportable,
-} from "./exportTypes";
+import { IDocFunc, IDocFuncParam, IDocFuncType, luaHelpTypeToExportable } from "./common.util";
+import { ExportableType } from "./export-types";
 import { overrides } from "./luahelp-events.overrides";
 
-const LUAHELP_TO_EXPORTABLE: Record<string, ExportableType> = {
-  String: stringExportable,
-  Int: integerExportable,
-  Number: numberExportable,
-  Boolean: booleanExportable,
-  Table: tableExportable,
-  Function: new FunctionExportable(),
-  Object: anyExportable,
-};
-
-export class DocEventType {
+/**
+ * Describes a generic type which has a documented description.
+ */
+export class DocEventType implements IDocFuncType {
   constructor(
     public type: ExportableType,
     public description: string = "",
@@ -33,7 +18,7 @@ export class DocEventType {
   ) {}
 
   static fromAstReturn(ast: LuaHelpFunctionReturn) {
-    const type = LUAHELP_TO_EXPORTABLE[ast.type];
+    const type = luaHelpTypeToExportable[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
     return new DocEventType(type, ast.description);
@@ -52,7 +37,10 @@ export class DocEventType {
   }
 }
 
-export class DocEventParam extends DocEventType {
+/**
+ * Describes a parameter which has a documented description.
+ */
+export class DocEventParam extends DocEventType implements IDocFuncParam {
   /**
    * The overriden name to export instead of `name`
    */
@@ -68,7 +56,7 @@ export class DocEventParam extends DocEventType {
   }
 
   static fromAst(ast: LuaHelpEventParameter) {
-    const type = LUAHELP_TO_EXPORTABLE[ast.type];
+    const type = luaHelpTypeToExportable[ast.type];
     if (!type) throw new Error("no known type " + ast.type);
 
     return new DocEventParam(
@@ -88,7 +76,10 @@ export class DocEventParam extends DocEventType {
   }
 }
 
-export class DocEvent {
+/**
+ * Describes a doc function that can be altered.
+ */
+export class DocEvent implements IDocFunc {
   public params: Map<string, DocEventParam>;
 
   constructor(public name: string, public description: string[] = []) {

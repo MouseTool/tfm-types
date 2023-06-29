@@ -1,5 +1,5 @@
 export * from "./luahelp-enum"
 export * from "./luahelp-events"
 export * from "./luahelp-functions"
-export * from "./exportTypes"
-export * from "./doc-helpers"
+export * from "./export-types"
+export * from "./doc-builders"

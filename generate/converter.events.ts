@@ -1,4 +1,4 @@
-import { DocEvent, DocFunc, DocFuncParam, eventsOverrides } from "../lib";
+import { DocEvent, DocFuncBuilder, DocFuncBuilderParam, eventsOverrides } from "../lib";
 import Converter from "./converter.interfaces";
 
 export const tstlEventsConverter = {
@@ -13,7 +13,7 @@ export const tstlEventsConverter = {
         o.modify(evtFn);
       }
 
-      const tsPar: DocFuncParam[] = [];
+      const tsPar: DocFuncBuilderParam[] = [];
       for (const par of evtFn.params.values()) {
         tsPar.push({
           description: [par.description, ...par.additionalDescription],
@@ -22,7 +22,7 @@ export const tstlEventsConverter = {
         });
       }
 
-      const tsFncDeclaration = new DocFunc(
+      const tsFncDeclaration = new DocFuncBuilder(
         undefined, // evtFn.name
         evtFn.description,
         tsPar
