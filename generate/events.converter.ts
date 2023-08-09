@@ -11,15 +11,17 @@ export const tstlEventsConverter = {
   type: "events",
   convert: (luaHelpAst) => {
     // _G events signature declaration
-    // declare var eventTextAreaCallback: (this: void) => void;
+    // Generates:
+    //   declare var eventTextAreaCallback: (this: void) => void;
     const declareEvtLines: string[] = [];
 
-    // Declare type interface `tfm.EventIdentifier` for possible use in event emitters
-    // interface EventIdentifier {
-    //   textAreaCallback: (this: void) => void;
-    // }
+    // Declare type interface `tfm.MappedEventIdentifier` for possible use in event emitters
+    // Generates:
+    //   interface MappedEventIdentifier {
+    //     textAreaCallback: (this: void) => void;
+    //   }
     const globalNs = TSNamespaceBuilder.createGlobal();
-    const eventIntfLines: string[] = ["interface MappedEventIdentifier {"];
+    const eventIntfLines: string[] = [];
 
     for (const evtFn of DocEvent.fromAstArray(luaHelpAst.events)) {
       // Apply overrides
@@ -43,21 +45,29 @@ export const tstlEventsConverter = {
         tsPar
       );
 
-      declareEvtLines.push(...tsFncDeclaration.exportJsDocCommentLines());
       declareEvtLines.push(
-        `declare var ${evtFn.name}: ${tsFncDeclaration.exportTsFuncType()};`
+        ...tsFncDeclaration.exportJsDocCommentLines(),
+        `declare var ${evtFn.name}: ${tsFncDeclaration.exportTsFuncType()};`,
+        ""
       );
-      declareEvtLines.push("");
 
-      eventIntfLines.push(`  ${evtFn.eventStringIdentifier}:`);
       eventIntfLines.push(
-        ...tsFncDeclaration.exportJsDocCommentLines().map((val) => `    ` + val)
+        `  ${evtFn.eventStringIdentifier}:`,
+        ...tsFncDeclaration
+          .exportJsDocCommentLines()
+          .map((val) => `    ` + val),
+        `    ${tsFncDeclaration.exportTsFuncType()};`
       );
-      eventIntfLines.push(`    ${tsFncDeclaration.exportTsFuncType()};`);
     }
 
-    eventIntfLines.push("}");
-    globalNs.navigate("tfm").pushStatement(eventIntfLines);
+    // Populate namespace with single interface declaration statement
+    globalNs
+      .navigate("tfm")
+      .pushStatement([
+        "interface MappedEventIdentifier {",
+        ...eventIntfLines,
+        "}",
+      ]);
 
     return [...declareEvtLines, ...globalNs.exportTstl(), ""];
   },
