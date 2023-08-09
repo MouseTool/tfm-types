@@ -278,11 +278,6 @@ export class TSNamespaceBuilder {
   }
 
   /**
-   * If the namespace's name is a reserved keyword, this function returns its internal
-   */
-  internalName() {}
-
-  /**
    * Exports the namespace content.
    */
   exportTstl(depth = 0) {

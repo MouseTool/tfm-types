@@ -75,7 +75,7 @@ export class DocTableNode {
     for (const entry of this.ast.children) {
       if (entry.type !== "value") continue;
       enumNs.pushStatement([`const ${entry.name} = ${entry.value};`]);
-      enumTypeNsContent.push(`    ${entry.name} = ${entry.value},`);
+      enumTypeNsContent.push(`  ${entry.name} = ${entry.value},`);
     }
 
     // Create new enum in the Enums namespace.

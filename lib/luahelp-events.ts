@@ -3,7 +3,12 @@ import {
   LuaHelpEventParameter,
   LuaHelpFunctionReturn,
 } from "@cassolette/luahelpparser";
-import { IDocFunc, IDocFuncParam, IDocFuncType, luaHelpTypeToExportable } from "./common.util";
+import {
+  IDocFunc,
+  IDocFuncParam,
+  IDocFuncType,
+  luaHelpTypeToExportable,
+} from "./common.util";
 import { ExportableType } from "./export-types";
 import { overrides } from "./luahelp-events.overrides";
 
@@ -84,6 +89,21 @@ export class DocEvent implements IDocFunc {
 
   constructor(public name: string, public description: string[] = []) {
     this.params = new Map<string, DocEventParam>();
+  }
+
+  /**
+   * Gets the event string identifier based on the function name.
+   *
+   * The identifier is derived by stripping away the preceding "event" string and then lower-casing the first character.
+   * For example, the identifier of `eventTextAreaCallback` would be `textAreaCallback`.
+   */
+  get eventStringIdentifier() {
+    const m = this.name.match(/^(?:event)?(\w)(\w*)$/i);
+    if (m != null) {
+      const [_, firstChar, remainingString] = m;
+      return firstChar.toLowerCase() + remainingString;
+    }
+    return null;
   }
 
   static fromAstArray(ast: LuaHelpEvent[]) {
