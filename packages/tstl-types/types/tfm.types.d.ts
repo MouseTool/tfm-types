@@ -61,6 +61,7 @@ declare namespace tfm {
     cheeses: integer;
     /**
      * The legacy community of the player. This exists for backward compatibility, consider using `language` instead.
+     * @see {@link language}
      */
     community: string;
     gender: integer;
@@ -68,6 +69,7 @@ declare namespace tfm {
     id: integer;
     /**
      * Deprecated. Use `shamanMode` instead.
+     * @deprecated Use {@link shamanMode}.
      */
     inHardMode: integer;
     isDead: boolean;
@@ -117,6 +119,7 @@ declare namespace tfm {
   interface Room {
     /**
      * The legacy community of the room. This exists for backward compatibility, consider using `language` instead.
+     * @see {@link language}
      */
     community: string;
     currentMap: string;
