@@ -181,6 +181,14 @@ tfm.enum = {}
 --- @field speedX number
 --- @field speedY number
 
+--- @alias tfm.CollisionType
+---| '0' # none
+---| '1' # mouse
+---| '2' # mouse collision
+---| '3' # object
+---| '4' # object ghost
+---| '5' # object mouse
+
 --- @class tfm.Get @Transformice metadata
 --- @field misc tfm.Misc
 --- @field room tfm.Room
