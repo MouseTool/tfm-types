@@ -245,6 +245,7 @@ const modifiers: IOverrideModify[] = [
       // Point jointDef to custom type
       const pJoint = lfnc.params.get("jointDef");
       pJoint.setType(new LiteralExportable("tfm.JointDef"));
+      // ground -> joint
       pJoint.setDescription("the joint configuration");
     },
   },
@@ -463,6 +464,45 @@ const modifiers: IOverrideModify[] = [
         [
           "targetPlayer",
           "the player whom should have the bonus removed (if nil, applies to all players)",
+        ],
+      ]);
+    },
+  },
+
+  {
+    name: "tfm.exec.setPlayerCollision",
+    modify: (lfnc) => {
+      forParams(lfnc, [
+        [
+          "collisionType",
+          (par) => {
+            // Point collisionType to custom type
+            par.setType(
+              new IndependentLiteralExportable({
+                lua: "tfm.CollisionType",
+                ts: "tfm.Enums.CollisionType",
+              })
+            );
+
+            // Default value 0
+            par.defaultValue = new LiteralExportable("0");
+          },
+        ],
+
+        [
+          "categoryBits",
+          (par) => {
+            // number -> integer
+            par.setType(integerExportable);
+          },
+        ],
+
+        [
+          "maskBits",
+          (par) => {
+            // number -> integer
+            par.setType(integerExportable);
+          },
         ],
       ]);
     },

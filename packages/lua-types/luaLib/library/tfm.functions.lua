@@ -463,6 +463,13 @@ function tfm.exec.setGameTime(time, init) end
 --- @param color integer the color of the nickname
 function tfm.exec.setNameColor(playerName, color) end
 
+--- Set the collision type for a player.
+--- @param playerName string Targeted player name (if playerName is * target all player in the room).
+--- @param collisionType? tfm.CollisionType Collision type : 1=normal, 2=Collide with mice, can be 0, 3, 4 or 5 but no idea what it do. (default `0`)
+--- @param categoryBits? integer If collision type is -1, you can set the category bits by hand. (default `0`)
+--- @param maskBits? integer If collision type is -1, you can set the mask bits by hand. (default `0`)
+function tfm.exec.setPlayerCollision(playerName, collisionType, categoryBits, maskBits) end
+
 --- Set the world gravity and wind scale for a player.
 --- @param playerName string Targeted player name.
 --- @param gravityScale? number Gravity scale value. (default `1`)

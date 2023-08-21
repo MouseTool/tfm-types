@@ -539,6 +539,14 @@ declare namespace tfm {
      */
     export function setNameColor(playerName: string, color: tfm.integer): void
     /**
+     * Set the collision type for a player.
+     * @param playerName Targeted player name (if playerName is * target all player in the room).
+     * @param collisionType Collision type : 1=normal, 2=Collide with mice, can be 0, 3, 4 or 5 but no idea what it do. (default `0`)
+     * @param categoryBits If collision type is -1, you can set the category bits by hand. (default `0`)
+     * @param maskBits If collision type is -1, you can set the mask bits by hand. (default `0`)
+     */
+    export function setPlayerCollision(playerName: string, collisionType?: tfm.Enums.CollisionType, categoryBits?: tfm.integer, maskBits?: tfm.integer): void
+    /**
      * Set the world gravity and wind scale for a player.
      * @param playerName Targeted player name.
      * @param gravityScale Gravity scale value. (default `1`)

@@ -307,6 +307,7 @@ tfm
     setAutoMapFlipMode
     setGameTime
     setNameColor
+    setPlayerCollision
     setPlayerGravityScale
     setPlayerNightMode
     setPlayerScore
@@ -324,7 +325,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.6
+      transformiceVersion : 8.73
     room
       community : -
       currentMap : 0
@@ -368,7 +369,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1685021353267
+          registrationDate : 1692279617322
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -980,6 +981,13 @@ tfm.exec.setNameColor(playerName, color)
 Changes a player's nickname's color.
   playerName (String) the player whose nickname  should be colored
   color (Int) the color of the nickname
+
+tfm.exec.setPlayerCollision(playerName, collisionType, categoryBits, maskBits)
+Set the collision type for a player.
+  playerName (String) Targeted player name (if playerName is * target all player in the room).
+  collisionType (Number) Collision type : 1=normal, 2=Collide with mice, can be 0, 3, 4 or 5 but no idea what it do.
+  categoryBits (Number) If collision type is -1, you can set the category bits by hand. (default 0)
+  maskBits (Number) If collision type is -1, you can set the mask bits by hand. (default 0)
 
 tfm.exec.setPlayerGravityScale(playerName, gravityScale, windScale)
 Set the world gravity and wind scale for a player.

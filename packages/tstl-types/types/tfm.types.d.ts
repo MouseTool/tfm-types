@@ -16,6 +16,15 @@ declare namespace tfm {
       pulley = 2,
       revolute = 3,
     }
+
+    const enum CollisionType {
+      none = 0,
+      mouse = 1,
+      mouseCollision = 2,
+      object = 3,
+      objectGhost = 4,
+      objectMouse = 5
+    }
   }
 }
 
