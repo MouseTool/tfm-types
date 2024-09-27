@@ -327,6 +327,10 @@ function tfm.exec.giveMeep(playerName, canMeep) end
 --- @param canTransform? boolean whether the player should be able to use transformations (default `true`)
 function tfm.exec.giveTransformations(playerName, canTransform) end
 
+--- Kicks the selected player.
+--- @param playerName string the player to kick
+function tfm.exec.kickPlayer(playerName) end
+
 --- Kills the selected player.
 --- @param playerName string the player to kill
 function tfm.exec.killPlayer(playerName) end

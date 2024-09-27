@@ -285,6 +285,7 @@ tfm
     giveConsumables
     giveMeep
     giveTransformations
+    kickPlayer
     killPlayer
     linkMice
     lowerSyncDelay
@@ -325,7 +326,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 8.73
+      transformiceVersion : 9.35
     room
       community : -
       currentMap : 0
@@ -369,7 +370,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1692279617322
+          registrationDate : 1727356276137
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -846,6 +847,10 @@ tfm.exec.giveTransformations(playerName, canTransform)
 Gives the transformations to a player, or removes them.
   playerName (String) the player's nickname
   canTransform (Boolean) whether the player should be able to use transformations (default true)
+
+tfm.exec.kickPlayer(playerName)
+Kicks the selected player.
+  playerName (String) the player to kick
 
 tfm.exec.killPlayer(playerName)
 Kills the selected player.

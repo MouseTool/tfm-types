@@ -381,6 +381,11 @@ declare namespace tfm {
      */
     export function giveTransformations(playerName: string, canTransform?: boolean): void
     /**
+     * Kicks the selected player.
+     * @param playerName the player to kick
+     */
+    export function kickPlayer(playerName: string): void
+    /**
      * Kills the selected player.
      * @param playerName the player to kill
      */
