@@ -112,10 +112,10 @@ tfm.enum = {}
 --- @field xmlMapInfo tfm.XmlMapInfo|nil
 
 --- @alias tfm.JointType
----| '0' # distance joint
----| '1' # prismatic joint
----| '2' # pulley joint
----| '3' # revolute joint
+---| 0 # distance joint
+---| 1 # prismatic joint
+---| 2 # pulley joint
+---| 3 # revolute joint
 
 -- NOTE: to remove joint custom type description when/if lua-vscode
 -- supports expanding alias description of fields
@@ -182,12 +182,12 @@ tfm.enum = {}
 --- @field speedY number
 
 --- @alias tfm.CollisionType
----| '0' # none
----| '1' # mouse
----| '2' # mouse collision
----| '3' # object
----| '4' # object ghost
----| '5' # object mouse
+---| 0 # none
+---| 1 # mouse
+---| 2 # mouse collision
+---| 3 # object
+---| 4 # object ghost
+---| 5 # object mouse
 
 --- @class tfm.Get @Transformice metadata
 --- @field misc tfm.Misc
