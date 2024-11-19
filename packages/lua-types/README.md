@@ -2,7 +2,19 @@
 
 [Lua Language Server](https://github.com/sumneko/lua-language-server) environment definition for Transformice.
 
+### Requirements
+
+The library aims to integrate with the latest versions of [Lua Language Server (LLS)](https://github.com/sumneko/lua-language-server). It should work with versions above `3.0.0`, but the language server is constantly receiving updates and older versions may not support the new type checking and completion features. 
+
+**Last tested LLS version: `3.13.1`**
+
 ### Install for your workspace
+
+#### Usage on VSCode
+
+This library has been published to VSCode and can be enabled via the LLS's [Addon Manager](https://luals.github.io/wiki/addons/#addon-manager). However, it does not receive updates instantly and for this reason you may want to import the library manually, then read on below.
+
+#### Import manually
 
 ```sh
 npm install --save-dev tfm-lua-types
@@ -32,7 +44,7 @@ Alternatively, you may directly load the types as a workspace library, rather th
 }
 ```
 
-### Without NPM
+#### Without NPM
 
 You can choose to install this library using Git submodules or any inclusion methods of your choice instead. However, path to the `userThirdParty` has to be updated accordingly.
 
