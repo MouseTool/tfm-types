@@ -352,6 +352,8 @@ function tfm.exec.giveMeep(playerName, canMeep) end
 function tfm.exec.giveTransformations(playerName, canTransform) end
 
 --- Kicks the selected player.
+---
+--- Module team only.
 --- @param playerName string the player to kick
 function tfm.exec.kickPlayer(playerName) end
 
@@ -366,6 +368,8 @@ function tfm.exec.killPlayer(playerName) end
 function tfm.exec.linkMice(playerName1, playerName2, linked) end
 
 --- Lowers the synchronization delay of a player to 400ms max
+---
+--- Module team only.
 --- @param playerName string the player who should have a lower sync delay
 function tfm.exec.lowerSyncDelay(playerName) end
 
@@ -525,6 +529,13 @@ function tfm.exec.setPlayerCollision(playerName, collisionType, categoryBits, ma
 --- @param gravityScale? number Gravity scale value. (default `1`)
 --- @param windScale? number Wind scale value. (default `1`)
 function tfm.exec.setPlayerGravityScale(playerName, gravityScale, windScale) end
+
+--- Change a player's look.
+---
+--- Module team only.
+--- @param playerName string Targeted player name.
+--- @param look? string Look string. (default `"1;0,0,0,0,0,0,0,0,0,0,0,0"`)
+function tfm.exec.setPlayerLook(playerName, look) end
 
 --- Set the night mode for a player.
 --- @param nightMode? boolean Enable or disable the night mode. (default `true`)
