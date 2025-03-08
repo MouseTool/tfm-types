@@ -310,6 +310,7 @@ tfm
     setNameColor
     setPlayerCollision
     setPlayerGravityScale
+    setPlayerLook
     setPlayerNightMode
     setPlayerScore
     setPlayerSync
@@ -326,7 +327,7 @@ tfm
   get
     misc
       apiVersion : 0.28
-      transformiceVersion : 9.35
+      transformiceVersion : 9.56
     room
       community : -
       currentMap : 0
@@ -370,7 +371,7 @@ tfm
           movingLeft : false
           movingRight : false
           playerName : Tigrounette
-          registrationDate : 1727356276137
+          registrationDate : 1740669636236
           score : 0
           shamanMode : 0
           spouseId : 1
@@ -999,6 +1000,11 @@ Set the world gravity and wind scale for a player.
   playerName (String) Targeted player name.
   gravityScale (Number) Gravity scale value. (default 1)
   windScale (Number) Wind scale value. (default 1)
+
+tfm.exec.setPlayerLook(playerName, look)
+Change a player's look.
+  playerName (String) Targeted player name.
+  look (Number) Look string. (default 1;0,0,0,0,0,0,0,0,0,0,0,0)
 
 tfm.exec.setPlayerNightMode(nightMode, playerName)
 Set the night mode for a player.

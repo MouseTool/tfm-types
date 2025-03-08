@@ -382,6 +382,8 @@ declare namespace tfm {
     export function giveTransformations(playerName: string, canTransform?: boolean): void
     /**
      * Kicks the selected player.
+     *
+     * Module team only.
      * @param playerName the player to kick
      */
     export function kickPlayer(playerName: string): void
@@ -399,6 +401,8 @@ declare namespace tfm {
     export function linkMice(playerName1: string, playerName2: string, linked?: boolean): void
     /**
      * Lowers the synchronization delay of a player to 400ms max
+     *
+     * Module team only.
      * @param playerName the player who should have a lower sync delay
      */
     export function lowerSyncDelay(playerName: string): void
@@ -558,6 +562,14 @@ declare namespace tfm {
      * @param windScale Wind scale value. (default `1`)
      */
     export function setPlayerGravityScale(playerName: string, gravityScale?: number, windScale?: number): void
+    /**
+     * Change a player's look.
+     *
+     * Module team only.
+     * @param playerName Targeted player name.
+     * @param look Look string. (default `"1;0,0,0,0,0,0,0,0,0,0,0,0"`)
+     */
+    export function setPlayerLook(playerName: string, look?: string): void
     /**
      * Set the night mode for a player.
      * @param nightMode Enable or disable the night mode. (default `true`)

@@ -359,6 +359,22 @@ const modifiers: IOverrideModify[] = [
   },
 
   {
+    name: "tfm.exec.kickPlayer",
+    modify: (lfnc) => {
+      // Clarify permission level
+      lfnc.pushDescription("Module team only.");
+    },
+  },
+
+  {
+    name: "tfm.exec.lowerSyncDelay",
+    modify: (lfnc) => {
+      // Clarify permission level
+      lfnc.pushDescription("Module team only.");
+    },
+  },
+
+  {
     name: "tfm.exec.movePlayer",
     modify: (lfnc) => {
       // 20220804 update:
@@ -502,6 +518,29 @@ const modifiers: IOverrideModify[] = [
           (par) => {
             // number -> integer
             par.setType(integerExportable);
+          },
+        ],
+      ]);
+    },
+  },
+
+  {
+    name: "tfm.exec.setPlayerLook",
+    modify: (lfnc) => {
+      // Clarify permission level
+      lfnc.pushDescription("Module team only.");
+
+      forParams(lfnc, [
+        [
+          "look",
+          (par) => {
+            // should be string not number
+            par.setType(stringExportable);
+
+            // has a default look string
+            par.defaultValue = new LiteralExportable(
+              '"1;0,0,0,0,0,0,0,0,0,0,0,0"'
+            );
           },
         ],
       ]);
