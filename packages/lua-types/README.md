@@ -8,13 +8,17 @@ The library aims to integrate with the latest versions of [Lua Language Server (
 
 **Last tested LLS version: `3.13.1`**
 
-### Install for your workspace
+### Usage on VSCode
 
-#### Usage on VSCode
+![image](https://github.com/user-attachments/assets/15c5fcaa-da90-4a4f-8ebb-e9c4b088a946)
 
-This library has been published to VSCode and can be enabled via the LLS's [Addon Manager](https://luals.github.io/wiki/addons/#addon-manager). However, it does not receive updates instantly and for this reason you may want to import the library manually, then read on below.
+This library has been published to the official [LLS-Addons](https://github.com/LuaLS/LLS-Addons) repository, and can be enabled easily in VSCode via the [LLS Addon Manager](https://luals.github.io/wiki/addons/#addon-manager).
 
-#### Import manually
+However, it does not receive updates instantly and for this reason you may want to import the library manually, then read on below.
+
+### Import manually
+
+#### Node Package Manager (NPM)
 
 ```sh
 npm install --save-dev tfm-lua-types
